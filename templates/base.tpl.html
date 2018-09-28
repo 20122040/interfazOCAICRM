@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="theme-color" content="#101010">
+    <title>Interfaz OCAI - CENTRUM</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    {% block styles %}
+    {% endblock %}
+  </head>
+  <body>
+    {% block overlay %}
+    {% endblock %}
+    <header>
+      <div class="img-container">
+        <a href="/"><img src="{{ url_for('static', filename='logo-pucp-version2-blanco-pequeno2.png') }}"></a>
+      </div>
+      {% block logmenu %}
+      {% endblock %}
+    </header>
+
+    {% for message in messages %}
+      <div class="message">
+      <p>{{ message | safe }}</p>
+      </div>
+    {% endfor %}
+    <div class="content">
+      {% block content %}
+      {% endblock %}
+    </div>
+    {% block scripts %}
+    {% endblock %}
+  </body> 
+</html>

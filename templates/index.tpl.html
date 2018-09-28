@@ -1,0 +1,123 @@
+{% extends "base.tpl.html" %}
+
+{% block styles %}
+{% endblock %}
+
+{% block overlay%}
+<div class="processing-files">
+  <div class="container">
+    <p><i class="material-icons">sync</i></p>
+    <p>Se están procesando los archivos. Por favor espere, esta operación puede durar varios minutos...</p>
+  </div>
+</div>
+{% endblock %}
+
+{% block logmenu %}
+<div class="navigation logout">
+  <a href="/logout"><i class="material-icons">exit_to_app</i><span> Cerrar sesión</span></a>
+</div>
+{% endblock %}
+
+{% block content %}
+<div style="display: flex; justify-content:flex-end;">
+  <div class="navigation"><a href="/procesos">Administración de programas</a></div>
+  <div class="navigation"><a href="/enlaces"><i class="material-icons">link</i></a></div>
+</div>
+<h1>Interfaz OCAI - CENTRUM</h1>
+<div id="filedrag">
+  <div class="drop invisible">
+    <table cellpadding="4" cellspacing="0">
+      <thead>
+        <tr><th>Nombre del archivo</th><th>Tamaño</th></tr>
+      </thead>
+      <tbody>
+        
+      </tbody>
+    </table>
+  </div>
+  <div class="dragIdle">
+    <p><i class="material-icons">attachment</i></p>
+    <p>Arrastar aquí o <a href="#">seleccionar archivos</a></p>
+  </div>
+  <div class="dragOver invisible">
+    <p style="margin-bottom:-3.75em;"><i class="material-icons">file_download</i></p>
+    <p><i class="material-icons">folder_open</i></p>
+    <p>Soltar aquí los archivos</p>
+  </div>
+</div>
+<form id="file-form" method="post" enctype="multipart/form-data">
+  <input type="file" name="archivos" multiple="multiple" accept=".xls,.xlsx">
+  <button type="submit"><i class="material-icons">file_upload</i><span> ENVIAR</span></button><span>&nbsp;&nbsp;&nbsp;&nbsp;Último envío: {{ ultima_act }}</span>
+</form>
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript">
+document.querySelector('#filedrag a').addEventListener('click',e =>{
+  e.preventDefault();
+  document.querySelector('#file-form input[type="file"]').click();
+});
+
+let dragOver = document.querySelector('#filedrag .dragOver');
+let dragIdle = document.querySelector('#filedrag .dragIdle');
+let drop = document.querySelector('#filedrag .drop');
+
+dragIdle.addEventListener('dragover',e => {
+  e.preventDefault();
+  e.stopPropagation();
+  dragIdle.classList.add('invisible');
+  dragOver.classList.remove('invisible');
+});
+
+dragIdle.addEventListener('dragleave',e => {
+  e.preventDefault();
+  e.stopPropagation();
+  dragIdle.classList.remove('invisible');
+  dragOver.classList.add('invisible');
+});
+
+dragIdle.addEventListener('drop',e => {
+  e.preventDefault();
+  e.stopPropagation();
+  const files = e.dataTransfer.files;
+  if(files.length == 0){
+    dragIdle.classList.remove('invisible');
+  }
+  dragOver.classList.add('invisible');
+  drop.classList.remove('invisible');
+  let input = document.querySelector('#file-form input[type="file"]');
+  input.files = files;
+  let table = document.querySelector('#filedrag .drop tbody');
+  if(files.length != 0){
+    table.innerHTML = "";
+  }
+  Array.from(files).forEach(f => {
+    table.innerHTML += `<tr><td>${f.name}</td><td>${f.size}</td></tr>`;
+  });
+});
+
+document.querySelector('#file-form input[type="file"]').addEventListener('change',e =>{
+  e.preventDefault();
+  e.stopPropagation();
+  const files = e.target.files;
+  if(files.length == 0){
+    dragIdle.classList.remove('invisible');
+  }
+  dragOver.classList.add('invisible');
+  dragIdle.classList.add('invisible');
+  drop.classList.remove('invisible');
+  let table = document.querySelector('#filedrag .drop tbody');
+  if(files.length != 0){
+    table.innerHTML = "";
+  }
+  Array.from(files).forEach(f => {
+    table.innerHTML += `<tr><td>${f.name}</td><td>${f.size}</td></tr>`;
+  });
+});
+
+document.querySelector('#file-form').addEventListener('submit',e=>{
+  document.querySelector('.processing-files').classList.add('active');
+});
+
+</script> 
+{% endblock %}
