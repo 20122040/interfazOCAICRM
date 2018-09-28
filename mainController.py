@@ -25,4 +25,4 @@ mod_main = Blueprint('main',__name__)
 @mod_main.route('/',methods=['GET','POST'])
 def index():
   
-  return render_template('index.tpl.html',messages=errores,ultima_act=uact)
+  return render_template('index.tpl.html',messages=errores12,ultima_act=uact)
