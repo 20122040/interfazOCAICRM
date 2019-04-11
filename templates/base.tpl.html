@@ -1,37 +1,146 @@
 <!doctype html>
 <html lang="es">
+
   <head>
     <meta charset="utf-8">
-    <meta name="theme-color" content="#101010">
-    <title>Interfaz OCAI - CENTRUM</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Evaluación Controladores">
+    <title>OCAI - {% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='gentelella/vendors/bootstrap/dist/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{url_for('static', filename='gentelella/vendors/font-awesome/css/font-awesome.min.css') }}">
+    <link rel="stylesheet" href="{{url_for('static', filename='gentelella/vendors/nprogress/nprogress.css') }}">
+    <link rel="stylesheet" href="{{url_for('static', filename='gentelella//vendors/animate.css/animate.min.css') }}">
+    <link rel="stylesheet" href="{{url_for('static', filename='gentelella/vendors/iCheck/skins/flat/green.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='gentelella/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='gentelella/vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='gentelella/vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='gentelella/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='gentelella/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css') }}">
+    <!-- Select2 -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='gentelella/vendors/select2/dist/css/select2.min.css') }}">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='gentelella/vendors/dropzone/dist/min/dropzone.min.css') }}">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='gentelella/build/css/custom.min.css') }}">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='gentelella/vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css') }}"/>
     {% block styles %}
     {% endblock %}
   </head>
-  <body>
+
+  <body class="nav-md">
     {% block overlay %}
     {% endblock %}
-    <header>
-      <div class="img-container">
-        <a href="/"><img src="{{ url_for('static', filename='logo-pucp-version2-blanco-pequeno2.png') }}"></a>
-      </div>
+    <!-- INICIO: LOGO Y TÍTULO DE LA PÁGINA  (HEADER)-->
+    <div class="img-container" style="display:flex;margin-bottom: 1em;">
+      <img id="logo" src="{{ url_for('static', filename='img/logo-pucp-version2-blanco-pequeno2.png') }}">
+      <p class="titulo">Interfaz OCAI - CRM</p>
       {% block logmenu %}
       {% endblock %}
-    </header>
-
-    {% for message in messages %}
-      <div class="message">
-      <p>{{ message | safe }}</p>
-      </div>
-    {% endfor %}
-    <div class="content">
-      {% block content %}
-      {% endblock %}
     </div>
+    <!-- FIN: LOGO Y TÍTULO DE LA PÁGINA  (HEADER)-->
+
+    <!-- INICIO: CUERPO DE LA PÁGINA -->
+    <div class="container body">
+      <div class="main_container">
+        <!--INICIO: SIDEBAR-->
+        <div class="col-md-3 left_col">
+          <div class="left_col scroll-view">
+            <div class="navbar nav_title" style="border: 0;">
+              <a href="/" class="site_title"><i class="fa fa-rocket"></i> <span>Bienvenido!</span></a>
+            </div>
+            <div class="clearfix"></div>
+            <!-- INICIO: INFO DEL USUARIO EN SIDEBAR -->
+            <div class="profile clearfix">
+              <div class="profile_pic">
+                <img src="/static/img/manager.svg" alt="..." class="img-circle profile_img">
+              </div>
+              <div class="profile_info">
+                <span>Bienvenido,</span>
+                {% block user %}{% endblock %}
+              </div>
+            </div>
+            <!-- FIN: INFO DEL USUARIO EN SIDEBAR-->
+            <br />
+            <!-- INICIO: SIDEBAR MENU -->
+            <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+              <div class="menu_section">
+                <h3>General</h3>
+                <ul class="nav side-menu">
+                  <li><a href="/importar"><i class="fa fa-users"></i> Importar </a></li>
+                  <li><a href="/"><i class="fa fa-desktop"></i> Exportar </a></li>
+                </ul>
+              </div>
+            </div>
+            <!-- FIN: SIDEBAR MENU -->
+          </div>
+        </div>
+        <!-- FIN: SIDEBAR -->
+
+        <!-- INICIO: BARRA DE NAVEGACIÓN (TOP NAVBAR) -->
+        <div class="top_nav">
+          <div class="nav_menu">
+            <nav>
+              <div class="nav toggle">
+                <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+              </div>
+
+              <ul id="admin-logout" class="nav navbar-nav navbar-right">
+                <li role="presentation">
+                  <a href="/" class="dropdown-toggle info-number">
+                    <i style="font-size:2.5em;" class="fa fa-sign-out"></i>
+                    <span class="badge bg-green">Salir</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+        <!-- FIN: BARRA DE NAVEGACIÓN (TOP NAVBAR) -->
+
+        <!-- INICIO: CONTENDIO DE LA PÁGINA -->
+        <div class="right_col" role="main">
+          {% for message in messages %}
+            <div class="message alert alert-success alert-dismissible fade in">
+              <p>{{ message | safe }}</p>
+            </div>
+          {% endfor %}
+          {% block content%}
+          {% endblock %}
+        </div>
+        <!-- INICIO: CONTENDIO DE LA PÁGINA -->
+      </div>
+    </div>
+    <!-- FIN: CUERPO DE LA PÁGINA -->
+
+    <!-- INICIO: PIE DE PÁGINA (FOOTER) -->
+    <footer>
+      <div class="pull-right">
+        OCAI - 2018 
+      </div>
+      <div class="clearfix"></div>
+    </footer>
+    <!-- FIN: PIE DE PÁGINA (FOOTER) -->
+
+    <script src="{{ url_for('static', filename='gentelella/vendors/jquery/dist/jquery.min.js') }}" type="text/javascript"></script>
+    <script src="{{ url_for('static', filename='gentelella/vendors/bootstrap/dist/js/bootstrap.min.js') }}" type="text/javascript"></script>
+    <!-- Select2 -->
+    <script src="{{ url_for('static', filename='gentelella/vendors/select2/dist/js/select2.full.min.js') }}" type="text/javascript"></script>
+
+    <script src="{{ url_for('static', filename='gentelella/vendors/fastclick/lib/fastclick.js') }}" type="text/javascript"></script>
+    <script src="{{ url_for('static', filename='gentelella/vendors/nprogress/nprogress.js') }}" type="text/javascript"></script>
+    <script src="{{ url_for('static', filename='gentelella/vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js') }}" type="text/javascript"></script>
+    <!-- jquery.inputmask -->
+    <script src="{{ url_for('static', filename='gentelella/vendors/jquery.inputmask/dist/min/jquery.inputmask.bundle.min.js') }}" type="text/javascript"></script>
+  
+    <script src="{{ url_for('static', filename='gentelella/vendors/iCheck/icheck.min.js') }}" type="text/javascript"></script>
+    <script src="{{ url_for('static', filename='gentelella/vendors/dropzone/dist/min/dropzone.min.js') }}" type="text/javascript"></script>
+    <script src="{{ url_for('static', filename='gentelella/build/js/custom.min.js') }}" type="text/javascript"></script>
+    <script src="{{ url_for('static', filename='gentelella/vendors/validator/validator.js') }}" type="text/javascript"></script>
+
     {% block scripts %}
     {% endblock %}
   </body> 

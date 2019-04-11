@@ -1,50 +1,25 @@
+from __future__ import division,print_function,unicode_literals
 from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
 from urllib.parse import quote_plus
-import bcrypt
+import flask_excel as excel
 
 UPLOAD_FOLDER = 'uploaded_files'
-DATABASE_PATH = 'database.db'
-LOGS_FOLDER = 'static/logs'
-XML_TEMPLATES_PATH = 'xml_templates'
-ALLOWED_EXTENSIONS = set(['xls','xlsx'])
+#UPLOAD_FOLDER  '/var/www/asistenciaControladores/asistenciaPucp/uploaded_files'
+ALLOWED_EXTENSIONS = set(['xls','xlsx','csv'])
 
 app = Flask(__name__)
+excel.init_excel(app)
 app.config['DEBUG'] = True
-app.jinja_env.filters['quote_plus'] = lambda u: quote_plus(u)
-app.config['MAX_CONTENT_LENGTH'] = 64 * 1024 * 1024
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://asistencia:NGsg9iKG9VBwQDO@127.0.0.1/asistenciaControladores'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:admin@localhost:3306/evaluacionControlador'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://admin:admin@localhost:5432/evaluacionControlador'
+#app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 app.config['SECRET_KEY'] = 'W31zXmCNBX3LGonY'
-app.config['DB_PATH'] = DATABASE_PATH
-app.config['XML_TEMPLATES_PATH'] = XML_TEMPLATES_PATH
-app.config['LOGS_FOLDER'] = LOGS_FOLDER
-#app.config['ENV'] = 'test'
-app.config['ENV'] = 'prod'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.jinja_env.filters['quote_plus'] = lambda u: quote_plus(u)
+db = SQLAlchemy(app)
 
-from mainController import mod_main
-from accountController import mod_account
-from db import get_db
+from controllers.mainController import mod_main as main_module
 
-app.register_blueprint(mod_main)
-app.register_blueprint(mod_account)
-
-def init_db():
-  with app.app_context():
-    db = get_db()
-    with app.open_resource('schema.sql', mode='r') as f:
-      db.cursor().executescript(f.read())
-    db.commit()
-  create_user('administrador','ocaipucp')
-
-def create_user(username,password):
-  hashed_pw = bcrypt.hashpw((password + app.config['SECRET_KEY']).encode('utf-8'),bcrypt.gensalt()).decode('utf-8')
-  with app.app_context():
-    cur = get_db()
-    cur.execute('INSERT INTO account values (?,?);',[username,hashed_pw])
-    cur.commit()
-
-def update_password(username,password):
-  hashed_pw = bcrypt.hashpw((password + app.config['SECRET_KEY']).encode('utf-8'),bcrypt.gensalt()).decode('utf-8')
-  with app.app_context():
-    cur = get_db()
-    cur.execute('UPDATE account set password = ? WHERE username = ?;',[hashed_pw,username])
-    cur.commit()
+app.register_blueprint(main_module)

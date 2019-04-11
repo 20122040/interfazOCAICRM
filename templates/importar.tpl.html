@@ -1,0 +1,282 @@
+{% extends "base.tpl.html" %}
+
+{% block title %}Importar{% endblock %}
+
+{% block styles %}
+{% endblock %}
+
+{% block overlay%}
+<div class="processing-files">
+  <div class="container">
+    <p><i class="fa fa-history"></i></p>
+    <p>Se están procesando los archivos. Por favor espere, esta operación puede durar varios minutos...</p>
+  </div>
+</div>
+{% endblock %}
+
+{% block logmenu %}
+{% endblock %}
+
+{% block content %}
+<div class="">
+
+  <div class="page-title">
+    <div class="title_left">
+      <h3>Importar </h3>
+    </div>
+  </div>
+
+  <div class="clearfix"></div>
+
+  <div class="row">
+  	<div class="col-md-12 col-sm-12 col-xs-12">
+		  <div class="x_panel">
+        <div class="x_title">
+          <h2>Sube tu archivo</h2>
+           <div class="clearfix"></div>
+        </div>
+			  <div id="filedrag">
+				  <div class="drop invisible">
+				    <table cellpadding="4" cellspacing="0">
+				      <thead>
+				        <tr><th>Nombre del archivo</th><th>Tamaño</th></tr>
+				      </thead>
+				      <tbody>
+				        
+				      </tbody>
+				    </table>
+				  </div>
+				  <div class="dragIdle">
+				    <p><img src="static/img/attachment.jpg" height=150px, width=150px></p>
+				    <p>Arrastar aquí o <a href="#">seleccionar archivos</a></p>
+				  </div>
+				  <div class="dragOver invisible">
+             <!--p style="margin-bottom:-3.75em;"></p-->
+				    <p><img src="static/img/icon.svg" height="100px" width="100px"></p>
+				    <p>Soltar aquí los archivos</p>
+				  </div>
+				</div>
+        <form id="file-form" method="post" enctype="multipart/form-data">
+
+          <label>¿Qué tipo de contacto se importará?</label>
+          <p>
+            <label>
+              <input type="radio" name="contacto" id="optColegio" onclick="selectColegio()" value="colegio"/> Colegio
+            </label>
+
+            <label>
+              <input type="radio" name="contacto" id="optInteresado" onclick="selectInteresado()" value="interesado"/> Interesado PUCP
+            </label>
+          </p>
+
+          <div id="blockActivity" style="display:none;">
+            <label>¿Qué tipo de actividad es?</label>
+            <p>
+              <label>
+                <input type="radio" name="actividad" onclick="selectEvento()" value="simulacro"> Simulacro PUCP
+              </label><br>
+              <label>
+                <input type="radio" name="actividad" onclick="selectEvento()" value="admision"> Examen de Admisión
+              </label><br>
+              <label>
+                <input type="radio" name="actividad" onclick="selectActividad()" value="fichas"> Fichas de Datos
+              </label>
+            </p>
+          </div>
+
+          <div id="blockFicha" style="display: none;">
+            <label>Seleccione el nombre del colegio y tipo de actividad</label>
+            <p>
+              <label>         
+                <input type="radio" name="tipo_colegio" onclick="selectActividadLima()" value="colegio_lima"> Actividad en Lima
+              </label><br>
+              <label>
+                <input type="radio" name="tipo_colegio" onclick="selectActividadProvincia()" value="colegio_provincia"> Actividad en Provincia
+              </label>
+            </p>  
+
+            <div class="form-group">
+              <label class="control-label col-md-3 col-sm-3 col-xs-12" id="label_colegio" style="display: none;">Nombre de colegio: </label>
+              <div class="col-md-9 col-sm-9 col-xs-12" id="select_colegio_lima" style="display: none;">
+                <select class="select2_single form-control" name="select_colegio_lima2" id="select_colegio_lima2">
+                  <option value="0">-Seleccione-</option>
+                  {% for colegioL in colegios_lima %}
+                  <option value="{{ colegioL.custom_8 }}"> {{ colegioL.organization_name }} </option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="col-md-9 col-sm-9 col-xs-12" id="select_colegio_provincia" style="display: none;">
+                <select class="select2_single form-control" name="select_colegio_provincia2" id="select_colegio_provincia2">
+                  <option value="0">-Seleccione-</option>
+                  {% for colegioP in colegios_provincia %}
+                  <option value="{{ colegioP.custom_8 }}"> {{ colegioP.organization_name }} </option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+
+            <br>
+
+            <div class="form-group">
+              <label class="control-label col-md-3 col-sm-3 col-xs-12" id="label_colegio">Tipo de actividad: </label>
+              <div class="col-md-9 col-sm-9 col-xs-12" id="select_actividades">
+                <select class="select2_single form-control" name="select_actividades2" id="select_actividades2" >
+                  <option value="0">-Seleccione-</option>
+                  {% for actividad in tipo_actividades %}
+                  <option value="{{ actividad.value}}"> {{ actividad.label }} </option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+
+            <br>
+
+            <div class="form-group">
+              <label>Fecha de la actividad: </label>
+              <input type="text" class="form-control" name="fecha" data-inputmask="'mask': '99/99/9999'">
+            </div>
+
+
+          </div>
+
+          <div id="blockColegio" style="display:none;">
+            <p>¿Qué tipo de colegio es?</p>
+            <label><input type="radio" name="colegio" value="lima"> Colegio de Lima</label><br>
+            <label><input type="radio" name="colegio" value="provincia"> Colegio de Provincia</label> 
+          </div>
+
+          <input type="file" name="archivos" multiple="multiple" accept=".xls,.xlsx">
+          <button class="btn btn-success" type="submit"><i class="material-icons"></i><span> ENVIAR</span></button>
+        </form>
+			</div>
+		</div>
+	</div>
+<div>
+
+{% endblock %}
+
+{% block scripts %}
+
+<script type="text/javascript">
+
+$("#select_colegio_lima2").select2({language:"es"})
+$("#select_colegio_provincia2").select2({language:"es"})
+$("#select_actividades2").select2({language:"es"})
+
+
+function selectActividadLima(){
+  f1 = document.getElementById("label_colegio");
+  f2 = document.getElementById("select_colegio_lima");
+  f3 = document.getElementById("select_colegio_provincia");
+
+  f1.style.display = "";
+  f2.style.display = "";
+  f3.style.display = "none"
+}
+
+function selectActividadProvincia(){
+  f1 = document.getElementById("label_colegio");
+  f2 = document.getElementById("select_colegio_lima");
+  f3 = document.getElementById("select_colegio_provincia");
+
+  f1.style.display = "";
+  f2.style.display = "none";
+  f3.style.display = ""
+}
+
+function selectEvento(){
+  f1 = document.getElementById('blockFicha');
+  f1.style.display = "none";
+}
+
+function selectActividad(){
+  f1 = document.getElementById('blockFicha');
+  f1.style.display = "";
+}
+
+function selectColegio(){
+  f1 = document.getElementById('blockActivity');
+  f2 = document.getElementById('blockColegio');
+  f3 = document.getElementById('blockFicha');
+  f1.style.display = "none";
+  f2.style.display = "";
+  f3.style.display = "none"
+}
+
+function selectInteresado(){
+  f1 = document.getElementById('blockActivity');
+  f2 = document.getElementById('blockColegio');
+  //f3 = document.getElementById('blockFicha');
+  f1.style.display = "";
+  f2.style.display = "none";
+  //f3.style.display = "";
+}
+
+document.querySelector('#filedrag a').addEventListener('click',function(event) {
+  event.preventDefault();
+  document.querySelector('#file-form input[type="file"]').click();
+});
+
+let dragOver = document.querySelector('#filedrag .dragOver');
+let dragIdle = document.querySelector('#filedrag .dragIdle');
+let drop = document.querySelector('#filedrag .drop');
+
+dragIdle.addEventListener('dragover',function(event) {
+  event.preventDefault();
+  event.stopPropagation();
+  dragIdle.classList.add('invisible');
+  dragOver.classList.remove('invisible');
+},false);
+
+dragIdle.addEventListener('dragleave',function(event) {
+  event.preventDefault();
+  event.stopPropagation();
+  dragIdle.classList.remove('invisible');
+  dragOver.classList.add('invisible');
+},false);
+
+dragIdle.addEventListener('drop',function(event) {
+  event.preventDefault();
+  event.stopPropagation();
+  const files = event.dataTransfer.files;
+  if(files.length == 0){
+    dragIdle.classList.remove('invisible');
+  }
+  dragOver.classList.add('invisible');
+  drop.classList.remove('invisible');
+  let input = document.querySelector('#file-form input[type="file"]');
+  input.files = files;
+  let table = document.querySelector('#filedrag .drop tbody');
+  if(files.length != 0){
+    table.innerHTML = "";
+  }
+  Array.from(files).forEach(f => {
+    table.innerHTML += `<tr><td>${f.name}</td><td>${f.size}</td></tr>`;
+  });
+},false);
+
+document.querySelector('#file-form input[type="file"]').addEventListener('change',function(event) {
+  event.preventDefault();
+  event.stopPropagation();
+  const files = event.target.files;
+  if(files.length == 0){
+    dragIdle.classList.remove('invisible');
+  }
+  dragOver.classList.add('invisible');
+  dragIdle.classList.add('invisible');
+  drop.classList.remove('invisible');
+  let table = document.querySelector('#filedrag .drop tbody');
+  if(files.length != 0){
+    table.innerHTML = "";
+  }
+  Array.from(files).forEach(f => {
+    table.innerHTML += `<tr><td>${f.name}</td><td>${f.size}</td></tr>`;
+  });
+},false);
+
+document.querySelector('#file-form').addEventListener('submit',function(event) {
+  document.querySelector('.processing-files').classList.add('active');
+},false);
+
+</script> 
+{% endblock %}
