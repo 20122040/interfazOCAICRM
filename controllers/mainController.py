@@ -205,11 +205,11 @@ def convertir():
 
           nombre = file.replace('.csv','.xlsx')
           csv_data.drop(labels=deleted_columns,axis=1).to_excel('static/bases/' + nombre,sheet_name='Hoja 1')
-
+          #csv_data.drop(labels=deleted_columns,axis=1).to_excel('/var/www/herramientas-ocai/interfazOCAICRM/static/bases/' + nombre,sheet_name='Hoja 1')
           errores.append('Desde aquí puede descargar el archivo convertido, <a href="/static/bases/'+ nombre +'">Descargar archivo en XLSX</a>')
+          #errores.append('Desde aquí puede descargar el archivo convertido, <a href="/var/www/herramientas-ocai/interfazOCAICRM/static/bases/'+ nombre +'">Descargar archivo en XLSX</a>')
         else:
           errores.append( file + ": No es un formato válido para la conversión")
-
 
       for file in files:
         if(file[file.find("."):] in [".xls",".xlsx",".csv"]):

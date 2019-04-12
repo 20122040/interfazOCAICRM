@@ -5,7 +5,7 @@ from urllib.parse import quote_plus
 import flask_excel as excel
 
 UPLOAD_FOLDER = 'uploaded_files'
-#UPLOAD_FOLDER  '/var/www/asistenciaControladores/asistenciaPucp/uploaded_files'
+#UPLOAD_FOLDER  '/var/www/herramientas-ocai/interfazOCAICRM/uploaded_files'
 ALLOWED_EXTENSIONS = set(['xls','xlsx','csv'])
 
 app = Flask(__name__)
