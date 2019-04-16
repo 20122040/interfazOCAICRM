@@ -204,8 +204,13 @@ def convertir():
           csv_data['email'] = Series(email, index=csv_data.index)      
 
           nombre = file.replace('.csv','.xlsx')
-          csv_data.drop(labels=deleted_columns,axis=1).to_excel('static/bases/' + nombre,sheet_name='Hoja 1')
-          #csv_data.drop(labels=deleted_columns,axis=1).to_excel('/var/www/herramientas-ocai/interfazOCAICRM/static/bases/' + nombre,sheet_name='Hoja 1')
+          #csv_data.drop(labels=deleted_columns,axis=1).to_excel('static/bases/' + nombre,sheet_name='Hoja 1')
+          try:
+            csv_data.drop(labels=deleted_columns,axis=1).to_excel('/var/www/herramientas-ocai/interfazOCAICRM/static/bases/' + nombre,sheet_name='Hoja 1')
+          except ValueError:
+            deleted_columns=['página1_capturado','page1_processed','page1_image_file_name','formulario_de_la_página_1_es_la_página_escaneada_número','publication_id', 'form_page_id_1','form_password','form_score','soy_escolar_score','soy_score','celular_score','dni_score','resido_en_score','soy_escolar_tipo_score','info_score','carrera_score']
+            csv_data.drop(labels=deleted_columns,axis=1).to_excel('/var/www/herramientas-ocai/interfazOCAICRM/static/bases/' + nombre,sheet_name='Hoja 1')
+
           errores.append('Desde aquí puede descargar el archivo convertido, <a href="/static/bases/'+ nombre +'">Descargar archivo en XLSX</a>')
           #errores.append('Desde aquí puede descargar el archivo convertido, <a href="/var/www/herramientas-ocai/interfazOCAICRM/static/bases/'+ nombre +'">Descargar archivo en XLSX</a>')
         else:
