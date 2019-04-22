@@ -2,7 +2,7 @@ from __future__ import division,print_function,unicode_literals
 from flask import Flask
 #from flask_sqlalchemy import SQLAlchemy
 from urllib.parse import quote_plus
-import flask_excel as excel
+#import flask_excel as excel
 
 UPLOAD_FOLDER = 'uploaded_files'
 #UPLOAD_FOLDER = '/var/www/herramientas-ocai/interfazOCAICRM/uploaded_files'
