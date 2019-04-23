@@ -90,12 +90,14 @@ def importar():
           actividad = request.form['select_actividades2']
           fecha = request.form['fecha']
 
-          fecha = datetime.datetime.strptime(fecha, '%d/%m/%Y').strftime('%m/%d/%y')
+          print(fecha)
+
+          fecha = datetime.datetime.strptime(fecha, '%m/%d/%Y').strftime('%m/%d/%y')
 
           r = requests.get('http://ocaicrm.pucp.net/sites/default/modules/civicrm/extern/rest.php?entity=Contact&action=get&api_key=qq2CCwZjhG7fHHKYeH2aYw7F&key=ea6123e5a509396d49292e4d8d522f85&json={"sequential":1,"return":"id","custom_8":"' + codigoColegio + '"}')
           idColegio = json.loads(r.text)['id']
 
-          jotason = {"source_contact_id":idColegio,"activity_type_id":actividad,"activity_date_time":fecha}
+          jotason = {"source_contact_id":idColegio,"activity_type_id":actividad,"activity_date_time":fecha,"subject":"Capturado por ficha de datos"}
           cadena = json.dumps(jotason,default=str)
           print(cadena)
           r = requests.post('http://ocaicrm.pucp.net/sites/default/modules/civicrm/extern/rest.php?entity=Activity&action=create&api_key=qq2CCwZjhG7fHHKYeH2aYw7F&key=ea6123e5a509396d49292e4d8d522f85&json=' + cadena)
@@ -240,26 +242,57 @@ def exportar():
   if request.method == 'GET':
     return render_template('exportar.tpl.html')
   else:
+    carreras=['-','ANTROPOLOGIA','ARQUEOLOGIA','ARQUITECTURA','ARTE, MODA Y DISEÑO TEXTIL','CIENCIA POLITICA Y GOBIERNO','CIENCIAS DE LA INFORMACION','COMUNICACION AUDIOVISUAL','COMUNICACION PARA EL DESARROLLO','CONTABILIDAD','CREACION Y PRODUCCION ESCENICA','DANZA','DERECHO','DISEÑO GRAFICO','DISEÑO INDUSTRIAL','ECONOMIA','EDUCACION ARTISTICA','EDUCACION INICIAL','EDUCACION PRIMARIA','EDUCACION SECUNDARIA','ESCULTURA','ESTADISTICA','FILOSOFIA','FINANZAS','FISICA','GEOGRAFIA Y MEDIO AMBIENTE','GESTION','GRABADO','HISTORIA','HUMANIDADES','INGENIERIA BIOMEDICA','INGENIERIA CIVIL','INGENIERIA DE LAS TELECOMUNICACIONES','INGENIERIA DE MINAS','INGENIERIA ELECTRONICA','INGENIERIA GEOLOGICA','INGENIERIA INDUSTRIAL','INGENIERIA INFORMATICA','INGENIERIA MECANICA','INGENIERIA MECATRONICA','INGENIERIA AMBIENTAL Y SOSTENIBLE','LINGUISTICA Y LITERATURA','MATEMATICAS','MUSICA','PERIODISMO','PINTURA','PSICOLOGIA','PUBLICIDAD','QUIMICA','RELACIONES INTERNACIONALES','SOCIOLOGIA','TEATRO']
+    tiposEscolares=['-','1° o 2° puesto de la promoción','Tercio superior','Programa de bachillerato','Otros']
+
+    nombre = 'InformacionInteresados' + datetime.datetime.now().strftime('%d_%m_%y_%H_%M_%S') + '.xlsx' 
+    writer = pd.ExcelWriter('static/bases/' + nombre, engine='xlsxwriter')
+    workbook = writer.book
 
     r = requests.get('http://ocaicrm.pucp.net/sites/default/modules/civicrm/extern/rest.php?entity=Activity&action=get&api_key=qq2CCwZjhG7fHHKYeH2aYw7F&key=ea6123e5a509396d49292e4d8d522f85&json={"sequential":1,"activity_type_id":{"IN":["Una mañana en ciencias","Una mañana en artes","Charla informativa","Charla Institucional","Descubre PUCP","Feria vocacional","Visita del representate PUCP al colegio"]}}')
     actividades = json.loads(r.text)['values']
 
-    df = pd.DataFrame(columns=['celular', 'email'])
+    df = pd.DataFrame(columns=['dni','soy_escolar','tipo_interesado','soy_escolar_tipo','celular', 'email','carrera_interes1','carrera_interes2'])
+    #df = pd.DataFrame(columns=['dni','soy_escolar','tipo_interesado','soy_escolar_tipo','celular', 'email','carrera_interes1'])
     i=0
     for a in actividades:
         r = requests.get('http://ocaicrm.pucp.net/sites/default/modules/civicrm/extern/rest.php?entity=ActivityContact&action=get&api_key=qq2CCwZjhG7fHHKYeH2aYw7F&key=ea6123e5a509396d49292e4d8d522f85&json={"sequential":1,"activity_id":' + a['id'] + '}')
         contactos = json.loads(r.text)['values']
         contacto=[]
         for c in contactos:
-            r = requests.get('http://ocaicrm.pucp.net/sites/default/modules/civicrm/extern/rest.php?entity=Contact&action=get&api_key=qq2CCwZjhG7fHHKYeH2aYw7F&key=ea6123e5a509396d49292e4d8d522f85&json={"sequential":1,"return":"custom_84,email","id":'+ c['contact_id'] +'}')
+            r = requests.get('http://ocaicrm.pucp.net/sites/default/modules/civicrm/extern/rest.php?entity=Contact&action=get&api_key=qq2CCwZjhG7fHHKYeH2aYw7F&key=ea6123e5a509396d49292e4d8d522f85&json={"sequential":1,"return":"custom_84,email,contact_type,organization_name,custom_103,custom_50,custom_52,custom_57,custom_58,custom_105","id":'+ c['contact_id'] +'}')
             #print (r.text)
             datos_contacto = json.loads(r.text)['values']
             #print(datos_contacto[0]['custom_84'])
-            df.loc[i] = [datos_contacto[0]['custom_84'],datos_contacto[0]['email']]
-            i = i + 1
+            if(datos_contacto[0]['contact_type'] == 'Individual'):
+              id_tipo_escolar = datos_contacto[0]['custom_105'] 
+              id_carrera1 = datos_contacto[0]['custom_57']
+              id_carrera2 = datos_contacto[0]['custom_58']
 
-    nombre = 'output.xlsx'  
-    df.to_excel('static/bases/' + nombre,sheet_name='Hoja 1')  
+              if (id_tipo_escolar == '') or (id_tipo_escolar == ' ') or (id_tipo_escolar =='-'):
+                id_tipo_escolar = 0
+              else:
+                id_tipo_escolar = int(id_tipo_escolar)
+
+              if (id_carrera1 == '') or (id_carrera1 == ' ') or (id_carrera1 =='-'):
+                id_carrera1 = 0
+              else:
+                id_carrera1 = int(id_carrera1)
+
+              if (id_carrera2 == '') or (id_carrera2 == ' ') or (id_carrera2 =='-'):
+                id_carrera2 = 0
+              else:
+                id_carrera2 = int(id_carrera2)
+
+              df.loc[i] = [datos_contacto[0]['custom_103'],datos_contacto[0]['custom_52'],datos_contacto[0]['custom_50'],tiposEscolares[id_tipo_escolar],datos_contacto[0]['custom_84'],datos_contacto[0]['email'],carreras[id_carrera1],carreras[id_carrera2]]
+              print(df.loc[i])
+              i = i + 1
+    print(df)
+    df.to_excel(writer,sheet_name='Hoja 1',index=False)  
+
+    writer.save()
+    workbook.close()
+
     errores=['Desde aquí puede descargar el archivo convertido, <a href="/static/bases/'+ nombre +'">Descargar archivo en XLSX</a>']
 
     return render_template('exportar.tpl.html',messages=errores)
