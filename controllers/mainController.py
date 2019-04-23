@@ -206,14 +206,14 @@ def convertir():
           csv_data['email'] = Series(email, index=csv_data.index)      
 
           nombre = file.replace('.csv','.xlsx')
-          csv_data.drop(labels=deleted_columns,axis=1).to_excel('static/bases/' + nombre,sheet_name='Hoja 1')
-          """
+         # csv_data.drop(labels=deleted_columns,axis=1).to_excel('static/bases/' + nombre,sheet_name='Hoja 1')
+         
           try:
             csv_data.drop(labels=deleted_columns,axis=1).to_excel('/var/www/herramientas-ocai/interfazOCAICRM/static/bases/' + nombre,sheet_name='Hoja 1')
           except ValueError:
             deleted_columns=['página1_capturado','page1_processed','page1_image_file_name','formulario_de_la_página_1_es_la_página_escaneada_número','publication_id', 'form_page_id_1','form_password','form_score','soy_escolar_score','soy_score','celular_score','dni_score','resido_en_score','soy_escolar_tipo_score','info_score','carrera_score']
             csv_data.drop(labels=deleted_columns,axis=1).to_excel('/var/www/herramientas-ocai/interfazOCAICRM/static/bases/' + nombre,sheet_name='Hoja 1')
-          """
+         
           errores.append('Desde aquí puede descargar el archivo convertido, <a href="/static/bases/'+ nombre +'">Descargar archivo en XLSX</a>')
           #errores.append('Desde aquí puede descargar el archivo convertido, <a href="/var/www/herramientas-ocai/interfazOCAICRM/static/bases/'+ nombre +'">Descargar archivo en XLSX</a>')
         else:
@@ -246,7 +246,8 @@ def exportar():
     tiposEscolares=['-','1° o 2° puesto de la promoción','Tercio superior','Programa de bachillerato','Otros']
 
     nombre = 'InformacionInteresados' + datetime.datetime.now().strftime('%d_%m_%y_%H_%M_%S') + '.xlsx' 
-    writer = pd.ExcelWriter('static/bases/' + nombre, engine='xlsxwriter')
+    #writer = pd.ExcelWriter('static/bases/' + nombre, engine='xlsxwriter')
+    writer = pd.ExcelWriter('/var/www/herramientas-ocai/interfazOCAICRM/static/bases/' + nombre,engine='xlswriter')
     workbook = writer.book
 
     r = requests.get('http://ocaicrm.pucp.net/sites/default/modules/civicrm/extern/rest.php?entity=Activity&action=get&api_key=qq2CCwZjhG7fHHKYeH2aYw7F&key=ea6123e5a509396d49292e4d8d522f85&json={"sequential":1,"activity_type_id":{"IN":["Una mañana en ciencias","Una mañana en artes","Charla informativa","Charla Institucional","Descubre PUCP","Feria vocacional","Visita del representate PUCP al colegio"]}}')
