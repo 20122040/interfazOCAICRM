@@ -111,10 +111,22 @@ def importar():
                 #Lo primero es crear al contacto (INICIO CREACION DE CONTACTO)
                 dni = xls_data['dni'][i]
                 celular = xls_data['celular'][i]
-                carreras = xls_data['carrera'][i].split(',')
+                carreras = '-' if pd.isnull(xls_data['carrera'][i]) else xls_data['carrera'][i].split(',')
                 email = '-' if pd.isnull(xls_data['email'][i]) else xls_data['email'][i]
+                info = '-' if pd.isnull(xls_data['info'][i]) else xls_data['info'][i]
                 tipo_interesado = '-'
                 tipo_escolar = 'Otros'
+
+
+                if(pd.isnull(xls_data['dni'][i])):
+                  dni = '00000000'
+                else:
+                  dni = str(int(dni))
+
+                if(pd.isnull(xls_data['celular'][i])):
+                  celular = '000000000'
+                else:
+                  celular = str(celular).replace('.0','')
                 
                 if pd.isnull(xls_data['soy_escolar'][i]):
                     anho_estudios = '-'
@@ -133,28 +145,45 @@ def importar():
                     tipo_interesado = 'Escolar'
 
                 if(tipo_interesado == '-'):
-                    tipo_interesado = xls_data['soy'][i]
+                    tipo_interesado = '-' if pd.isnull(xls_data['soy'][i]) else xls_data['soy'][i]
 
                 if(tipo_interesado == 'Padre de familia'):
                     tipo_interesado = 'Padre de Familia / Tutor'
+
+                print(carreras)
                     
                 if (len(carreras) >= 2):
-                    jotason = {"contact_type":"Individual","contact_sub_type":"Interesado_PUCP","display_name":"Interesado sin nombre","custom_103":dni,"custom_84":celular,"custom_57":carreras[0].upper().replace('Á','A').replace('É','E').replace('Í','I').replace('Ó','O').replace('Ú','U'),"custom_58":carreras[1].upper().replace('Á','A').replace('É','E').replace('Í','I').replace('Ó','O').replace('Ú','U'),"custom_52":anho_estudios,"custom_50":tipo_interesado,"custom_105":tipo_escolar}
+                  if (carreras[0].upper().lstrip().rstrip() == 'ARTE'):
+                    jotason = {"contact_type":"Individual","contact_sub_type":"Interesado_PUCP","display_name":"Interesado sin nombre","custom_103":dni,"custom_84":celular,"custom_57":'ARTE, MODA Y DISEÑO TEXTIL',"custom_58":carreras[2].upper().replace('Á','A').replace('É','E').replace('Í','I').replace('Ó','O').replace('Ú','U').replace('Ü','U').lstrip().rstrip(),"custom_52":anho_estudios,"custom_50":tipo_interesado,"custom_107":info}
+                  elif (carreras[1].upper().lstrip().rstrip() == 'ARTE'):
+                    jotason = {"contact_type":"Individual","contact_sub_type":"Interesado_PUCP","display_name":"Interesado sin nombre","custom_103":dni,"custom_84":celular,"custom_57":carreras[0].upper().replace('Á','A').replace('É','E').replace('Í','I').replace('Ó','O').replace('Ú','U').replace('Ü','U').lstrip().rstrip(),"custom_58":'ARTE, MODA Y DISEÑO TEXTIL',"custom_52":anho_estudios,"custom_50":tipo_interesado,"custom_107":info}
+                  else:
+                    jotason = {"contact_type":"Individual","contact_sub_type":"Interesado_PUCP","display_name":"Interesado sin nombre","custom_103":dni,"custom_84":celular,"custom_57":carreras[0].upper().replace('Á','A').replace('É','E').replace('Í','I').replace('Ó','O').replace('Ú','U').replace('Ü','U').lstrip().rstrip(),"custom_58":carreras[1].upper().replace('Á','A').replace('É','E').replace('Í','I').replace('Ó','O').replace('Ú','U').replace('Ü','U').lstrip().rstrip(),"custom_52":anho_estudios,"custom_50":tipo_interesado,"custom_105":tipo_escolar,"custom_107":info}
                 elif (len(carreras) == 1):
-                    jotason = {"contact_type":"Individual","contact_sub_type":"Interesado_PUCP","display_name":"Interesado sin nombre","custom_103":dni,"custom_84":celular,"custom_57":carreras[0].upper().replace('Á','A').replace('É','E').replace('Í','I').replace('Ó','O').replace('Ú','U'),"custom_52":anho_estudios,"custom_50":tipo_interesado,"custom_105":tipo_escolar}
+                    jotason = {"contact_type":"Individual","contact_sub_type":"Interesado_PUCP","display_name":"Interesado sin nombre","custom_103":dni,"custom_84":celular,"custom_57":carreras[0].upper().replace('Á','A').replace('É','E').replace('Í','I').replace('Ó','O').replace('Ú','U').replace('Ü','U').lstrip().rstrip(),"custom_52":anho_estudios,"custom_50":tipo_interesado,"custom_105":tipo_escolar,"custom_107":info}
                 else:
-                    jotason = {"contact_type":"Individual","contact_sub_type":"Interesado_PUCP","display_name":"Interesado sin nombre","custom_103":dni,"custom_84":celular,"custom_52":anho_estudios,"custom_50":tipo_interesado,"custom_105":tipo_escolar}
+                    jotason = {"contact_type":"Individual","contact_sub_type":"Interesado_PUCP","display_name":"Interesado sin nombre","custom_103":dni,"custom_84":celular,"custom_52":anho_estudios,"custom_50":tipo_interesado,"custom_107":info}
 
                 cadena=json.dumps(jotason, default=str)
                 print(cadena)
+                print(json)
+                
                 r = requests.post('http://ocaicrm.pucp.net/sites/default/modules/civicrm/extern/rest.php?entity=Contact&action=create&api_key=qq2CCwZjhG7fHHKYeH2aYw7F&key=ea6123e5a509396d49292e4d8d522f85&json=' + cadena)    
+  
                 print(r.text)
-                id_contacto = json.loads(r.text)['id']
+
+                try:
+                  id_contacto = json.loads(r.text)['id']
+                except KeyError:
+                  errores.append("El elemento #" + str(i) + " no se importará por tener un error. Revisar: " + r.text)
+                  continue
+
                 if (email != '-'):
                     #print(id_contacto)
                     jotason = {"contact_id":id_contacto,"email":email}
                     cadena=json.dumps(jotason, default=str)
                     r = requests.post('http://ocaicrm.pucp.net/sites/default/modules/civicrm/extern/rest.php?entity=Email&action=create&api_key=qq2CCwZjhG7fHHKYeH2aYw7F&key=ea6123e5a509396d49292e4d8d522f85&json=' + cadena)
+                                         
                     print(r.text)
                 
                 jotason = {"activity_id":idActividad,"contact_id":id_contacto}
@@ -171,6 +200,8 @@ def importar():
 
     if len(errores) == 0:
       errores.append('Se importaron los contactos con éxito')
+    else:
+      errores.append('Corregir los errores y subir solo las filas corregidas.')
 
     return render_template('importar.tpl.html',messages=errores,colegios_provincia=colegios_provincia_data,colegios_lima=colegios_lima_data,tipo_actividades=tipo_actividad)
 
@@ -236,34 +267,46 @@ def index():
   
   return render_template('index.tpl.html')
 
+def encontrar_colegio(id_colegio):
+  print(id_colegio)
+  r = requests.get('http://ocaicrm.pucp.net/sites/default/modules/civicrm/extern/rest.php?entity=Contact&action=get&api_key=qq2CCwZjhG7fHHKYeH2aYw7F&key=ea6123e5a509396d49292e4d8d522f85&json={"sequential":1,"return":"organization_name","id":'+ id_colegio +'}')
+  print(r.text)
+  datos_contacto = json.loads(r.text)['values']
+
+  return datos_contacto[0]['organization_name']
+
+
+
 
 @mod_main.route('/exportar',methods=['GET','POST'])
 def exportar():
   if request.method == 'GET':
     return render_template('exportar.tpl.html')
   else:
-    carreras=['-','ANTROPOLOGIA','ARQUEOLOGIA','ARQUITECTURA','ARTE, MODA Y DISEÑO TEXTIL','CIENCIA POLITICA Y GOBIERNO','CIENCIAS DE LA INFORMACION','COMUNICACION AUDIOVISUAL','COMUNICACION PARA EL DESARROLLO','CONTABILIDAD','CREACION Y PRODUCCION ESCENICA','DANZA','DERECHO','DISEÑO GRAFICO','DISEÑO INDUSTRIAL','ECONOMIA','EDUCACION ARTISTICA','EDUCACION INICIAL','EDUCACION PRIMARIA','EDUCACION SECUNDARIA','ESCULTURA','ESTADISTICA','FILOSOFIA','FINANZAS','FISICA','GEOGRAFIA Y MEDIO AMBIENTE','GESTION','GRABADO','HISTORIA','HUMANIDADES','INGENIERIA BIOMEDICA','INGENIERIA CIVIL','INGENIERIA DE LAS TELECOMUNICACIONES','INGENIERIA DE MINAS','INGENIERIA ELECTRONICA','INGENIERIA GEOLOGICA','INGENIERIA INDUSTRIAL','INGENIERIA INFORMATICA','INGENIERIA MECANICA','INGENIERIA MECATRONICA','INGENIERIA AMBIENTAL Y SOSTENIBLE','LINGUISTICA Y LITERATURA','MATEMATICAS','MUSICA','PERIODISMO','PINTURA','PSICOLOGIA','PUBLICIDAD','QUIMICA','RELACIONES INTERNACIONALES','SOCIOLOGIA','TEATRO']
+    carreras=['-','ANTROPOLOGIA','ARQUEOLOGIA','ARQUITECTURA','ARTE, MODA Y DISEÑO TEXTIL','CIENCIA POLITICA Y GOBIERNO','CIENCIAS DE LA INFORMACION','COMUNICACION AUDIOVISUAL','COMUNICACION PARA EL DESARROLLO','CONTABILIDAD','CREACION Y PRODUCCION ESCENICA','DANZA','DERECHO','DISEÑO GRAFICO','DISEÑO INDUSTRIAL','ECONOMIA','EDUCACION ARTISTICA','EDUCACION INICIAL','EDUCACION PRIMARIA','EDUCACION SECUNDARIA','ESCULTURA','ESTADISTICA','FILOSOFIA','FINANZAS','FISICA','GEOGRAFIA Y MEDIO AMBIENTE','GESTION','GRABADO','HISTORIA','HUMANIDADES','INGENIERIA BIOMEDICA','INGENIERIA CIVIL','INGENIERIA DE LAS TELECOMUNICACIONES','INGENIERIA DE MINAS','INGENIERIA ELECTRONICA','INGENIERIA GEOLOGICA','INGENIERIA INDUSTRIAL','INGENIERIA INFORMATICA','INGENIERIA MECANICA','INGENIERIA MECATRONICA','LINGUISTICA Y LITERATURA','MATEMATICAS','MUSICA','PERIODISMO','PINTURA','PSICOLOGIA','PUBLICIDAD','QUIMICA','RELACIONES INTERNACIONALES','SOCIOLOGIA','TEATRO','INGENIERIA AMBIENTAL Y SOSTENIBLE','GASTRONOMIA','OTROS','HOTELERIA','TURISMO']
     tiposEscolares=['-','1° o 2° puesto de la promoción','Tercio superior','Programa de bachillerato','Otros']
 
     nombre = 'InformacionInteresados' + datetime.datetime.now().strftime('%d_%m_%y_%H_%M_%S') + '.xlsx' 
     writer = pd.ExcelWriter('static/bases/' + nombre, engine='xlsxwriter')
     workbook = writer.book
 
-    r = requests.get('http://ocaicrm.pucp.net/sites/default/modules/civicrm/extern/rest.php?entity=Activity&action=get&api_key=qq2CCwZjhG7fHHKYeH2aYw7F&key=ea6123e5a509396d49292e4d8d522f85&json={"sequential":1,"activity_type_id":{"IN":["Una mañana en ciencias","Una mañana en artes","Charla informativa","Charla Institucional","Descubre PUCP","Feria vocacional","Visita del representate PUCP al colegio"]}}')
+    r = requests.get('http://ocaicrm.pucp.net/sites/default/modules/civicrm/extern/rest.php?entity=Activity&action=get&api_key=qq2CCwZjhG7fHHKYeH2aYw7F&key=ea6123e5a509396d49292e4d8d522f85&json={"sequential":1,"return":"source_contact_id","activity_type_id":{"IN":["Una mañana en ciencias","Una mañana en artes","Charla informativa","Charla Institucional","Descubre PUCP","Feria vocacional","Visita del representate PUCP al colegio"]},"options":{"limit":0}}')
     actividades = json.loads(r.text)['values']
 
-    df = pd.DataFrame(columns=['dni','soy_escolar','tipo_interesado','soy_escolar_tipo','celular', 'email','carrera_interes1','carrera_interes2'])
+    df = pd.DataFrame(columns=['dni','soy_escolar','tipo_interesado','soy_escolar_tipo','celular', 'email','carrera_interes1','carrera_interes2','donde_desea_recibir_info','colegio'])
     #df = pd.DataFrame(columns=['dni','soy_escolar','tipo_interesado','soy_escolar_tipo','celular', 'email','carrera_interes1'])
     i=0
     for a in actividades:
+        nombre_colegio = encontrar_colegio(a['source_contact_id'])
         r = requests.get('http://ocaicrm.pucp.net/sites/default/modules/civicrm/extern/rest.php?entity=ActivityContact&action=get&api_key=qq2CCwZjhG7fHHKYeH2aYw7F&key=ea6123e5a509396d49292e4d8d522f85&json={"sequential":1,"activity_id":' + a['id'] + '}')
         contactos = json.loads(r.text)['values']
         contacto=[]
         for c in contactos:
-            r = requests.get('http://ocaicrm.pucp.net/sites/default/modules/civicrm/extern/rest.php?entity=Contact&action=get&api_key=qq2CCwZjhG7fHHKYeH2aYw7F&key=ea6123e5a509396d49292e4d8d522f85&json={"sequential":1,"return":"custom_84,email,contact_type,organization_name,custom_103,custom_50,custom_52,custom_57,custom_58,custom_105","id":'+ c['contact_id'] +'}')
+            r = requests.get('http://ocaicrm.pucp.net/sites/default/modules/civicrm/extern/rest.php?entity=Contact&action=get&api_key=qq2CCwZjhG7fHHKYeH2aYw7F&key=ea6123e5a509396d49292e4d8d522f85&json={"sequential":1,"return":"custom_84,email,contact_type,organization_name,custom_103,custom_50,custom_52,custom_57,custom_58,custom_105,custom_107","id":'+ c['contact_id'] +'}')
             #print (r.text)
             datos_contacto = json.loads(r.text)['values']
             #print(datos_contacto[0]['custom_84'])
+
             if(datos_contacto[0]['contact_type'] == 'Individual'):
               id_tipo_escolar = datos_contacto[0]['custom_105'] 
               id_carrera1 = datos_contacto[0]['custom_57']
@@ -284,7 +327,7 @@ def exportar():
               else:
                 id_carrera2 = int(id_carrera2)
 
-              df.loc[i] = [datos_contacto[0]['custom_103'],datos_contacto[0]['custom_52'],datos_contacto[0]['custom_50'],tiposEscolares[id_tipo_escolar],datos_contacto[0]['custom_84'],datos_contacto[0]['email'],carreras[id_carrera1],carreras[id_carrera2]]
+              df.loc[i] = [datos_contacto[0]['custom_103'],datos_contacto[0]['custom_52'],datos_contacto[0]['custom_50'],tiposEscolares[id_tipo_escolar],datos_contacto[0]['custom_84'],datos_contacto[0]['email'],carreras[id_carrera1],carreras[id_carrera2],datos_contacto[0]['custom_107'],nombre_colegio]
               print(df.loc[i])
               i = i + 1
     print(df)
