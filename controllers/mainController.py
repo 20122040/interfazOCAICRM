@@ -275,6 +275,20 @@ def encontrar_colegio(id_colegio):
 
   return datos_contacto[0]['organization_name']
 
+def obtenerDatosContacto(lista_contactos1,lista_contactos2,id_contacto):
+  dc1 = {}
+  dc2 = {}
+  for c1 in lista_contactos1:
+    if(c1['contact_id'] == id_contacto):
+      dc1 = c1
+      break
+
+  for c2 in lista_contactos2:
+    if(c2['contact_id'] == id_contacto):
+      dc2 = c2
+      break
+
+  return dc1,dc2
 
 
 
@@ -293,6 +307,12 @@ def exportar():
     r = requests.get('http://ocaicrm.pucp.net/sites/default/modules/civicrm/extern/rest.php?entity=Activity&action=get&api_key=qq2CCwZjhG7fHHKYeH2aYw7F&key=ea6123e5a509396d49292e4d8d522f85&json={"sequential":1,"return":"source_contact_id","activity_type_id":{"IN":["Una mañana en ciencias","Una mañana en artes","Charla informativa","Charla Institucional","Descubre PUCP","Feria vocacional","Visita del representate PUCP al colegio"]},"options":{"limit":0}}')
     actividades = json.loads(r.text)['values']
 
+    r_lista_contactos1 = requests.get('http://ocaicrm.pucp.net/sites/default/modules/civicrm/extern/rest.php?entity=Contact&action=get&api_key=qq2CCwZjhG7fHHKYeH2aYw7F&key=ea6123e5a509396d49292e4d8d522f85&json={"sequential":1,"return":"id,custom_103,custom_57,custom_58,custom_50,custom_84","options":{"limit":0}}')
+    r_lista_contactos2 = requests.get('http://ocaicrm.pucp.net/sites/default/modules/civicrm/extern/rest.php?entity=Contact&action=get&api_key=qq2CCwZjhG7fHHKYeH2aYw7F&key=ea6123e5a509396d49292e4d8d522f85&json={"sequential":1,"return":"id,custom_105,custom_52,custom_107,contact_type,email","options":{"limit":0}}')
+
+    lista_contactos1 = json.loads(r_lista_contactos1.text)['values']
+    lista_contactos2 = json.loads(r_lista_contactos2.text)['values']
+
     df = pd.DataFrame(columns=['dni','soy_escolar','tipo_interesado','soy_escolar_tipo','celular', 'email','carrera_interes1','carrera_interes2','donde_desea_recibir_info','colegio'])
     #df = pd.DataFrame(columns=['dni','soy_escolar','tipo_interesado','soy_escolar_tipo','celular', 'email','carrera_interes1'])
     i=0
@@ -300,37 +320,40 @@ def exportar():
         nombre_colegio = encontrar_colegio(a['source_contact_id'])
         r = requests.get('http://ocaicrm.pucp.net/sites/default/modules/civicrm/extern/rest.php?entity=ActivityContact&action=get&api_key=qq2CCwZjhG7fHHKYeH2aYw7F&key=ea6123e5a509396d49292e4d8d522f85&json={"sequential":1,"activity_id":' + a['id'] + '}')
         contactos = json.loads(r.text)['values']
-        contacto=[]
         for c in contactos:
-            r = requests.get('http://ocaicrm.pucp.net/sites/default/modules/civicrm/extern/rest.php?entity=Contact&action=get&api_key=qq2CCwZjhG7fHHKYeH2aYw7F&key=ea6123e5a509396d49292e4d8d522f85&json={"sequential":1,"return":"custom_84,email,contact_type,organization_name,custom_103,custom_50,custom_52,custom_57,custom_58,custom_105,custom_107","id":'+ c['contact_id'] +'}')
+          id_contacto = c['contact_id']
+          #datos_contacto = 
+            #r = requests.get('http://ocaicrm.pucp.net/sites/default/modules/civicrm/extern/rest.php?entity=Contact&action=get&api_key=qq2CCwZjhG7fHHKYeH2aYw7F&key=ea6123e5a509396d49292e4d8d522f85&json={"sequential":1,"return":"custom_84,email,contact_type,organization_name,custom_103,custom_50,custom_52,custom_57,custom_58,custom_105,custom_107","id":'+ c['contact_id'] +'}')
             #print (r.text)
-            datos_contacto = json.loads(r.text)['values']
+          datos_contacto1,datos_contacto2 = obtenerDatosContacto(lista_contactos1,lista_contactos2,id_contacto)
             #print(datos_contacto[0]['custom_84'])
+          print("Datos CONTACTO")
+          print(datos_contacto1)
+          print(datos_contacto2)
+          if(datos_contacto2['contact_type'] == 'Individual'):
+            id_tipo_escolar = datos_contacto2['custom_105'] 
+            id_carrera1 = datos_contacto1['custom_57']
+            id_carrera2 = datos_contacto1['custom_58']
 
-            if(datos_contacto[0]['contact_type'] == 'Individual'):
-              id_tipo_escolar = datos_contacto[0]['custom_105'] 
-              id_carrera1 = datos_contacto[0]['custom_57']
-              id_carrera2 = datos_contacto[0]['custom_58']
+            if (id_tipo_escolar == '') or (id_tipo_escolar == ' ') or (id_tipo_escolar =='-'):
+              id_tipo_escolar = 0
+            else:
+              id_tipo_escolar = int(id_tipo_escolar)
 
-              if (id_tipo_escolar == '') or (id_tipo_escolar == ' ') or (id_tipo_escolar =='-'):
-                id_tipo_escolar = 0
-              else:
-                id_tipo_escolar = int(id_tipo_escolar)
+            if (id_carrera1 == '') or (id_carrera1 == ' ') or (id_carrera1 =='-'):
+              id_carrera1 = 0
+            else:
+              id_carrera1 = int(id_carrera1)
 
-              if (id_carrera1 == '') or (id_carrera1 == ' ') or (id_carrera1 =='-'):
-                id_carrera1 = 0
-              else:
-                id_carrera1 = int(id_carrera1)
+            if (id_carrera2 == '') or (id_carrera2 == ' ') or (id_carrera2 =='-'):
+              id_carrera2 = 0
+            else:
+              id_carrera2 = int(id_carrera2)
 
-              if (id_carrera2 == '') or (id_carrera2 == ' ') or (id_carrera2 =='-'):
-                id_carrera2 = 0
-              else:
-                id_carrera2 = int(id_carrera2)
-
-              df.loc[i] = [datos_contacto[0]['custom_103'],datos_contacto[0]['custom_52'],datos_contacto[0]['custom_50'],tiposEscolares[id_tipo_escolar],datos_contacto[0]['custom_84'],datos_contacto[0]['email'],carreras[id_carrera1],carreras[id_carrera2],datos_contacto[0]['custom_107'],nombre_colegio]
-              print(df.loc[i])
-              i = i + 1
-    print(df)
+            df.loc[i] = [datos_contacto1['custom_103'],datos_contacto2['custom_52'],datos_contacto1['custom_50'],tiposEscolares[id_tipo_escolar],datos_contacto1['custom_84'],datos_contacto2['email'],carreras[id_carrera1],carreras[id_carrera2],datos_contacto2['custom_107'],nombre_colegio]
+            print(df.loc[i])
+            i = i + 1
+    #print(df)
     df.to_excel(writer,sheet_name='Hoja 1',index=False)  
 
     writer.save()
