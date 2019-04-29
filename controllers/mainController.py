@@ -64,13 +64,15 @@ def importar():
       for f in files:
         if f and allowed_file(f.filename):
           filename = secure_filename(f.filename)
-          f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+          tipoColegioFichas = request.form['tipo_colegio']
+          if (tipoColegioFichas == 'colegio_lima'):
+            f.save(os.path.join(app.config['UPLOAD_FOLDER_LIMA'], filename))
+          elif (tipoColegioFichas == 'colegio_provincia'):
+            f.save(os.path.join(app.config['UPLOAD_FOLDER_PROVINCIA'], filename))
 
       errores = []
       log = []
-      folder = app.config['UPLOAD_FOLDER']
-      files = listdir(folder)
-
+      
       optSelect = request.form['contacto']
       #print("Esta es la opción seleccionada: " + optSelect)
       #time.sleep(60)
@@ -85,8 +87,12 @@ def importar():
           tipoColegioFichas = request.form['tipo_colegio']
           if (tipoColegioFichas == 'colegio_lima'):
             codigoColegio = request.form['select_colegio_lima2']
+            folder = app.config['UPLOAD_FOLDER_LIMA']
+            files = listdir(folder)
           elif (tipoColegioFichas == 'colegio_provincia'):
             codigoColegio = request.form['select_colegio_provincia2']
+            folder = app.config['UPLOAD_FOLDER_PROVINCIA']
+            files = listdir(folder)
           actividad = request.form['select_actividades2']
           fecha = request.form['fecha']
 
@@ -95,21 +101,45 @@ def importar():
           fecha = datetime.datetime.strptime(fecha, '%m/%d/%Y').strftime('%m/%d/%y')
 
           r = requests.get('http://ocaicrm.pucp.net/sites/default/modules/civicrm/extern/rest.php?entity=Contact&action=get&api_key=qq2CCwZjhG7fHHKYeH2aYw7F&key=ea6123e5a509396d49292e4d8d522f85&json={"sequential":1,"return":"id","custom_8":"' + codigoColegio + '"}')
-          idColegio = json.loads(r.text)['id']
+          try:
+            idColegio = json.loads(r.text)['id']
+          except KeyError:
+            errores.append("El colegio seleccionado no es válido.")
+            for file in files:
+              if(file[file.find("."):] in [".xls",".xlsx",".csv"]):
+                os.remove(folder + '/' + file) 
+            return render_template('importar.tpl.html',messages=errores,colegios_provincia=colegios_provincia_data,colegios_lima=colegios_lima_data,tipo_actividades=tipo_actividad)
+
 
           jotason = {"source_contact_id":idColegio,"activity_type_id":actividad,"activity_date_time":fecha,"subject":"Capturado por ficha de datos"}
           cadena = json.dumps(jotason,default=str)
           print(cadena)
           r = requests.post('http://ocaicrm.pucp.net/sites/default/modules/civicrm/extern/rest.php?entity=Activity&action=create&api_key=qq2CCwZjhG7fHHKYeH2aYw7F&key=ea6123e5a509396d49292e4d8d522f85&json=' + cadena)
           print(r.text)
-          idActividad = json.loads(r.text)['id']
+
+          try:
+            idActividad = json.loads(r.text)['id']
+          except KeyError:
+
+            errores.append("La actividad seleccionada no es válida.")
+            for file in files:
+              if(file[file.find("."):] in [".xls",".xlsx",".csv"]):
+                os.remove(folder + '/' + file) 
+            return render_template('importar.tpl.html',messages=errores,colegios_provincia=colegios_provincia_data,colegios_lima=colegios_lima_data,tipo_actividades=tipo_actividad)
+
 
           for file in files:
             if (file[file.find("."):] == ".xlsx"):
               xls_data = pd.read_excel(folder + '/' + file)
               for i in range(0,xls_data.shape[0]):
                 #Lo primero es crear al contacto (INICIO CREACION DE CONTACTO)
-                dni = xls_data['dni'][i]
+                try:
+                  dni = xls_data['dni'][i]
+                except KeyError:
+                  r = requests.post('http://ocaicrm.pucp.net/sites/default/modules/civicrm/extern/rest.php?entity=Activity&action=delete&api_key=qq2CCwZjhG7fHHKYeH2aYw7F&key=ea6123e5a509396d49292e4d8d522f85&json={"id":' + idActividad + '}')
+                  errores.append("Hay un error en el archivo importado. No es un archivo válido o no es correlativo desde el el elemento " + str(i))
+                  break
+
                 celular = xls_data['celular'][i]
                 carreras = '-' if pd.isnull(xls_data['carrera'][i]) else xls_data['carrera'][i].split(',')
                 email = '-' if pd.isnull(xls_data['email'][i]) else xls_data['email'][i]
@@ -169,7 +199,6 @@ def importar():
                 print(json)
                 
                 r = requests.post('http://ocaicrm.pucp.net/sites/default/modules/civicrm/extern/rest.php?entity=Contact&action=create&api_key=qq2CCwZjhG7fHHKYeH2aYw7F&key=ea6123e5a509396d49292e4d8d522f85&json=' + cadena)    
-  
                 print(r.text)
 
                 try:
@@ -238,6 +267,9 @@ def convertir():
 
           nombre = file.replace('.csv','.xlsx')
           csv_data.drop(labels=deleted_columns,axis=1).to_excel('static/bases/' + nombre,sheet_name='Hoja 1')
+          #deleted_columns=['página1_capturado','page1_processed','page1_image_file_name','formulario_de_la_página_1_es_la_página_escaneada_número','publication_id', 'form_page_id_1','form_password','form_score','soy_escolar_score','soy_score','celular_score','dni_score','resido_en_score','soy_escolar_tipo_score','info_score','carrera_score']
+          #csv_data.drop(labels=deleted_columns,axis=1).to_excel('static/bases/' + nombre,sheet_name='Hoja 1')
+
           """
           try:
             csv_data.drop(labels=deleted_columns,axis=1).to_excel('/var/www/herramientas-ocai/interfazOCAICRM/static/bases/' + nombre,sheet_name='Hoja 1')
@@ -330,6 +362,10 @@ def exportar():
           print("Datos CONTACTO")
           print(datos_contacto1)
           print(datos_contacto2)
+
+          if (datos_contacto2 == {}):
+            continue
+
           if(datos_contacto2['contact_type'] == 'Individual'):
             id_tipo_escolar = datos_contacto2['custom_105'] 
             id_carrera1 = datos_contacto1['custom_57']
