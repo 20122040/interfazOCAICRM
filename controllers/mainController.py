@@ -136,7 +136,7 @@ def importar():
                 try:
                   dni = xls_data['dni'][i]
                 except KeyError:
-                  r = requests.post('http://ocaicrm.pucp.net/sites/default/modules/civicrm/extern/rest.php?entity=Activity&action=delete&api_key=qq2CCwZjhG7fHHKYeH2aYw7F&key=ea6123e5a509396d49292e4d8d522f85&json={"id":' + idActividad + '}')
+                 # r = requests.post('http://ocaicrm.pucp.net/sites/default/modules/civicrm/extern/rest.php?entity=Activity&action=delete&api_key=qq2CCwZjhG7fHHKYeH2aYw7F&key=ea6123e5a509396d49292e4d8d522f85&json={"id":' + idActividad + '}')
                   errores.append("Hay un error en el archivo importado. No es un archivo válido o no es correlativo desde el el elemento " + str(i))
                   break
 
@@ -184,7 +184,10 @@ def importar():
                     
                 if (len(carreras) >= 2):
                   if (carreras[0].upper().lstrip().rstrip() == 'ARTE'):
-                    jotason = {"contact_type":"Individual","contact_sub_type":"Interesado_PUCP","display_name":"Interesado sin nombre","custom_103":dni,"custom_84":celular,"custom_57":'ARTE, MODA Y DISEÑO TEXTIL',"custom_58":carreras[2].upper().replace('Á','A').replace('É','E').replace('Í','I').replace('Ó','O').replace('Ú','U').replace('Ü','U').lstrip().rstrip(),"custom_52":anho_estudios,"custom_50":tipo_interesado,"custom_107":info}
+                    if(len(carreras) == 2):
+                      jotason = {"contact_type":"Individual","contact_sub_type":"Interesado_PUCP","display_name":"Interesado sin nombre","custom_103":dni,"custom_84":celular,"custom_57":"ARTE, MODA Y DISEÑO TEXTIL","custom_52":anho_estudios,"custom_50":tipo_interesado,"custom_107":info}
+                    else:                    
+                      jotason = {"contact_type":"Individual","contact_sub_type":"Interesado_PUCP","display_name":"Interesado sin nombre","custom_103":dni,"custom_84":celular,"custom_57":'ARTE, MODA Y DISEÑO TEXTIL',"custom_58":carreras[2].upper().replace('Á','A').replace('É','E').replace('Í','I').replace('Ó','O').replace('Ú','U').replace('Ü','U').lstrip().rstrip(),"custom_52":anho_estudios,"custom_50":tipo_interesado,"custom_107":info}
                   elif (carreras[1].upper().lstrip().rstrip() == 'ARTE'):
                     jotason = {"contact_type":"Individual","contact_sub_type":"Interesado_PUCP","display_name":"Interesado sin nombre","custom_103":dni,"custom_84":celular,"custom_57":carreras[0].upper().replace('Á','A').replace('É','E').replace('Í','I').replace('Ó','O').replace('Ú','U').replace('Ü','U').lstrip().rstrip(),"custom_58":'ARTE, MODA Y DISEÑO TEXTIL',"custom_52":anho_estudios,"custom_50":tipo_interesado,"custom_107":info}
                   else:
@@ -258,7 +261,12 @@ def convertir():
           deleted_columns=['page1_captured','page1_processed','page1_image_file_name','form_page_1_is_scanned_page_number','publication_id',
                  'form_page_id_1','form_password','form_score','soy_escolar_score','soy_score','celular_score','dni_score','resido_en_score',
                  'soy_escolar_tipo_score','info_score','carrera_score']
-          sLength = len(csv_data['form_id'])
+          try:
+            sLength = len(csv_data['form_id'])
+          except KeyError:
+            errores.append(file + ': El archivo CSV no es un archivo obtenido del Form Return')
+            break
+
           email=[]
           for i in range (0,sLength):
             email.append('')
@@ -266,17 +274,17 @@ def convertir():
           csv_data['email'] = Series(email, index=csv_data.index)      
 
           nombre = file.replace('.csv','.xlsx')
-          csv_data.drop(labels=deleted_columns,axis=1).to_excel('static/bases/' + nombre,sheet_name='Hoja 1')
+          #csv_data.drop(labels=deleted_columns,axis=1).to_excel('static/bases/' + nombre,sheet_name='Hoja 1')
           #deleted_columns=['página1_capturado','page1_processed','page1_image_file_name','formulario_de_la_página_1_es_la_página_escaneada_número','publication_id', 'form_page_id_1','form_password','form_score','soy_escolar_score','soy_score','celular_score','dni_score','resido_en_score','soy_escolar_tipo_score','info_score','carrera_score']
           #csv_data.drop(labels=deleted_columns,axis=1).to_excel('static/bases/' + nombre,sheet_name='Hoja 1')
 
-          """
+          
           try:
             csv_data.drop(labels=deleted_columns,axis=1).to_excel('/var/www/herramientas-ocai/interfazOCAICRM/static/bases/' + nombre,sheet_name='Hoja 1')
           except ValueError:
             deleted_columns=['página1_capturado','page1_processed','page1_image_file_name','formulario_de_la_página_1_es_la_página_escaneada_número','publication_id', 'form_page_id_1','form_password','form_score','soy_escolar_score','soy_score','celular_score','dni_score','resido_en_score','soy_escolar_tipo_score','info_score','carrera_score']
             csv_data.drop(labels=deleted_columns,axis=1).to_excel('/var/www/herramientas-ocai/interfazOCAICRM/static/bases/' + nombre,sheet_name='Hoja 1')
-          """
+           
           errores.append('Desde aquí puede descargar el archivo convertido, <a href="/static/bases/'+ nombre +'">Descargar archivo en XLSX</a>')
           #errores.append('Desde aquí puede descargar el archivo convertido, <a href="/var/www/herramientas-ocai/interfazOCAICRM/static/bases/'+ nombre +'">Descargar archivo en XLSX</a>')
         else:
@@ -301,11 +309,11 @@ def index():
 
 def encontrar_colegio(id_colegio):
   print(id_colegio)
-  r = requests.get('http://ocaicrm.pucp.net/sites/default/modules/civicrm/extern/rest.php?entity=Contact&action=get&api_key=qq2CCwZjhG7fHHKYeH2aYw7F&key=ea6123e5a509396d49292e4d8d522f85&json={"sequential":1,"return":"organization_name","id":'+ id_colegio +'}')
+  r = requests.get('http://ocaicrm.pucp.net/sites/default/modules/civicrm/extern/rest.php?entity=Contact&action=get&api_key=qq2CCwZjhG7fHHKYeH2aYw7F&key=ea6123e5a509396d49292e4d8d522f85&json={"sequential":1,"return":"organization_name,contact_sub_type","id":'+ id_colegio +'}')
   print(r.text)
   datos_contacto = json.loads(r.text)['values']
 
-  return datos_contacto[0]['organization_name']
+  return datos_contacto[0]['organization_name'],datos_contacto[0]['contact_sub_type'][0]
 
 def obtenerDatosContacto(lista_contactos1,lista_contactos2,id_contacto):
   dc1 = {}
@@ -333,10 +341,10 @@ def exportar():
     tiposEscolares=['-','1° o 2° puesto de la promoción','Tercio superior','Programa de bachillerato','Otros']
 
     nombre = 'InformacionInteresados' + datetime.datetime.now().strftime('%d_%m_%y_%H_%M_%S') + '.xlsx' 
-    writer = pd.ExcelWriter('static/bases/' + nombre, engine='xlsxwriter')
+    writer = pd.ExcelWriter('/var/www/herramientas-ocai/interfazOCAICRM/static/bases/' + nombre, engine='xlsxwriter')
     workbook = writer.book
 
-    r = requests.get('http://ocaicrm.pucp.net/sites/default/modules/civicrm/extern/rest.php?entity=Activity&action=get&api_key=qq2CCwZjhG7fHHKYeH2aYw7F&key=ea6123e5a509396d49292e4d8d522f85&json={"sequential":1,"return":"source_contact_id","activity_type_id":{"IN":["Una mañana en ciencias","Una mañana en artes","Charla informativa","Charla Institucional","Descubre PUCP","Feria vocacional","Visita del representate PUCP al colegio"]},"options":{"limit":0}}')
+    r = requests.get('http://ocaicrm.pucp.net/sites/default/modules/civicrm/extern/rest.php?entity=Activity&action=get&api_key=qq2CCwZjhG7fHHKYeH2aYw7F&key=ea6123e5a509396d49292e4d8d522f85&json={"sequential":1,"return":"source_contact_id","activity_type_id":{"IN":["Una mañana en ciencias","Una mañana en artes","Charla informativa","Charla Institucional","Descubre PUCP","Feria vocacional","Visita del representate PUCP al colegio","Taller: Camino a la vocación","Visita de Investigación"]},"options":{"limit":0}}')
     actividades = json.loads(r.text)['values']
 
     r_lista_contactos1 = requests.get('http://ocaicrm.pucp.net/sites/default/modules/civicrm/extern/rest.php?entity=Contact&action=get&api_key=qq2CCwZjhG7fHHKYeH2aYw7F&key=ea6123e5a509396d49292e4d8d522f85&json={"sequential":1,"return":"id,custom_103,custom_57,custom_58,custom_50,custom_84","options":{"limit":0}}')
@@ -345,12 +353,12 @@ def exportar():
     lista_contactos1 = json.loads(r_lista_contactos1.text)['values']
     lista_contactos2 = json.loads(r_lista_contactos2.text)['values']
 
-    df = pd.DataFrame(columns=['dni','soy_escolar','tipo_interesado','soy_escolar_tipo','celular', 'email','carrera_interes1','carrera_interes2','donde_desea_recibir_info','colegio'])
+    df = pd.DataFrame(columns=['dni','soy_escolar','tipo_interesado','soy_escolar_tipo','celular', 'email','carrera_interes1','carrera_interes2','donde_desea_recibir_info','colegio','tipo_colegio'])
     #df = pd.DataFrame(columns=['dni','soy_escolar','tipo_interesado','soy_escolar_tipo','celular', 'email','carrera_interes1'])
     i=0
     for a in actividades:
-        nombre_colegio = encontrar_colegio(a['source_contact_id'])
-        r = requests.get('http://ocaicrm.pucp.net/sites/default/modules/civicrm/extern/rest.php?entity=ActivityContact&action=get&api_key=qq2CCwZjhG7fHHKYeH2aYw7F&key=ea6123e5a509396d49292e4d8d522f85&json={"sequential":1,"activity_id":' + a['id'] + '}')
+        nombre_colegio,tipo_colegio = encontrar_colegio(a['source_contact_id'])
+        r = requests.get('http://ocaicrm.pucp.net/sites/default/modules/civicrm/extern/rest.php?entity=ActivityContact&action=get&api_key=qq2CCwZjhG7fHHKYeH2aYw7F&key=ea6123e5a509396d49292e4d8d522f85&json={"sequential":1,"activity_id":' + a['id'] + ',"options":{"limit":0}}')
         contactos = json.loads(r.text)['values']
         for c in contactos:
           id_contacto = c['contact_id']
@@ -386,7 +394,7 @@ def exportar():
             else:
               id_carrera2 = int(id_carrera2)
 
-            df.loc[i] = [datos_contacto1['custom_103'],datos_contacto2['custom_52'],datos_contacto1['custom_50'],tiposEscolares[id_tipo_escolar],datos_contacto1['custom_84'],datos_contacto2['email'],carreras[id_carrera1],carreras[id_carrera2],datos_contacto2['custom_107'],nombre_colegio]
+            df.loc[i] = [datos_contacto1['custom_103'],datos_contacto2['custom_52'],datos_contacto1['custom_50'],tiposEscolares[id_tipo_escolar],datos_contacto1['custom_84'],datos_contacto2['email'],carreras[id_carrera1],carreras[id_carrera2],datos_contacto2['custom_107'],nombre_colegio,tipo_colegio]
             print(df.loc[i])
             i = i + 1
     #print(df)
