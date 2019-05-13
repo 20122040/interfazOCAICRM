@@ -275,16 +275,14 @@ def convertir():
 
           nombre = file.replace('.csv','.xlsx')
           #csv_data.drop(labels=deleted_columns,axis=1).to_excel('static/bases/' + nombre,sheet_name='Hoja 1')
-          #deleted_columns=['página1_capturado','page1_processed','page1_image_file_name','formulario_de_la_página_1_es_la_página_escaneada_número','publication_id', 'form_page_id_1','form_password','form_score','soy_escolar_score','soy_score','celular_score','dni_score','resido_en_score','soy_escolar_tipo_score','info_score','carrera_score']
-          #csv_data.drop(labels=deleted_columns,axis=1).to_excel('static/bases/' + nombre,sheet_name='Hoja 1')
-
-          
           try:
-            csv_data.drop(labels=deleted_columns,axis=1).to_excel('/var/www/herramientas-ocai/interfazOCAICRM/static/bases/' + nombre,sheet_name='Hoja 1')
+            #csv_data.drop(labels=deleted_columns,axis=1).to_excel('/var/www/herramientas-ocai/interfazOCAICRM/static/bases/' + nombre,sheet_name='Hoja 1')
+            csv_data.drop(labels=deleted_columns,axis=1).to_excel('static/bases/' + nombre,sheet_name='Sheet 1')
           except ValueError:
             deleted_columns=['página1_capturado','page1_processed','page1_image_file_name','formulario_de_la_página_1_es_la_página_escaneada_número','publication_id', 'form_page_id_1','form_password','form_score','soy_escolar_score','soy_score','celular_score','dni_score','resido_en_score','soy_escolar_tipo_score','info_score','carrera_score']
-            csv_data.drop(labels=deleted_columns,axis=1).to_excel('/var/www/herramientas-ocai/interfazOCAICRM/static/bases/' + nombre,sheet_name='Hoja 1')
-           
+            #csv_data.drop(labels=deleted_columns,axis=1).to_excel('/var/www/herramientas-ocai/interfazOCAICRM/static/bases/' + nombre,sheet_name='Hoja 1')
+            csv_data.drop(labels=deleted_columns,axis=1).to_excel('static/bases/' + nombre,sheet_name='Hoja 1')
+
           errores.append('Desde aquí puede descargar el archivo convertido, <a href="/static/bases/'+ nombre +'">Descargar archivo en XLSX</a>')
           #errores.append('Desde aquí puede descargar el archivo convertido, <a href="/var/www/herramientas-ocai/interfazOCAICRM/static/bases/'+ nombre +'">Descargar archivo en XLSX</a>')
         else:
@@ -330,46 +328,72 @@ def obtenerDatosContacto(lista_contactos1,lista_contactos2,id_contacto):
 
   return dc1,dc2
 
+def getContactosActividades(actividades):
+  id_actividades = []
+  for a in actividades:
+    id_actividades.append(a['id'])
 
+  cadena = json.dumps(id_actividades,default=str)
+  r = requests.get('http://ocaicrm.pucp.net/sites/default/modules/civicrm/extern/rest.php?entity=ActivityContact&action=get&api_key=qq2CCwZjhG7fHHKYeH2aYw7F&key=ea6123e5a509396d49292e4d8d522f85&json={"sequential":1,"activity_id":{"IN":'+ cadena +'},"options":{"limit":0}}')  
+
+  contactos = json.loads(r.text)['values']
+  return contactos
+
+def getContactosEnActividad(contactos_actividad,id_actividad):
+  lst = []
+  for c in contactos_actividad:
+    if c['activity_id'] == id_actividad:
+      lst.append(c)
+  return lst
+
+def cadenaTipoActividad(id):
+  ids_tipos = ['69','68','67','64','63','62','61','60','59']
+  tipos = ['Charla para Padres','Visita de Investigación','Taller: Camino a la vocación','Una mañana en artes','Charla Institucional','Una mañana en ciencias','Descubre PUCP','Feria Vocacional','Charla informativa']
+
+  for i in range(0,len(ids_tipos)):
+    if (id == ids_tipos[i]):
+      return tipos[i]
+  return ' '
 
 @mod_main.route('/exportar',methods=['GET','POST'])
 def exportar():
   if request.method == 'GET':
     return render_template('exportar.tpl.html')
   else:
+    print("Empezó la exportación")
     carreras=['-','ANTROPOLOGIA','ARQUEOLOGIA','ARQUITECTURA','ARTE, MODA Y DISEÑO TEXTIL','CIENCIA POLITICA Y GOBIERNO','CIENCIAS DE LA INFORMACION','COMUNICACION AUDIOVISUAL','COMUNICACION PARA EL DESARROLLO','CONTABILIDAD','CREACION Y PRODUCCION ESCENICA','DANZA','DERECHO','DISEÑO GRAFICO','DISEÑO INDUSTRIAL','ECONOMIA','EDUCACION ARTISTICA','EDUCACION INICIAL','EDUCACION PRIMARIA','EDUCACION SECUNDARIA','ESCULTURA','ESTADISTICA','FILOSOFIA','FINANZAS','FISICA','GEOGRAFIA Y MEDIO AMBIENTE','GESTION','GRABADO','HISTORIA','HUMANIDADES','INGENIERIA BIOMEDICA','INGENIERIA CIVIL','INGENIERIA DE LAS TELECOMUNICACIONES','INGENIERIA DE MINAS','INGENIERIA ELECTRONICA','INGENIERIA GEOLOGICA','INGENIERIA INDUSTRIAL','INGENIERIA INFORMATICA','INGENIERIA MECANICA','INGENIERIA MECATRONICA','LINGUISTICA Y LITERATURA','MATEMATICAS','MUSICA','PERIODISMO','PINTURA','PSICOLOGIA','PUBLICIDAD','QUIMICA','RELACIONES INTERNACIONALES','SOCIOLOGIA','TEATRO','INGENIERIA AMBIENTAL Y SOSTENIBLE','GASTRONOMIA','OTROS','HOTELERIA','TURISMO']
     tiposEscolares=['-','1° o 2° puesto de la promoción','Tercio superior','Programa de bachillerato','Otros']
 
     nombre = 'InformacionInteresados' + datetime.datetime.now().strftime('%d_%m_%y_%H_%M_%S') + '.xlsx' 
-    writer = pd.ExcelWriter('/var/www/herramientas-ocai/interfazOCAICRM/static/bases/' + nombre, engine='xlsxwriter')
+    #writer = pd.ExcelWriter('/var/www/herramientas-ocai/interfazOCAICRM/static/bases/' + nombre, engine='xlsxwriter')
+    writer = pd.ExcelWriter('static/bases/' + nombre, engine='xlsxwriter')
     workbook = writer.book
 
-    r = requests.get('http://ocaicrm.pucp.net/sites/default/modules/civicrm/extern/rest.php?entity=Activity&action=get&api_key=qq2CCwZjhG7fHHKYeH2aYw7F&key=ea6123e5a509396d49292e4d8d522f85&json={"sequential":1,"return":"source_contact_id","activity_type_id":{"IN":["Una mañana en ciencias","Una mañana en artes","Charla informativa","Charla Institucional","Descubre PUCP","Feria vocacional","Visita del representate PUCP al colegio","Taller: Camino a la vocación","Visita de Investigación"]},"options":{"limit":0}}')
-    actividades = json.loads(r.text)['values']
+    print("Obtendremos todas las actividades")
+    r = requests.get('http://ocaicrm.pucp.net/sites/default/modules/civicrm/extern/rest.php?entity=Activity&action=get&api_key=qq2CCwZjhG7fHHKYeH2aYw7F&key=ea6123e5a509396d49292e4d8d522f85&json={"sequential":1,"return":"source_contact_id,activity_type_id","activity_type_id":{"IN":["Una mañana en ciencias","Una mañana en artes","Charla informativa","Charla Institucional","Visita de Investigación","Taller: Camino a la vocación","Descubre PUCP","Feria vocacional","Charla para padres"]},"options":{"limit":0}}')
+    actividades = json.loads(r.text)['values']                                                                                                                                                                                                                                     
 
+    print("Obtendremos a todos los contactos")
     r_lista_contactos1 = requests.get('http://ocaicrm.pucp.net/sites/default/modules/civicrm/extern/rest.php?entity=Contact&action=get&api_key=qq2CCwZjhG7fHHKYeH2aYw7F&key=ea6123e5a509396d49292e4d8d522f85&json={"sequential":1,"return":"id,custom_103,custom_57,custom_58,custom_50,custom_84","options":{"limit":0}}')
     r_lista_contactos2 = requests.get('http://ocaicrm.pucp.net/sites/default/modules/civicrm/extern/rest.php?entity=Contact&action=get&api_key=qq2CCwZjhG7fHHKYeH2aYw7F&key=ea6123e5a509396d49292e4d8d522f85&json={"sequential":1,"return":"id,custom_105,custom_52,custom_107,contact_type,email","options":{"limit":0}}')
 
     lista_contactos1 = json.loads(r_lista_contactos1.text)['values']
     lista_contactos2 = json.loads(r_lista_contactos2.text)['values']
 
-    df = pd.DataFrame(columns=['dni','soy_escolar','tipo_interesado','soy_escolar_tipo','celular', 'email','carrera_interes1','carrera_interes2','donde_desea_recibir_info','colegio','tipo_colegio'])
-    #df = pd.DataFrame(columns=['dni','soy_escolar','tipo_interesado','soy_escolar_tipo','celular', 'email','carrera_interes1'])
+    df = pd.DataFrame(columns=['dni','soy_escolar','tipo_interesado','soy_escolar_tipo','celular', 'email','carrera_interes1','carrera_interes2','donde_desea_recibir_info','colegio','tipo_colegio','tipo_actividad'])
     i=0
+
+    print("Obtendremos todos los contactos que están en una actividad")
+    contactos_todos = getContactosActividades(actividades)
     for a in actividades:
+        id_tipo_actividad = a["activity_type_id"]
         nombre_colegio,tipo_colegio = encontrar_colegio(a['source_contact_id'])
-        r = requests.get('http://ocaicrm.pucp.net/sites/default/modules/civicrm/extern/rest.php?entity=ActivityContact&action=get&api_key=qq2CCwZjhG7fHHKYeH2aYw7F&key=ea6123e5a509396d49292e4d8d522f85&json={"sequential":1,"activity_id":' + a['id'] + ',"options":{"limit":0}}')
-        contactos = json.loads(r.text)['values']
+        print("Obtendremos a los contactos de la actividad en el colegio: " + nombre_colegio)       
+        contactos = getContactosEnActividad(contactos_todos,a['id'])
         for c in contactos:
           id_contacto = c['contact_id']
-          #datos_contacto = 
-            #r = requests.get('http://ocaicrm.pucp.net/sites/default/modules/civicrm/extern/rest.php?entity=Contact&action=get&api_key=qq2CCwZjhG7fHHKYeH2aYw7F&key=ea6123e5a509396d49292e4d8d522f85&json={"sequential":1,"return":"custom_84,email,contact_type,organization_name,custom_103,custom_50,custom_52,custom_57,custom_58,custom_105,custom_107","id":'+ c['contact_id'] +'}')
-            #print (r.text)
+          print("Obtener los datos de este contacto: " + id_contacto)
           datos_contacto1,datos_contacto2 = obtenerDatosContacto(lista_contactos1,lista_contactos2,id_contacto)
-            #print(datos_contacto[0]['custom_84'])
-          print("Datos CONTACTO")
-          print(datos_contacto1)
-          print(datos_contacto2)
 
           if (datos_contacto2 == {}):
             continue
@@ -393,11 +417,9 @@ def exportar():
               id_carrera2 = 0
             else:
               id_carrera2 = int(id_carrera2)
-
-            df.loc[i] = [datos_contacto1['custom_103'],datos_contacto2['custom_52'],datos_contacto1['custom_50'],tiposEscolares[id_tipo_escolar],datos_contacto1['custom_84'],datos_contacto2['email'],carreras[id_carrera1],carreras[id_carrera2],datos_contacto2['custom_107'],nombre_colegio,tipo_colegio]
+            df.loc[i] = [datos_contacto1['custom_103'],datos_contacto2['custom_52'],datos_contacto1['custom_50'],tiposEscolares[id_tipo_escolar],datos_contacto1['custom_84'],datos_contacto2['email'],carreras[id_carrera1],carreras[id_carrera2],datos_contacto2['custom_107'],nombre_colegio,tipo_colegio,cadenaTipoActividad(id_tipo_actividad)]
             print(df.loc[i])
             i = i + 1
-    #print(df)
     df.to_excel(writer,sheet_name='Hoja 1',index=False)  
 
     writer.save()
@@ -406,7 +428,6 @@ def exportar():
     errores=['Desde aquí puede descargar el archivo convertido, <a href="/static/bases/'+ nombre +'">Descargar archivo en XLSX</a>']
 
     return render_template('exportar.tpl.html',messages=errores)
-
 
 @mod_main.route('/reportes',methods=['GET'])
 def reportes():
