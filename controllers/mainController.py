@@ -4,6 +4,7 @@ from datetime import datetime
 from app import app, ALLOWED_EXTENSIONS
 from urllib.parse import quote_plus
 import os
+import html5lib
 
 import math
 import pandas as pd
@@ -120,7 +121,6 @@ def importar():
           try:
             idActividad = json.loads(r.text)['id']
           except KeyError:
-
             errores.append("La actividad seleccionada no es válida.")
             for file in files:
               if(file[file.find("."):] in [".xls",".xlsx",".csv"]):
@@ -129,7 +129,8 @@ def importar():
 
 
           for file in files:
-            if (file[file.find("."):] == ".xlsx"):
+            if ((file[file.find("."):] == ".xlsx") and (file == filename)):
+              print(file + " = " + filename)
               xls_data = pd.read_excel(folder + '/' + file)
               for i in range(0,xls_data.shape[0]):
                 #Lo primero es crear al contacto (INICIO CREACION DE CONTACTO)
@@ -448,3 +449,294 @@ def reporte2():
 def reporte3():
 
   return render_template('reporte3.tpl.html')
+
+def yaFueRevisado(contDni,num,dni,lista):
+    if contDni==0:
+        return False
+    
+    #print("Esta es la opción elegida" + str(num))
+    if num==1:
+        for i in range(1,contDni):
+            #print(dni + lista['DNI3'][i] +"Cuadro1")
+            if dni==lista['DNI1'][i]:
+                return True
+    if num==2:
+        for i in range(1,contDni):
+            #print(dni + lista['DNI3'][i] +"Cuadro2")
+            if dni==lista['DNI2'][i]:
+                return True
+    if num==3:
+        for i in range(1,contDni):
+            #print(dni + lista['DNI3'][i] +"Cuadro3")
+            if dni==lista['DNI3'][i]:
+                return True
+            
+    if num==5:
+        for i in range(1,contDni):
+            #print(dni + lista['DNI3'][i] +"Cuadro3")
+            if dni==lista['DNI5'][i]:
+                return True
+            
+    if num==6:
+        for i in range(1,contDni):
+            #print(dni + lista['DNI3'][i] +"Cuadro3")
+            if dni==lista['DNI6'][i]:
+                return True
+    
+    if num==7:
+        for i in range(1,contDni):
+            #print(dni + lista['DNI3'][i] +"Cuadro3")
+            if dni==lista['DNI7'][i]:
+                return True
+    
+    if num==8:
+        for i in range(1,contDni):
+            #print(dni + lista['DNI3'][i] +"Cuadro3")
+            if dni==lista['DNI8'][i]:
+                return True
+
+
+@mod_main.route('/verificaciones',methods=['GET','POST'])
+def verificaciones():
+  lisSedesProv=['LIMA','PUNO']
+  if request.method == 'GET':
+    return render_template('verificaciones.tpl.html')
+  else:
+    if 'archivos' in request.files:
+      files = request.files.to_dict(flat=False)['archivos']
+      for f in files:
+        if f and allowed_file(f.filename):
+          filename = secure_filename(f.filename)
+          f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+      errores = []
+      log = []
+      folder = app.config['UPLOAD_FOLDER']
+      files = listdir(folder)
+      print(files)
+
+      for file in files:
+        print(file)
+        if (file[file.find("."):] == ".xls") and (file == filename):
+          #print(file)
+          #soup = BeautifulSoup(requests.get(file).text)
+          #print(pd.__version__)
+          print(folder+"/"+file)
+          tablas=pd.read_html(folder+"/"+file)
+          tabla=tablas[1]
+          tabla.columns = tabla.iloc[0]
+          tabla = tabla[1:]
+          tam=tabla['CANDIDATO'].count()
+          tabla.loc[:,'FECHA REGISTRO']=pd.to_datetime(tabla['FECHA REGISTRO'])
+          tabla.loc[:,'FECHA REGISTRO']=tabla['FECHA REGISTRO'].dt.strftime('%m/%d/%Y')
+
+          ##Creamos tabla para exportar excel
+
+          cuadro1=pd.DataFrame(columns=['CODIGO','DNI','NOMBRES','APELLIDOS','PROCESO','ESTADO','ANHO_FIN','COLEGIO']) ###AÑO FIN
+          cuadro2=pd.DataFrame(columns=['CODIGO','DNI','NOMBRES','APELLIDOS','PROCESO','ESTADO','EDAD','ANHO_NACIMIENTO']) ###EDAD
+          cuadro3=pd.DataFrame(columns=['CODIGO','DNI','NOMBRES','APELLIDOS','PROCESO','ESTADO','SEDE','DPTO_RESIDENCIA']) ###SEDE
+          cuadro5=pd.DataFrame(columns=['CODIGO','DNI','NOMBRES','APELLIDOS','PROCESO','ESTADO','DISCAPACIDAD','DESCR_DISCAPACIDAD']) ###DISCAPACIDAD
+          cuadro6=pd.DataFrame(columns=['CODIGO','DNI','NOMBRES','APELLIDOS','PROCESO','ESTADO','COD_COLEGIO','COLEGIO']) ###SIN INFO DE COLEGIO
+          cuadro7=pd.DataFrame(columns=['CODIGO','DNI','NOMBRES','APELLIDOS','PROCESO','ESTADO','PAGO']) ###POSTULANTES PAGO NO
+          cuadro8=pd.DataFrame(columns=['CODIGO','DNI','NOMBRES','APELLIDOS','PROCESO','ESTADO','PAGO']) ###CANDIDATOS PAGO SI
+
+          cuadro4=pd.DataFrame(columns=['DNI1','DNI2','DNI3','DNI5','DNI6','DNI7','DNI8'])
+
+          cont1=1 ###AÑO FIN
+          cont2=1 ###EDAD
+          cont3=1 ###SEDE
+          cont5=1 ###DISCAPACIDAD
+          cont6=1 ###SIN INFO DE COLEGIO
+          cont7=1 ###POSTULANTES PAGO NO
+          cont8=1 ###CANDIDATOS PAGO SI
+
+          if not (os.path.isfile('Lista.xlsx')):
+            writer=pd.ExcelWriter('Lista.xlsx',engine='xlsxwriter')
+            cuadro4.to_excel(writer,sheet_name='Hoja 1')
+            workbook1=writer.book
+            writer.save()
+
+          lista=pd.read_excel('Lista.xlsx')
+          #print(lista)
+          contDni1=lista["DNI1"].count()
+          contDni2=lista['DNI2'].count()
+          contDni3=lista['DNI3'].count()
+          contDni5=lista['DNI5'].count()
+          contDni6=lista['DNI6'].count()
+          contDni7=lista['DNI7'].count()
+          contDni8=lista['DNI8'].count()
+
+          contDni1Or = contDni1
+          contDni2Or = contDni2
+          contDni3Or = contDni3
+          contDni5Or = contDni5
+          contDni6Or = contDni6
+          contDni7Or = contDni7
+          contDni8Or = contDni8
+
+          for i in range(1, tam+1):
+              #print(tabla['ANO FIN'][i])
+              if pd.isnull(tabla['ANO FIN'][i]):
+                  yearFin='-'
+              else:
+                  yearFin=str(tabla['ANO FIN'][i])
+              edad=int(tabla['EDAD'][i])
+              sede=tabla['SEDE'][i]
+              depResidencia=tabla['DEPARTAMENTO COLEGIO'][i]
+              discapacidad=tabla['CUENTA CON ALGUNA DISCAPACIDAD'][i]
+              estado = tabla['ESTADO CANDIDATO'][i]
+              dni=tabla['DNI'][i]
+              #print()
+              #print(dni)
+              ##Modificamos la sede para hacer las comparaciones a nivel departamento
+              if sede=='TRUJILLO':
+                  sede='LA LIBERTAD'
+              elif sede=='HUANCAYO':
+                  sede='JUNIN'
+              elif sede=='IQUITOS':
+                  sede='LORETO'
+              
+              if depResidencia == 'CALLAO':
+                  depResidencia = 'LIMA'
+              
+              ##Verificamos Año fin
+              if len(yearFin)!=4 and yearFin != '-':
+                  if yaFueRevisado(contDni1Or,1,dni,lista)==False:
+                      print("Se agregó a columna 1 y cuadro 1")
+                      cuadro1.at[cont1,'DNI']=dni
+                      cuadro1.at[cont1,'CODIGO']=tabla['CANDIDATO'][i]
+                      cuadro1.at[cont1,'NOMBRES']=tabla['NOMBRES'][i]
+                      cuadro1.at[cont1,'APELLIDOS']=tabla['PRIMER APELLIDO'][i] + ' ' + tabla['SEGUNDO APELLIDO'][i]
+                      cuadro1.at[cont1,'PROCESO']=tabla['PROCESO'][i]
+                      cuadro1.at[cont1,'ESTADO']=tabla['ESTADO CANDIDATO'][i]
+                      cuadro1.at[cont1,'ANHO_FIN']=yearFin
+                      cuadro1.at[cont1,'COLEGIO']=tabla['DESCRIPCION COLEGIO'][i]
+                      lista.at[contDni1,'DNI1']=dni
+                      contDni1+=1
+                      cont1+=1
+                      ##Hacer que el programa bote como resultado que se debe verificar año fin
+
+              ##Verificamos edad
+              if edad>19 and edad<=13:
+                  if yaFueRevisado(contDni2Or,2,dni,lista)==False:
+                      #print("Se agregó a columna 2 y cuadro 2")
+                      cuadro2.at[cont2,'DNI']=tabla['DNI'][i]
+                      cuadro2.at[cont2,'CODIGO']=tabla['CANDIDATO'][i]
+                      cuadro2.at[cont2,'NOMBRES']=tabla['NOMBRES'][i]
+                      cuadro2.at[cont2,'APELLIDOS']=tabla['PRIMER APELLIDO'][i] + ' ' + tabla['SEGUNDO APELLIDO'][i]
+                      cuadro2.at[cont2,'PROCESO']=tabla['PROCESO'][i]
+                      cuadro2.at[cont2,'ESTADO']=tabla['ESTADO CANDIDATO'][i]
+                      cuadro2.at[cont2,'EDAD']=edad
+                      cuadro2.at[cont2,'ANHO_NACIMIENTO']=tabla['FECHA NACIMIENTO'][i]
+                      lista.at[contDni2,'DNI2']=dni
+                      contDni2+=1
+                      cont2+=1
+                  ##Hacer que el programa bote como resultado que se debe verificar edad
+                  
+              ##Verificamos discapacidad
+              if discapacidad=='Si' or discapacidad=='SI':
+                  if yaFueRevisado(contDni5Or,5,dni,lista)==False:
+                      #print("Se agregó a columna 5 y cuadro 5")
+                      cuadro5.at[cont5,'DNI']=tabla['DNI'][i]
+                      cuadro5.at[cont5,'CODIGO']=tabla['CANDIDATO'][i]
+                      cuadro5.at[cont5,'NOMBRES']=tabla['NOMBRES'][i]
+                      cuadro5.at[cont5,'APELLIDOS']=tabla['PRIMER APELLIDO'][i] + ' ' + tabla['SEGUNDO APELLIDO'][i]
+                      cuadro5.at[cont5,'PROCESO']=tabla['PROCESO'][i]
+                      cuadro5.at[cont5,'ESTADO']=tabla['ESTADO CANDIDATO'][i]
+                      cuadro5.at[cont5,'DISCAPACIDAD']=discapacidad
+                      cuadro5.at[cont5,'DESCR_DISCAPACIDAD']=tabla['DESCRIPCIÓN DE DISCAPACIDAD'][i]
+                      lista.at[contDni5,'DNI5']=dni
+                      contDni5+=1
+                      cont5+=1
+                  ##Hacer que el programa bote como resultado que se debe verificar la discapacidad
+
+              ##Verificamos sede  
+              if sede != depResidencia and depResidencia in lisSedesProv and sede != "-":
+                  #print("El dni " + dni + " será grabado en cuadro 3 si no está en lista")
+                  if yaFueRevisado(contDni3Or,3,dni,lista)==False:
+                      #print("El dni " + dni + " no está en la lista. Agregar al cuadro 3")
+                      #print("Se agregó a columna 3 y cuadro 3")
+                      cuadro3.at[cont3,'DNI']=tabla['DNI'][i]
+                      cuadro3.at[cont3,'CODIGO']=tabla['CANDIDATO'][i]
+                      cuadro3.at[cont3,'NOMBRES']=tabla['NOMBRES'][i]
+                      cuadro3.at[cont3,'APELLIDOS']=tabla['PRIMER APELLIDO'][i] + ' ' + tabla['SEGUNDO APELLIDO'][i]
+                      cuadro3.at[cont3,'PROCESO']=tabla['PROCESO'][i]
+                      cuadro3.at[cont3,'ESTADO']=tabla['ESTADO CANDIDATO'][i]
+                      cuadro3.at[cont3,'SEDE']=tabla['SEDE'][i]
+                      cuadro3.at[cont3,'DPTO_RESIDENCIA']=tabla['DEPARTAMENTO COLEGIO'][i]
+                      lista.at[contDni3,'DNI3']=dni
+                      contDni3+=1
+                      cont3+=1
+                  ##hacer que el programa bote como resultado que se debe hacer cambio de sede     
+                  
+              ##Verificamos información escolar  
+              if estado == 'POSTULANTE' and pd.isnull(tabla['COLEGIO'][i]):
+                  #print("El dni " + dni + " será grabado en cuadro 3 si no está en lista")
+                  if yaFueRevisado(contDni6Or,6,dni,lista)==False:
+                      #print("El dni " + dni + " no está en la lista. Agregar al cuadro 3")
+                      #print("Se agregó a columna 6 y cuadro 6")
+                      cuadro6.at[cont6,'DNI']=tabla['DNI'][i]
+                      cuadro6.at[cont6,'CODIGO']=tabla['CANDIDATO'][i]
+                      cuadro6.at[cont6,'NOMBRES']=tabla['NOMBRES'][i]
+                      cuadro6.at[cont6,'APELLIDOS']=tabla['PRIMER APELLIDO'][i] + ' ' + tabla['SEGUNDO APELLIDO'][i]
+                      cuadro6.at[cont6,'PROCESO']=tabla['PROCESO'][i]
+                      cuadro6.at[cont6,'ESTADO']=tabla['ESTADO CANDIDATO'][i]
+                      cuadro6.at[cont6,'COD_COLEGIO']=tabla['COLEGIO'][i]
+                      cuadro6.at[cont6,'COLEGIO']=tabla['DESCRIPCION COLEGIO'][i]
+                      lista.at[contDni6,'DNI6']=dni
+                      contDni6+=1
+                      cont6+=1
+                  ##hacer que el programa bote como resultado que se debe hacer verificacion de informacion escolar
+                  
+              ##Verificamos si es POSTULANTE con pago NO  
+              if estado == 'POSTULANTE' and tabla['¿PAGO?'][i] == 'No':
+                  #print("El dni " + dni + " será grabado en cuadro 3 si no está en lista")
+                  if yaFueRevisado(contDni7Or,7,dni,lista)==False:
+                      #print("El dni " + dni + " no está en la lista. Agregar al cuadro 3")
+                      #print("Se agregó a columna 7 y cuadro 7")
+                      cuadro7.at[cont7,'DNI']=tabla['DNI'][i]
+                      cuadro7.at[cont7,'CODIGO']=tabla['CANDIDATO'][i]
+                      cuadro7.at[cont7,'NOMBRES']=tabla['NOMBRES'][i]
+                      cuadro7.at[cont7,'APELLIDOS']=tabla['PRIMER APELLIDO'][i] + ' ' + tabla['SEGUNDO APELLIDO'][i]
+                      cuadro7.at[cont7,'PROCESO']=tabla['PROCESO'][i]
+                      cuadro7.at[cont7,'ESTADO']=tabla['ESTADO CANDIDATO'][i]
+                      cuadro7.at[cont7,'PAGO']=tabla['¿PAGO?'][i]
+                      lista.at[contDni7,'DNI7']=dni
+                      contDni7+=1
+                      cont7+=1
+                  ##hacer que el programa bote como resultado que se debe hacer una verificacion de pago
+              
+              ##Verificamos si es CANDIDATO con pago SI  
+              if estado == 'CANDIDATO' and tabla['¿PAGO?'][i] == 'SI':
+                  #print("El dni " + dni + " será grabado en cuadro 3 si no está en lista")
+                  if yaFueRevisado(contDni8Or,8,dni,lista)==False:
+                      #print("El dni " + dni + " no está en la lista. Agregar al cuadro 3")
+                      #print("Se agregó a columna 7 y cuadro 7")
+                      cuadro8.at[cont8,'DNI']=tabla['DNI'][i]
+                      cuadro8.at[cont8,'CODIGO']=tabla['CANDIDATO'][i]
+                      cuadro8.at[cont8,'NOMBRES']=tabla['NOMBRES'][i]
+                      cuadro8.at[cont8,'APELLIDOS']=tabla['PRIMER APELLIDO'][i] + ' ' + tabla['SEGUNDO APELLIDO'][i]
+                      cuadro8.at[cont8,'PROCESO']=tabla['PROCESO'][i]
+                      cuadro8.at[cont8,'ESTADO']=tabla['ESTADO CANDIDATO'][i]
+                      cuadro8.at[cont8,'PAGO']=tabla['¿PAGO?'][i]
+                      lista.at[contDni8,'DNI8']=dni
+                      contDni8+=1
+                      cont8+=1
+                  ##hacer que el programa bote como resultado que se debe hacer una verificacion de pago
+              
+      nombre_reporte = 'ReporteValidacion' + datetime.datetime.now().strftime('%d_%m_%y_%H_%M_%S') + '.xlsx'
+      writer1=pd.ExcelWriter('static/validacion/'+nombre_reporte,engine='xlsxwriter')
+      cuadro1.to_excel(writer1,sheet_name='Año Fin Incorrecto')
+      cuadro2.to_excel(writer1,sheet_name='Edades')
+      cuadro3.to_excel(writer1,sheet_name='Sede')
+      cuadro5.to_excel(writer1,sheet_name='Discapacidad')
+      cuadro6.to_excel(writer1,sheet_name='Sin información Escolar')
+      cuadro7.to_excel(writer1,sheet_name='POSTULANTES pago NO')
+      cuadro8.to_excel(writer1,sheet_name='CANDIDATOS pago SI')
+      workbook1=writer1.book
+      writer1.save()
+      writer=pd.ExcelWriter('Lista.xlsx',engine='xlsxwriter')
+      lista.to_excel(writer,sheet_name='Hoja 1')
+      writer.save()        
+      errores.append('Desde aquí puede descargar el archivo revisado, <a href="/static/validacion/'+ nombre_reporte +'">Descargar archivo en XLSX</a>')
+  return render_template('verificaciones.tpl.html',messages=errores)

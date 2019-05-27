@@ -4,13 +4,13 @@ from flask import Flask
 from urllib.parse import quote_plus
 #import flask_excel as excel
 
-#UPLOAD_FOLDER = 'uploaded_files'
-#UPLOAD_FOLDER_LIMA = 'uploaded_files_lima'
-#UPLOAD_FOLDER_PROVINCIA = 'uploaded_files_provincia'
+UPLOAD_FOLDER = 'uploaded_files'
+UPLOAD_FOLDER_LIMA = 'uploaded_files_lima'
+UPLOAD_FOLDER_PROVINCIA = 'uploaded_files_provincia'
 
-UPLOAD_FOLDER = '/var/www/herramientas-ocai/interfazOCAICRM/uploaded_files'
-UPLOAD_FOLDER_LIMA = '/var/www/herramientas-ocai/interfazOCAICRM/uploaded_files_lima'
-UPLOAD_FOLDER_PROVINCIA = '/var/www/herramientas-ocai/interfazOCAICRM/uploaded_files_provincia'
+#UPLOAD_FOLDER = '/var/www/herramientas-ocai/interfazOCAICRM/uploaded_files'
+#UPLOAD_FOLDER_LIMA = '/var/www/herramientas-ocai/interfazOCAICRM/uploaded_files_lima'
+#UPLOAD_FOLDER_PROVINCIA = '/var/www/herramientas-ocai/interfazOCAICRM/uploaded_files_provincia'
 
 ALLOWED_EXTENSIONS = set(['xls','xlsx','csv'])
 
