@@ -1,8 +1,17 @@
 {% extends "base.tpl.html" %}
 
-{% block title %}Importar{% endblock %}
+{% block title %}Reporte{% endblock %}
 
 {% block styles %}
+{% endblock %}
+
+{% block overlay%}
+<div class="processing-files">
+  <div class="container">
+    <p><i class="fa fa-history"></i></p>
+    <p>Se está generando el reporte. Por favor espere, esta operación puede durar varios minutos...</p>
+  </div>
+</div>
 {% endblock %}
 
 {% block logmenu %}
@@ -21,7 +30,7 @@
         <div class="col-md-12">
           <div class="x_panel">
             <div class="x_title">
-              <h2>Reporte <small> N° 1 </small></h2>
+              <h2>Reporte <small> Evento vs Modalidad </small></h2>
               <ul class="nav navbar-right panel_toolbox" style="min-width: auto;">
                 <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
             	</ul>
@@ -29,28 +38,22 @@
           	</div>
           	<div class="x_content">
           		<div class="row">
-                <p>Por favor, elegir un proceso</p>
 
-                <select>
-                	<option>Charla Evaluación de Talento</option>
-                  <option>Charla ACP</option>
-                  <option>VIVE PUCP</option>
-                </select>
-
-
-                <p>Por favor, elegir un proceso</p>
-
-                <select>
-                  <option>Admisión por colegio preferente</option>
-                  <option>ITS 2019</option>
-                  <option>PO 2019</option>
-                  <option>Bachillerato 2019</option>
-                  <option>Becas PUCP</option>
-                  <option>Ingreso a artes</option>
-                </select>
-
-
-                <button class="btn btn-success"> Obtener reporte</button>             
+                <form id="file-form" method="post">
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12" id="label_proceso" >Seleccione un evento: </label>
+                    <div class="col-md-9 col-sm-9 col-xs-12" id="select_proceso_reporte">
+                      <select class="select2_single form-control" name="proceso" id="select_proceso">
+                        <option value="1">Vive PUCP 2018</option>
+                      </select>
+                    </div>
+                  </div>
+                  <br>
+                  <br>
+                  <div>
+                    <button class="btn btn-success" type="submit"><i class="material-icons"></i><span> Obtener Reporte</span></button>
+                  </div>
+                </form>
 
               </div>
           	</div>
@@ -64,5 +67,9 @@
 
 {% block scripts %}
 <script type="text/javascript">
+
+  document.querySelector('#file-form').addEventListener('submit',function(event) {
+    document.querySelector('.processing-files').classList.add('active');
+  },false);
 </script> 
 {% endblock %}

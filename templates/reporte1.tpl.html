@@ -1,8 +1,17 @@
 {% extends "base.tpl.html" %}
 
-{% block title %}Importar{% endblock %}
+{% block title %}Reporte{% endblock %}
 
 {% block styles %}
+{% endblock %}
+
+{% block overlay%}
+<div class="processing-files">
+  <div class="container">
+    <p><i class="fa fa-history"></i></p>
+    <p>Se está generando el reporte. Por favor espere, esta operación puede durar varios minutos...</p>
+  </div>
+</div>
 {% endblock %}
 
 {% block logmenu %}
@@ -21,7 +30,7 @@
         <div class="col-md-12">
           <div class="x_panel">
             <div class="x_title">
-              <h2>Reporte <small> N° 1 </small></h2>
+              <h2>Reporte <small> Simulacro vs Admisión </small></h2>
               <ul class="nav navbar-right panel_toolbox" style="min-width: auto;">
                 <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
             	</ul>
@@ -29,17 +38,23 @@
           	</div>
           	<div class="x_content">
           		<div class="row">
-                <p>Por favor, elegir un año</p>
 
-                <select>
-                	<option>2016</option>
-                	<option>2017</option>
-                	<option>2018</option>
-                	<option>2019</option>
-                </select>
-
-
-                <button class="btn btn-success"> Obtener reporte</button>             
+                <form id="file-form" method="post">
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12" id="label_anho" >Seleccione un año: </label>
+                    <div class="col-md-9 col-sm-9 col-xs-12" id="select_anho_reporte">
+                      <select class="select2_single form-control" name="anho" id="select_anho">
+                      	<option>2018</option>
+                      	<option>2019</option>
+                      </select>
+                    </div>
+                  </div>
+                  <br>
+                  <br>
+                  <div>
+                    <button class="btn btn-success" type="submit"><i class="material-icons"></i><span> Obtener Reporte</span></button>
+                  </div>
+                </form>         
 
               </div>
           	</div>
@@ -53,5 +68,10 @@
 
 {% block scripts %}
 <script type="text/javascript">
+
+  document.querySelector('#file-form').addEventListener('submit',function(event) {
+    document.querySelector('.processing-files').classList.add('active');
+  },false);
+
 </script> 
 {% endblock %}

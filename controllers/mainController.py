@@ -314,12 +314,20 @@ def encontrar_colegio(id_colegio):
 
   return datos_contacto[0]['organization_name'],datos_contacto[0]['contact_sub_type'][0]
 
-def obtenerDatosContacto(lista_contactos1,lista_contactos2,id_contacto):
+def obtenerDatosContacto(lista_contactos1,lista_contactos1_5,lista_contactos2,lista_contactos3,id_contacto):
   dc1 = {}
   dc2 = {}
+  dc3 = {}
+  dc1_5 = {}
+
   for c1 in lista_contactos1:
     if(c1['contact_id'] == id_contacto):
       dc1 = c1
+      break
+
+  for c1_5 in lista_contactos1_5:
+    if(c1_5['contact_id'] == id_contacto):
+      dc1_5 = c1_5
       break
 
   for c2 in lista_contactos2:
@@ -327,7 +335,12 @@ def obtenerDatosContacto(lista_contactos1,lista_contactos2,id_contacto):
       dc2 = c2
       break
 
-  return dc1,dc2
+  for c3 in lista_contactos3:
+    if(c3['contact_id'] == id_contacto):
+      dc3 = c3
+      break
+
+  return dc1,dc1_5,dc2,dc3
 
 def getContactosActividades(actividades):
   id_actividades = []
@@ -375,11 +388,15 @@ def exportar():
     actividades = json.loads(r.text)['values']                                                                                                                                                                                                                                     
 
     print("Obtendremos a todos los contactos")
-    r_lista_contactos1 = requests.get('http://ocaicrm.pucp.net/sites/default/modules/civicrm/extern/rest.php?entity=Contact&action=get&api_key=qq2CCwZjhG7fHHKYeH2aYw7F&key=ea6123e5a509396d49292e4d8d522f85&json={"sequential":1,"return":"id,custom_103,custom_57,custom_58,custom_50,custom_84","options":{"limit":0}}')
-    r_lista_contactos2 = requests.get('http://ocaicrm.pucp.net/sites/default/modules/civicrm/extern/rest.php?entity=Contact&action=get&api_key=qq2CCwZjhG7fHHKYeH2aYw7F&key=ea6123e5a509396d49292e4d8d522f85&json={"sequential":1,"return":"id,custom_105,custom_52,custom_107,contact_type,email","options":{"limit":0}}')
+    r_lista_contactos1 = requests.get('http://ocaicrm.pucp.net/sites/default/modules/civicrm/extern/rest.php?entity=Contact&action=get&api_key=qq2CCwZjhG7fHHKYeH2aYw7F&key=ea6123e5a509396d49292e4d8d522f85&json={"sequential":1,"return":"id,custom_103,custom_57,custom_58","options":{"limit":0}}')
+    r_lista_contactos1_5 = requests.get('http://ocaicrm.pucp.net/sites/default/modules/civicrm/extern/rest.php?entity=Contact&action=get&api_key=qq2CCwZjhG7fHHKYeH2aYw7F&key=ea6123e5a509396d49292e4d8d522f85&json={"sequential":1,"return":"id,custom_50,custom_84","options":{"limit":0}}')
+    r_lista_contactos2 = requests.get('http://ocaicrm.pucp.net/sites/default/modules/civicrm/extern/rest.php?entity=Contact&action=get&api_key=qq2CCwZjhG7fHHKYeH2aYw7F&key=ea6123e5a509396d49292e4d8d522f85&json={"sequential":1,"return":"id,custom_105,custom_52,custom_107","options":{"limit":0}}')
+    r_lista_contactos3 = requests.get('http://ocaicrm.pucp.net/sites/default/modules/civicrm/extern/rest.php?entity=Contact&action=get&api_key=qq2CCwZjhG7fHHKYeH2aYw7F&key=ea6123e5a509396d49292e4d8d522f85&json={"sequential":1,"return":"id,contact_type,email","options":{"limit":0}}')
 
     lista_contactos1 = json.loads(r_lista_contactos1.text)['values']
+    lista_contactos1_5 = json.loads(r_lista_contactos1_5.text)['values']
     lista_contactos2 = json.loads(r_lista_contactos2.text)['values']
+    lista_contactos3 = json.loads(r_lista_contactos3.text)['values']
 
     df = pd.DataFrame(columns=['dni','soy_escolar','tipo_interesado','soy_escolar_tipo','celular', 'email','carrera_interes1','carrera_interes2','donde_desea_recibir_info','colegio','tipo_colegio','tipo_actividad'])
     i=0
@@ -394,12 +411,12 @@ def exportar():
         for c in contactos:
           id_contacto = c['contact_id']
           print("Obtener los datos de este contacto: " + id_contacto)
-          datos_contacto1,datos_contacto2 = obtenerDatosContacto(lista_contactos1,lista_contactos2,id_contacto)
+          datos_contacto1,datos_contacto1_5,datos_contacto2,datos_contacto3 = obtenerDatosContacto(lista_contactos1,lista_contactos1_5,lista_contactos2,lista_contactos3,id_contacto)
 
           if (datos_contacto2 == {}):
             continue
 
-          if(datos_contacto2['contact_type'] == 'Individual'):
+          if(datos_contacto3['contact_type'] == 'Individual'):
             id_tipo_escolar = datos_contacto2['custom_105'] 
             id_carrera1 = datos_contacto1['custom_57']
             id_carrera2 = datos_contacto1['custom_58']
@@ -418,7 +435,7 @@ def exportar():
               id_carrera2 = 0
             else:
               id_carrera2 = int(id_carrera2)
-            df.loc[i] = [datos_contacto1['custom_103'],datos_contacto2['custom_52'],datos_contacto1['custom_50'],tiposEscolares[id_tipo_escolar],datos_contacto1['custom_84'],datos_contacto2['email'],carreras[id_carrera1],carreras[id_carrera2],datos_contacto2['custom_107'],nombre_colegio,tipo_colegio,cadenaTipoActividad(id_tipo_actividad)]
+            df.loc[i] = [datos_contacto1['custom_103'],datos_contacto2['custom_52'],datos_contacto1_5['custom_50'],tiposEscolares[id_tipo_escolar],datos_contacto1_5['custom_84'],datos_contacto3['email'],carreras[id_carrera1],carreras[id_carrera2],datos_contacto2['custom_107'],nombre_colegio,tipo_colegio,cadenaTipoActividad(id_tipo_actividad)]
             print(df.loc[i])
             i = i + 1
     df.to_excel(writer,sheet_name='Hoja 1',index=False)  
@@ -435,20 +452,39 @@ def reportes():
 
   return render_template('reportes.tpl.html')
 
-@mod_main.route('/reporte1',methods=['GET'])
+@mod_main.route('/reporte1',methods=['GET','POST'])
 def reporte1():
-
-  return render_template('reporte1.tpl.html')
+  if request.method == 'GET':
+    return render_template('reporte1.tpl.html')
+  else:
+    errores=[]
+    anho_reporte = request.form['anho']
+    if (anho_reporte == '2018'):
+      time.sleep(100)
+      errores.append("Puede descargar su reporte aquí: <a href='/static/fake_folder/ReporteCRM_2018.xlsx'>Descargar archivo</a>")
+    elif (anho_reporte == '2019'):
+      time.sleep(50)
+      errores.append("Puede descargar su reporte aquí: <a href='/static/fake_folder/ReporteCRM_2019.xlsx'>Descargar archivo</a>")
+  return render_template('reporte1.tpl.html',messages=errores)
 
 @mod_main.route('/reporte2',methods=['GET'])
 def reporte2():
 
   return render_template('reporte2.tpl.html')
 
-@mod_main.route('/reporte3',methods=['GET'])
+@mod_main.route('/reporte3',methods=['GET','POST'])
 def reporte3():
 
-  return render_template('reporte3.tpl.html')
+  if request.method == 'GET':
+    return render_template('reporte3.tpl.html')
+  else:
+    errores=[]
+    proceso = request.form['proceso']
+    
+    if (proceso == '1'):
+      time.sleep(20)
+      errores.append("Puede descargar su reporte aquí: <a href='/static/fake_folder/Reporte3_2019_06_04.xlsx'>Descargar archivo</a>")
+    return render_template('reporte3.tpl.html',messages=errores)
 
 def yaFueRevisado(contDni,num,dni,lista):
     if contDni==0:
