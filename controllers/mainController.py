@@ -314,11 +314,13 @@ def encontrar_colegio(id_colegio):
 
   return datos_contacto[0]['organization_name'],datos_contacto[0]['contact_sub_type'][0]
 
-def obtenerDatosContacto(lista_contactos1,lista_contactos1_5,lista_contactos2,lista_contactos3,id_contacto):
+def obtenerDatosContacto(lista_contactos1,lista_contactos1_5,lista_contactos2,lista_contactos3,lista_contactos4,lista_contactos5,id_contacto):
   dc1 = {}
   dc2 = {}
   dc3 = {}
   dc1_5 = {}
+  dc4 = {}
+  dc5 = {}
 
   for c1 in lista_contactos1:
     if(c1['contact_id'] == id_contacto):
@@ -340,7 +342,17 @@ def obtenerDatosContacto(lista_contactos1,lista_contactos1_5,lista_contactos2,li
       dc3 = c3
       break
 
-  return dc1,dc1_5,dc2,dc3
+  for c4 in lista_contactos4:
+    if(c4['contact_id'] == id_contacto):
+      dc4 = c4
+      break
+
+  for c5 in lista_contactos5:
+    if(c5['contact_id'] == id_contacto):
+      dc5 = c5
+      break
+      
+  return dc1,dc1_5,dc2,dc3,dc4,dc5
 
 def getContactosActividades(actividades):
   id_actividades = []
@@ -388,15 +400,19 @@ def exportar():
     actividades = json.loads(r.text)['values']                                                                                                                                                                                                                                     
 
     print("Obtendremos a todos los contactos")
-    r_lista_contactos1 = requests.get('http://ocaicrm.pucp.net/sites/default/modules/civicrm/extern/rest.php?entity=Contact&action=get&api_key=qq2CCwZjhG7fHHKYeH2aYw7F&key=ea6123e5a509396d49292e4d8d522f85&json={"sequential":1,"return":"id,custom_103,custom_57,custom_58","options":{"limit":0}}')
+    r_lista_contactos1 = requests.get('http://ocaicrm.pucp.net/sites/default/modules/civicrm/extern/rest.php?entity=Contact&action=get&api_key=qq2CCwZjhG7fHHKYeH2aYw7F&key=ea6123e5a509396d49292e4d8d522f85&json={"sequential":1,"return":"id,custom_103","options":{"limit":0}}')
     r_lista_contactos1_5 = requests.get('http://ocaicrm.pucp.net/sites/default/modules/civicrm/extern/rest.php?entity=Contact&action=get&api_key=qq2CCwZjhG7fHHKYeH2aYw7F&key=ea6123e5a509396d49292e4d8d522f85&json={"sequential":1,"return":"id,custom_50,custom_84","options":{"limit":0}}')
-    r_lista_contactos2 = requests.get('http://ocaicrm.pucp.net/sites/default/modules/civicrm/extern/rest.php?entity=Contact&action=get&api_key=qq2CCwZjhG7fHHKYeH2aYw7F&key=ea6123e5a509396d49292e4d8d522f85&json={"sequential":1,"return":"id,custom_105,custom_52,custom_107","options":{"limit":0}}')
+    r_lista_contactos2 = requests.get('http://ocaicrm.pucp.net/sites/default/modules/civicrm/extern/rest.php?entity=Contact&action=get&api_key=qq2CCwZjhG7fHHKYeH2aYw7F&key=ea6123e5a509396d49292e4d8d522f85&json={"sequential":1,"return":"id,custom_105,custom_52","options":{"limit":0}}')
     r_lista_contactos3 = requests.get('http://ocaicrm.pucp.net/sites/default/modules/civicrm/extern/rest.php?entity=Contact&action=get&api_key=qq2CCwZjhG7fHHKYeH2aYw7F&key=ea6123e5a509396d49292e4d8d522f85&json={"sequential":1,"return":"id,contact_type,email","options":{"limit":0}}')
+    r_lista_contactos4 = requests.get('http://ocaicrm.pucp.net/sites/default/modules/civicrm/extern/rest.php?entity=Contact&action=get&api_key=qq2CCwZjhG7fHHKYeH2aYw7F&key=ea6123e5a509396d49292e4d8d522f85&json={"sequential":1,"return":"id,custom_57,custom_58","options":{"limit":0}}')
+    r_lista_contactos5 = requests.get('http://ocaicrm.pucp.net/sites/default/modules/civicrm/extern/rest.php?entity=Contact&action=get&api_key=qq2CCwZjhG7fHHKYeH2aYw7F&key=ea6123e5a509396d49292e4d8d522f85&json={"sequential":1,"return":"id,custom_107","options":{"limit":0}}')
 
     lista_contactos1 = json.loads(r_lista_contactos1.text)['values']
     lista_contactos1_5 = json.loads(r_lista_contactos1_5.text)['values']
     lista_contactos2 = json.loads(r_lista_contactos2.text)['values']
     lista_contactos3 = json.loads(r_lista_contactos3.text)['values']
+    lista_contactos4 = json.loads(r_lista_contactos4.text)['values']
+    lista_contactos5 = json.loads(r_lista_contactos5.text)['values']
 
     df = pd.DataFrame(columns=['dni','soy_escolar','tipo_interesado','soy_escolar_tipo','celular', 'email','carrera_interes1','carrera_interes2','donde_desea_recibir_info','colegio','tipo_colegio','tipo_actividad'])
     i=0
@@ -411,15 +427,15 @@ def exportar():
         for c in contactos:
           id_contacto = c['contact_id']
           print("Obtener los datos de este contacto: " + id_contacto)
-          datos_contacto1,datos_contacto1_5,datos_contacto2,datos_contacto3 = obtenerDatosContacto(lista_contactos1,lista_contactos1_5,lista_contactos2,lista_contactos3,id_contacto)
+          datos_contacto1,datos_contacto1_5,datos_contacto2,datos_contacto3,datos_contacto4,datos_contacto5 = obtenerDatosContacto(lista_contactos1,lista_contactos1_5,lista_contactos2,lista_contactos3,lista_contactos4,lista_contactos5,id_contacto)
 
           if (datos_contacto2 == {}):
             continue
 
           if(datos_contacto3['contact_type'] == 'Individual'):
             id_tipo_escolar = datos_contacto2['custom_105'] 
-            id_carrera1 = datos_contacto1['custom_57']
-            id_carrera2 = datos_contacto1['custom_58']
+            id_carrera1 = datos_contacto4['custom_57']
+            id_carrera2 = datos_contacto4['custom_58']
 
             if (id_tipo_escolar == '') or (id_tipo_escolar == ' ') or (id_tipo_escolar =='-'):
               id_tipo_escolar = 0
@@ -435,7 +451,7 @@ def exportar():
               id_carrera2 = 0
             else:
               id_carrera2 = int(id_carrera2)
-            df.loc[i] = [datos_contacto1['custom_103'],datos_contacto2['custom_52'],datos_contacto1_5['custom_50'],tiposEscolares[id_tipo_escolar],datos_contacto1_5['custom_84'],datos_contacto3['email'],carreras[id_carrera1],carreras[id_carrera2],datos_contacto2['custom_107'],nombre_colegio,tipo_colegio,cadenaTipoActividad(id_tipo_actividad)]
+            df.loc[i] = [datos_contacto1['custom_103'],datos_contacto2['custom_52'],datos_contacto1_5['custom_50'],tiposEscolares[id_tipo_escolar],datos_contacto1_5['custom_84'],datos_contacto3['email'],carreras[id_carrera1],carreras[id_carrera2],datos_contacto5['custom_107'],nombre_colegio,tipo_colegio,cadenaTipoActividad(id_tipo_actividad)]
             print(df.loc[i])
             i = i + 1
     df.to_excel(writer,sheet_name='Hoja 1',index=False)  
@@ -531,6 +547,89 @@ def yaFueRevisado(contDni,num,dni,lista):
             if dni==lista['DNI8'][i]:
                 return True
 
+def encontrar_area(especialidad,etapa):
+    nombre = etapa + ' EN ' + especialidad
+    areas = {'DOCTORADOS':['DOCTORADO EN ANTROPOLOGÍA','DOCTORADO EN ANTROPOLOGÍA, ARQUEOLOGÍA, HISTORIA Y LINGÜÍSTICA ANDINAS','DOCTORADO EN CIENCIA POLÍTICA Y GOBIERNO','DOCTORADO EN CIENCIAS DE LA EDUCACIÓN','DOCTORADO EN ECONOMÍA','DOCTORADO EN ESTUDIOS PSICOANALÍTICOS','DOCTORADO EN FILOSOFÍA','DOCTORADO EN FÍSICA','DOCTORADO EN GESTIÓN ESTRATÉGICA','DOCTORADO EN HISTORIA','DOCTORADO EN LITERATURA HISPANOAMERICANA','DOCTORADO EN INGENIERÍA','DOCTORADO EN MATEMÁTICAS','DOCTORADO EN PSICOLOGÍA','DOCTORADO EN SOCIOLOGÍA'],'ARTES':['MAESTRÍA EN ARTES ESCÉNICAS','MAESTRÍA EN MUSICOLOGÍA'],'ARQUITECTURA':['MAESTRÍA EN ARQUITECTURA Y PROCESOS PROYECTUALES','MAESTRÍA EN ARQUITECTURA, URBANISMO Y DESARROLLO TERRITORIAL SOSTENIBLE'],'CIENCIAS BÁSICAS':['MAESTRÍA EN ESTADÍSTICA','MAESTRÍA EN FÍSICA','MAESTRÍA EN FÍSICA APLICADA','MAESTRÍA EN MATEMÁTICAS','MAESTRÍA EN MATEMÁTICAS APLICADAS','MAESTRÍA EN QUÍMICA'],'CIENCIAS CONTABLES':['MAESTRÍA EN CONTABILIDAD',],'CIENCIAS SOCIALES ':['MAESTRÍA EN ANTROPOLOGÍA','MAESTRÍA EN ANTROPOLOGÍA VISUAL','MAESTRÍA EN CIENCIA POLÍTICA Y RELACIONES INTERNACIONALES','MAESTRÍA EN ECONOMÍA','MAESTRÍA EN GOBIERNO Y POLÍTICAS PÚBLICAS','MAESTRÍA EN SOCIOLOGÍA'],'DERECHO':['MAESTRÍA EN DERECHO BANCARIO Y FINANCIERO','MAESTRÍA EN DERECHO CIVIL','MAESTRÍA EN DERECHO CON MENCIÓN EN POLÍTICA JURISDICCIONAL (PRESENCIAL Y SEMIPRESENCIAL)','MAESTRÍA EN DERECHO CONSTITUCIONAL','MAESTRÍA EN DERECHO DE LA PROPIEDAD INTELECTUAL Y DE LA COMPETENCIA','MAESTRÍA EN DERECHO DE LA EMPRESA','MAESTRÍA EN DERECHO DEL TRABAJO Y DE LA SEGURIDAD SOCIAL','MAESTRÍA EN DERECHO INTERNACIONAL ECONÓMICO','MAESTRÍA EN DERECHO PENAL','MAESTRÍA EN DERECHO PROCESAL','MAESTRÍA EN DERECHO TRIBUTARIO','MAESTRÍA EN INVESTIGACIÓN JURÍDICA'],'EDUCACIÓN':['MAESTRÍA EN DOCENCIA UNIVERSITARIA','MAESTRÍA EN EDUCACIÓN','MAESTRÍA EN ENSEÑANZA DE LA MATEMÁTICAS','MAESTRÍA EN GESTIÓN DE POLÍTICAS Y PROGRAMAS PARA EL DESARROLLO INFANTIL TEMPRANO','MAESTRÍA EN INTEGRACIÓN E INNOVACIÓN EDUCATIVA DE LAS TECNOLOGÍAS DE LA INFORMACIÓN Y LA COMUNICACIÓN (TIC)'],'ESTUDIOS AMBIENTALES':['MAESTRÍA EN BIOCOMERCIO Y DESARROLLO SOSTENIBLE','MAESTRÍA EN DESARROLLO AMBIENTAL','MAESTRÍA EN GESTIÓN DE LOS RECURSOS HÍDRICOS'],'HUMANIDADES':['MAESTRÍA EN ESCRITURA CREATIVA','MAESTRÍA EN FILOSOFÍA','MAESTRÍA EN HISTORIA','MAESTRÍA EN HISTORIA DEL ARTE Y CURADURÍA','MAESTRÍA EN LINGÜÍSTICA','MAESTRÍA EN LITERATURA HISPANOAMERICANA'],'INGENIERÍA':['MAESTRÍA EN ENERGÍA','MAESTRÍA EN GESTIÓN DE LA INGENIERÍA','MAESTRÍA EN INFORMÁTICA','MAESTRÍA EN INGENIERÍA BIOMÉDICA','MAESTRÍA EN INGENIERÍA CIVIL','MAESTRÍA EN INGENIERÍA DE CONTROL Y AUTOMATIZACIÓN','MAESTRÍA EN INGENIERÍA DE LAS TELECOMUNICACIONES','MAESTRÍA EN INGENIERÍA DE SOLDADURA','MAESTRÍA EN INGENIERÍA INDUSTRIAL','MAESTRÍA EN INGENIERÍA MECÁNICA','MAESTRÍA EN INGENIERÍA MECATRÓNICA','MAESTRÍA EN INGENIERÍA Y CIENCIA DE LOS MATERIALES','MAESTRÍA EN INGENIERÍA Y GESTIÓN DE LAS CADENAS DE SUMINISTROS','MAESTRÍA EN PROCESAMIENTO DE SEÑALES E IMÁGENES DIGITALES'],'INTERDISCIPLINARIAS':['MAESTRÍA EN ALTOS ESTUDIOS AMAZÓNICOS','MAESTRÍA EN ANTROPOLOGÍA CON MENCIÓN EN ESTUDIOS ANDINOS','MAESTRÍA EN ARQUEOLOGÍA CON MENCIÓN EN ESTUDIOS ANDINOS','MAESTRÍA EN COMUNICACIONES','MAESTRÍA EN DERECHOS HUMANOS (PRESENCIAL Y SEMIPRESENCIAL)','MAESTRÍA EN DESARROLLO HUMANO: ENFOQUES Y POLÍTICAS','MAESTRÍA EN ESTUDIOS DE GÉNERO','MAESTRÍA EN GERENCIA SOCIAL  (PRESENCIAL Y SEMIPRESENCIAL)','MAESTRÍA EN GESTIÓN Y POLÍTICA DE LA INNOVACIÓN Y LA TECNOLOGÍA','MAESTRÍA EN HISTORIA CON MENCIÓN EN ESTUDIOS ANDINOS','MAESTRÍA EN LINGÜÍSTICA CON MENCIÓN EN ESTUDIOS ANDINOS','MAESTRÍA EN POLÍTICA Y GESTIÓN UNIVERSITARIA','MAESTRÍA EN REGULACIÓN DE LOS SERVICIOS PÚBLICOS','MAESTRÍA EN REGULACIÓN, GESTIÓN Y ECONOMÍA MINERA'],'PSICOLOGÍA':['MAESTRÍA EN COGNICIÓN, DESARROLLO Y APRENDIZAJE','MAESTRÍA EN INTERVENCIÓN CLÍNICA DEL PSICOANÁLISIS','MAESTRÍA EN PSICOLOGÍA','MAESTRÍA EN PSICOLOGÍA COMUNITARIA']}
+    for a in areas:
+        if (nombre in areas[a]):
+            return a
+            #print(nombre + "Se encontró en:" + a)
+    return "-"
+
+
+@mod_main.route('/procesarPosgrado',methods=['GET','POST'])
+def procesar():
+  if request.method == 'GET':
+    return render_template('procesar.tpl.html')
+  else:
+    if 'archivos' in request.files:
+      files = request.files.to_dict(flat=False)['archivos']
+      for f in files:
+        if f and allowed_file(f.filename):
+          filename = secure_filename(f.filename)
+          f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+      errores = []
+      log = []
+      folder = app.config['UPLOAD_FOLDER']
+      files = listdir(folder)
+      print(files)
+
+      for file in files:
+        if (file[file.find("."):] == ".xls") and (file == filename):
+          tablas=pd.read_html(folder+"/"+file)
+          tabla=tablas[1]
+          tabla.columns = tabla.iloc[0]
+          tabla = tabla[1:]
+          tam=tabla['CANDIDATO'].count()
+
+          #Eliminar columnas innecesarias
+          tabla = tabla.drop('MODALIDAD DE ESPECIALIDAD', 1).drop('INSTRUMENTO QUE PRACTICA', 1).drop('UNIDAD', 1)
+          tabla = tabla.drop('SEGUNDA ESPECIALIDAD', 1).drop('SEGUNDA ETAPA', 1).drop('SEGUNDA UNIDAD', 1).drop('ESTADO EXAMEN',1)
+          tabla = tabla.drop('DESCRIPCIÓN DE DISCAPACIDAD', 1).drop('CORREO ELECTRÓNICO APODERADO', 1).drop('TELÉFONO APODERADO', 1)
+
+          for i in range(1, tam+1):
+            #Homogeneizar con mayúsculas
+            tabla.loc[i, 'DESCRIPCION INSTITUCION'] = tabla['DESCRIPCION INSTITUCION'][i].upper()
+
+            apellido_p = tabla['PRIMER APELLIDO'][i]
+            apellido_m = tabla['SEGUNDO APELLIDO'][i]
+            nombres = tabla['NOMBRES'][i]
+            tabla.loc[i, 'PRIMER APELLIDO'] = apellido_p + " " + apellido_m + ", " + nombres
+
+          tabla = tabla.drop('SEGUNDO APELLIDO', 1).drop('NOMBRES', 1)
+          tabla.rename(columns = {'PRIMER APELLIDO':'NOMBRES COMPLETOS'}, inplace = True)
+
+          aux = tabla.columns.values
+          aux[0] = "#"
+          aux[9] = "ESPECIALIDAD_REAL"
+          aux[51] = "ESPECIALIDAD DE EGRESO"
+          tabla.columns = aux
+
+          areas_tematicas=[]
+          for i in range(1, tam+1):
+              especialidad = tabla['ESPECIALIDAD_REAL'][i]
+              etapa = tabla['ETAPA CANDIDATO'][i]
+              area_tematica = encontrar_area(especialidad,etapa)
+              areas_tematicas.append(area_tematica)  
+          tabla['AREA TEMATICA'] = Series(areas_tematicas, index=tabla.index)   
+
+          columns = tabla.columns.values
+          aux = []
+          i=0
+          
+          for a in columns:
+            if (i == 10):
+              aux.append("AREA TEMATICA")
+            if (a != "AREA TEMATICA"):
+              aux.append(a)
+            i = i + 1
+          tabla = tabla[aux]
+          tabla.to_excel('static/bases/' + file + '.xlsx',sheet_name='Hoja 1')
+          #tabla.to_excel('/var/www/herramientas-ocai/interfazOCAICRM/static/bases' + file + '.xlsx',sheet_name='Hoja 1')
+          errores.append('Desde aquí puede descargar el archivo revisado, <a href="/static/bases/'+ file +'.xlsx">Descargar archivo en XLSX</a>')
+
+    return render_template('procesar.tpl.html',messages=errores)
 
 @mod_main.route('/verificaciones',methods=['GET','POST'])
 def verificaciones():

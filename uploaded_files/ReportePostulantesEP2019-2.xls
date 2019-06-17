@@ -1,0 +1,1875 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html xmlns:v="urn:schemas-microsoft-com:vml"
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:x="urn:schemas-microsoft-com:office:excel"
+xmlns="http://www.w3.org/TR/REC-html40">
+   
+
+<html>
+<head>
+<meta HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=ISO-8859-1">
+
+<meta NAME="GENERATOR" CONTENT="Oracle JDeveloper">
+<META HTTP-EQUIV="Content-Type" CONTENT="application/vnd.ms-excel; charset=ISO-8859-1">
+<html xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:x="urn:schemas-microsoft-com:office:excel"
+xmlns="http://www.w3.org/TR/REC-html40">  
+
+<head>  
+<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+<meta name=ProgId content=Excel.Sheet>
+<meta name=Generator content="Microsoft Excel 9">
+<link rel=File-List href="./general_archivos/filelist.xml">
+<link rel=Edit-Time-Data href="./general_archivos/editdata.mso">
+<link rel=OLE-Object-Data href="./general_archivos/oledata.mso">
+
+<!--[if gte mso 9]><xml>
+ <o:DocumentProperties>
+  <o:LastAuthor></o:LastAuthor>
+  <o:Created></o:Created>
+  <o:LastSaved></o:LastSaved>
+  <o:Version></o:Version>
+ </o:DocumentProperties>
+ <o:OfficeDocumentSettings>
+  <o:DownloadComponents/>
+  <o:LocationOfComponents HRef="file:///F:/software/Microsoft/Office%25202000%2520Espanol/cd1/msowc.cab"/>
+ </o:OfficeDocumentSettings>
+</xml><![endif]-->
+<style>
+<!--table
+ {mso-displayed-decimal-separator:"\.";
+ mso-displayed-thousand-separator:"\,";}
+@page
+ {margin:0in 0in 0in 0in;
+ mso-header-margin:0in;
+ mso-footer-margin:0in;}
+tr
+ {mso-height-source:auto;}
+col
+ {mso-width-source:auto;}
+br
+ {mso-data-placement:same-cell;}
+.style0
+ {mso-number-format:General;
+ text-align:general;
+ vertical-align:bottom;
+ white-space:nowrap;
+ mso-rotate:0;
+ mso-background-source:auto;
+ mso-pattern:auto;
+ color:windowtext;
+ font-size:10.0pt;
+ font-weight:400;
+ font-style:normal;
+ text-decoration:none;
+ font-family:Arial;
+ mso-generic-font-family:auto;
+ mso-font-charset:0;
+ border:none;
+ mso-protection:locked visible;
+ mso-style-name:Normal;
+ mso-style-id:0;}
+td
+ {mso-style-parent:style0;
+ padding-top:1px;
+ padding-right:1px;
+ padding-left:1px;
+ mso-ignore:padding;
+ color:windowtext;
+ font-size:10.0pt;
+ font-weight:400;
+ font-style:normal;
+ text-decoration:none;
+ font-family:Arial;
+ mso-generic-font-family:auto;
+ mso-font-charset:0;
+ mso-number-format:General;
+ text-align:general;
+ vertical-align:bottom;
+ border:none;
+ mso-background-source:auto;
+ mso-pattern:auto;
+ mso-protection:locked visible;
+ white-space:nowrap;
+ mso-rotate:0;}
+.xl28
+ {mso-style-parent:style0;
+ font-weight:700;
+ font-family:Helvetica, sans-serif;
+ mso-font-charset:0;
+ text-align:left;
+ background:white;
+ mso-pattern:auto none;}
+.xl31
+ {mso-style-parent:style0;
+ font-size:8.0pt;
+ font-weight:700;
+ font-family:Helvetica, sans-serif;
+ mso-font-charset:0;
+ text-align:left;
+ background:white;
+ mso-pattern:auto none;
+ white-space:normal;}
+.xl34
+ {mso-style-parent:style0;
+ font-size:8.0pt;
+ font-family:Helvetica, sans-serif;
+ mso-font-charset:0;
+ text-align:left;
+ border-top:none;
+ border-right:.5pt solid silver;
+ border-bottom:.5pt solid silver;
+ border-left:.5pt solid silver;
+ background:white;
+ mso-pattern:auto none;
+ white-space:normal;}
+.xl36
+ {mso-style-parent:style0;
+ font-size:8.0pt;
+ font-family:Helvetica, sans-serif;
+ mso-font-charset:0;
+ mso-number-format:"\@";
+ text-align:center;
+ border-top:none;
+ border-right:.5pt solid silver;
+ border-bottom:.5pt solid silver;
+ border-left:none;
+ background:white;
+ mso-pattern:auto none;
+ white-space:normal;}
+.xl37
+ {mso-style-parent:style0;
+ font-size:8.0pt;
+ font-family:Helvetica, sans-serif;
+ mso-font-charset:0;
+ mso-number-format:0;
+ text-align:right;
+ border-top:none;
+ border-right:.5pt solid silver;
+ border-bottom:.5pt solid silver;
+ border-left:none;
+ background:white;
+ mso-pattern:auto none;
+ white-space:normal;}
+.xl38
+ {mso-style-parent:style0;
+ font-size:8.0pt;
+ font-family:Helvetica, sans-serif;
+ mso-font-charset:0;
+ mso-number-format:Fixed;
+ text-align:left;
+ border-top:none;
+ border-right:.5pt solid silver;
+ border-bottom:.5pt solid silver;
+ border-left:none;
+ background:white;
+ mso-pattern:auto none;
+ white-space:normal;}
+ .xl48
+ {mso-style-parent:style0;
+ font-size:8.0pt;
+ font-family:Helvetica, sans-serif;
+ mso-font-charset:0;
+ mso-number-format:Fixed;
+ text-align:left;
+ text-color: #FFFFFF;
+ border-top:none;
+ border-right:.5pt solid silver;
+ border-bottom:.5pt solid silver;
+ border-left:none;
+ background:#2C7D92;  
+ color: #FFFFFF;
+ mso-pattern:auto none;
+ white-space:normal;}
+.xl39
+ {mso-style-parent:style0;
+ font-size:8.0pt;
+ font-family:Helvetica, sans-serif;
+ mso-font-charset:0;
+ mso-number-format:Percent;
+ text-align:right;
+ border-top:none;
+ border-right:.5pt solid silver;
+ border-bottom:.5pt solid silver;
+ border-left:none;
+ background:white;
+ mso-pattern:auto none;
+ white-space:normal;}
+.xl47
+ {mso-style-parent:style0;
+ font-size:8.0pt;
+ font-weight:700;
+ font-family:Helvetica, sans-serif;
+ mso-font-charset:0;
+ text-align:center;
+ border-top:.5pt solid silver;
+ border-right:.5pt solid silver;
+ border-bottom:.5pt solid silver;
+ border-left:.5pt solid silver;
+ white-space:normal;}
+.xl48
+ {mso-style-parent:style0;
+ font-size:8.0pt;
+ font-weight:700;
+ font-family:Arial, sans-serif;
+ mso-font-charset:0;
+ text-align:left;
+ border-top:.5pt solid silver;
+ border-right:none;
+ border-bottom:.5pt solid silver;
+ border-left:.5pt solid silver;
+ white-space:normal;}
+.xl50
+ {mso-style-parent:style0;
+ font-size:8.0pt;
+ font-weight:700;
+ font-family:Arial, sans-serif;
+ mso-font-charset:0;
+ mso-number-format:Fixed;
+ text-align:right;
+ border-top:1.75pt solid silver;
+ border-right:1.75pt solid silver;
+ border-bottom:1.75pt solid silver;
+ border-left:1.75pt solid silver;
+ white-space:normal;}
+.xl51
+ {mso-style-parent:style0;
+ font-size:8.0pt;
+ font-weight:700;
+ font-family:Arial, sans-serif;
+ mso-font-charset:0;
+ mso-number-format:Fixed;
+ text-align:left;
+ border-top:1.75pt solid silver;
+ border-right:1.75pt solid silver;
+ border-bottom:1.75pt solid silver;
+ border-left:1.75pt solid silver;
+ white-space:normal;}
+.xl52
+ {mso-style-parent:style0;
+ font-size:8.0pt;
+ font-weight:700;
+ font-family:Arial, sans-serif;
+ mso-font-charset:0;
+ mso-number-format:Fixed;
+ text-align:center;
+ border-top:.5pt solid silver;
+ border-right:.5pt solid silver;
+ border-bottom:.5pt solid silver;
+ border-left:.5pt solid silver;
+ white-space:normal;}
+-->
+</style>
+<!--[if gte mso 9]><xml>
+ <x:ExcelWorkbook>
+  <x:ExcelWorksheets>
+   <x:ExcelWorksheet>
+    <x:Name>Información Candidatos</x:Name>
+    <x:WorksheetOptions>
+     <x:DefaultRowHeight>270</x:DefaultRowHeight>
+     <x:DefaultColWidth>10</x:DefaultColWidth>  
+     <x:Selected/>
+     <x:DoNotDisplayGridlines/>
+     <x:ProtectContents>False</x:ProtectContents>
+     <x:ProtectObjects>False</x:ProtectObjects>
+     <x:ProtectScenarios>False</x:ProtectScenarios>
+    </x:WorksheetOptions>
+   </x:ExcelWorksheet>
+  </x:ExcelWorksheets>
+  <x:WindowHeight>9150</x:WindowHeight>
+  <x:WindowWidth>15360</x:WindowWidth>
+  <x:WindowTopX>0</x:WindowTopX>
+  <x:WindowTopY>1365</x:WindowTopY>
+  <x:ProtectStructure>False</x:ProtectStructure>
+  <x:ProtectWindows>False</x:ProtectWindows>
+ </x:ExcelWorkbook>
+</xml><![endif]-->
+</head>
+
+</head>
+
+ 
+<body>
+
+<!-- Menú de la Ventana -->
+<table x:str  border="0" width="100%">
+  <tr>
+    <td width="50%" class=xl28 colspan="4"><strong>INFORMACION DETALLADA DE CANDIDATOS</strong></td> 
+    
+  </tr>
+</table>
+ 
+<br>
+<table x:str width="100%" border="0" align="center">
+<tr>
+		<td class=xl48 >&nbsp;</td>
+		<td class=xl48 >CANDIDATO</td>   
+		<td class=xl48 >ALUMNO</td>   
+		<td class=xl48 >FECHA REGISTRO </td> 
+		<td class=xl48 >FECHA INSCRIPCIÓN </td>   
+		<td class=xl48 >PROCESO</td>  
+		<td class=xl48 >PRIMER APELLIDO</td> 
+		<td class=xl48 >SEGUNDO APELLIDO</td>
+		<td class=xl48 >NOMBRES</td>
+		<td class=xl48 >ESTADO CANDIDATO</td>  
+		
+		<td class=xl48 >BECA OTORGADA</td>
+	     
+	    
+		<td class=xl48 >ESPECIALIDAD</td>
+		 <!--07-04-2014 ADA: Se agrega la modalidad de pago del candidato solo si la plantilla es P004= institucion educativa -->
+	   
+		<td class=xl48 >MODALIDAD DE ESPECIALIDAD</td>
+	    
+		<td class=xl48 >INSTRUMENTO QUE PRACTICA</td>  
+		<td class=xl48 >ETAPA CANDIDATO</td>  
+		<td class=xl48 >UNIDAD</td> 
+		<td class=xl48 >SEGUNDA ESPECIALIDAD</td>
+		<td class=xl48 >SEGUNDA ETAPA</td>
+		<td class=xl48 >SEGUNDA UNIDAD</td>
+		<td class=xl48 >ESPECIALIDAD INGRESO</td>
+		<td class=xl48 >ETAPA INGRESO</td>
+		<td class=xl48 >UNIDAD INGRESO</td>
+		<td class=xl48 >ESTADO EXAMEN</td>   
+		<td class=xl48 >SEXO</td>
+		<td class=xl48 >FECHA NACIMIENTO</td> 
+		<td class=xl48 >EDAD</td>  
+		<td class=xl48 >DNI</td> 
+		<!--td class=xl48 >LIB. MILITAR</td-->
+		<!--td class=xl48 >BOLETA MILITAR</td--> 
+		<td class=xl48 >CARNET EXT.</td>  
+		<td class=xl48 >PASAPORTE</td> 
+		<td class=xl48 >ESTADO CIVIL</td> 
+		<td class=xl48 >NACIONALIDAD</td>
+		<td class=xl48 >PAIS NACIMIENTO</td>  
+		<td class=xl48 >DEPARTAMENTO NACIMIENTO	</td> 
+		<td class=xl48 >PROVINCIA NACIMIENTO</td> 
+		<td class=xl48 >DISTRITO NACIMIENTO</td> 
+		<td class=xl48 >PAIS RESIDENCIA</td>  
+		<td class=xl48 >DEPARTAMENTO RESIDENCIA</td> 
+		<td class=xl48 >PROVINCIA RESIDENCIA</td>
+		<td class=xl48 >DISTRITO RESIDENCIA</td> 
+		<td class=xl48 >TIPO VIA</td>  
+		<td class=xl48 >VIA RESIDENCIA</td>
+		<td class=xl48 >INTERIOR</td> 
+		<td class=xl48 >NUMERO RESIDENCIA</td>  
+   <!-- jpb jul 2014 .- manzana lote -->    		
+       <td class=xl48 >MANZANA</td>
+       <td class=xl48 >LOTE</td>
+		
+		
+		<td class=xl48 >TIPO RESIDENCIA</td> 
+		<td class=xl48 >ZONA RESIDENCIA</td>
+		<td class=xl48 >DIRECCION PROVINCIA</td>  
+
+		<td class=xl48 >REFERENCIA DE RESIDENCIA</td>  
+		
+		<td class=xl48 >TELÉFONO</td>  
+		<td class=xl48 >¿PAGO?</td> 
+		<td class=xl48 >EMAIL</td>  
+		<td class=xl48 >CELULAR</td>     
+
+		  	
+        <td class=xl48 >INSTITUCION</td>   
+        <td class=xl48 >DESCRIPCION INSTITUCION</td>
+        <td class=xl48 >PAIS INSTITUCION</td>   
+        <td class=xl48 >DEPARTAMENTO INSTITUCION</td>   
+        <td class=xl48 >PROVINCIA INSTITUCION</td>   
+        <td class=xl48 >DISTRITO INSTITUCION</td>   
+        <td class=xl48 >GRADO</td>     
+        <td class=xl48 >ESPECIALIDAD</td>         	  
+           
+          
+   <!-- Campos relacionados a discapacidad y correo de apoderado 
+         Por: Israel Aguirre
+         Fecha: 23-04-2013 -->
+       <td class=xl48 >CUENTA CON ALGUNA DISCAPACIDAD</td>
+       <td class=xl48 >DESCRIPCIÓN DE DISCAPACIDAD</td>
+       <!--MCM 09/2016 Se agrega el campo de discapacitado -->
+       
+       <!--fin MCM 09/2016-->
+       <td class=xl48 >CORREO ELECTRÓNICO APODERADO</td>
+       <td class=xl48 >TELÉFONO APODERADO</td>
+   <!-- Fin de agregar campos relacionados a discapacidad y correo de apoderado -->    
+   
+
+   <!-- JPB JUL 2014
+		4 ultimos campos: manzana, lote, indicador certificaos, sede -->       
+       <td class=xl48 >¿CUMPLE CON LOS REQUISITOS PARA SER ADMITIDO?</td>
+       <td class=xl48 >SEDE</td>
+       
+   <!-- JPB FEB 2015
+		aula  - posicion	 -->
+       <td class=xl48 >AULA</td>
+       <td class=xl48 >POSICION</td>       
+
+	
+
+	<!--DATOS ADICIONALES -->	
+	
+		
+    
+	
+
+   <!-- JPB JUN 2015
+		correos	 -->
+  		
+	       <td class=xl48 >CORREO 1</td>
+	       <td class=xl48 >CORREO 2</td>
+   		
+   <!--AVR 15-12-2015-->
+   		
+    <!--IAFD 25-08-2017-->
+	   <td class=xl48 >MOTIVO POR EL CUAL NO FUE ADMIITIDO</td>
+	</tr>                                                    
+
+  
+      
+  <tr> 
+        <td class=xl38 align="center" >1</td>
+		<td class=xl38 >20186604</td>   	
+		<td class=xl38 >-</td>  	
+		<td class=xl38 >10/05/2019</td> 
+		<td class=xl38  >06/06/2019</td> 
+		<td class=xl38  >ESCUELA DE POSGRADO 2019-2</td>    
+		<td class=xl38  >CANALES</td> 
+		<td class=xl38  >BONIFAZ</td> 
+		<td class=xl38  >DIANA CAROLINA</td> 
+		<td class=xl38  >POSTULANTE</td> 	
+		
+			<td class=xl38  >-</td> 
+		  
+		
+		<td class=xl38  >DERECHO DE LA EMPRESA</td>
+		<!-- 07-04-2014 se agrega campo de modalidad de especialidad solo si plantilla es institucion educativa -->
+	    
+			<td class=xl38  >-</td> 
+		 
+		<td class=xl38  >-</td>   
+		<td class=xl38  >MAESTRÍA                                     </td> 
+		<td class=xl38  >ESCUELA DE POSGRADO</td>  
+		<td class=xl38  >-</td>		
+		<td class=xl38  >-</td>
+		<td class=xl38  >-</td>
+		<td class=xl38  >DERECHO DE LA EMPRESA</td>
+		<td class=xl38  >MAESTRÍA                                     </td>
+		<td class=xl38  >ESCUELA DE POSGRADO</td>		
+		<td class=xl38  >-</td> 
+		<td class=xl38  >F</td>  
+		<td class=xl38  >20/09/1986</td>   
+		<td class=xl38  >32</td>
+		<td class=xl38  >44411705</td> 
+		<!--td class=xl38  >-</td-->  
+		<!--td class=xl38  >-</td-->     
+		<td class=xl38  >-</td>
+		<td class=xl38  >-</td>   
+		<td class=xl38  >SOLTERO(A)</td>
+		<td class=xl38  >PERU</td> 
+		<td class=xl38  >PERU</td>  
+		<td class=xl38  >ICA</td> 
+		<td class=xl38  >ICA                                          </td>  
+		<td class=xl38  >ICA</td>   
+		<td class=xl38  >PERU</td>
+		<td class=xl38  >ICA</td> 
+		<td class=xl38  >ICA                                          </td>    
+        <td class=xl38  >ICA</td>       
+        <td class=xl38  >Calle</td>  
+        <td class=xl38  >ARCO REAL</td>    
+        <td class=xl38  >-</td>  <!-- interior	 --> 
+        <td class=xl38  >N°20      </td><!-- número de residencia	 --> 
+        <!--<td class=xl38  >SEMIPRESENCIAL</td> --> 
+     	<!-- <td class=xl38  >-</td>-->
+     	<!-- Diego Campos 24/11/2017 -->
+     	<td class=xl38  >-</td><!-- manzana	 --> 
+     	<td class=xl38  >-</td> <!-- lote	 -->
+     	<!-- Fin  24/11/2017 -->  
+		<td class=xl38  >-</td>  <!-- tipo de residencia	 --> 
+		
+        <td class=xl38  >-</td> <!-- zona de residencia	 --> 
+        
+        <td class=xl38  > <!-- dirección de provincia	 --> 
+          -
+        </td>
+		
+		
+		<td class=xl38  >ESPALDA DE FISCALIA</td> 	<!-- referencia	 -->
+		<td class=xl38  >56620567</td> 	<!-- teléfono    -->
+		<td class=xl38  >SI</td>	<!-- pago   	 -->
+		<td class=xl38  >a20186604@pucp.edu.pe</td><!-- email   	 -->
+			
+		<td class=xl38  >1965962024</td>    <!-- celular   	 -->	
+		
+         <!-- datos particulares de colegio o institución   	 -->
+        
+        <td class=xl38  >U0000009</td>
+        <td class=xl38  >UNIVERSIDAD NACIONAL SAN LUIS GONZAGA DE ICA</td>
+         
+	        <td class=xl38  >
+	        
+	        </td>
+        
+        <td class=xl38  >ICA</td>
+        <td class=xl38  >ICA                                          </td>
+        <td class=xl38  >ICA</td>
+        <td class=xl38  >LICENCIADO O TITULADO</td>
+        <td class=xl38  >DERECHO                                                                                                                 </td>
+        <!-- MCM 09/2016 Se agrega campo ¿es colegio ITS? -->
+        
+        <!-- Fin MCM 09/2016  -->
+              
+        
+        
+        
+		
+      <!-- JPB JUL 2014 - Campo del codigo IB para Bachillerato -->
+        
+        
+         
+      <!-- Campos relacionados a discapacidad y correo de apoderado 
+           Por: Israel Aguirre
+           Fecha: 23-04-2013 -->
+        
+        <td class=xl38  >
+          No
+        </td>
+        <td class=xl38  ></td>
+       
+        <!-- MCM 09/2016 Se agrega campo ¿es deportista destacado? -->
+        
+        </td>
+        <!-- Fin MCM 09/2016 -->
+       
+        <td class=xl38  >
+        
+          
+        </td>
+        
+        <td class=xl38  >
+          
+        </td>
+      <!-- Fin de agregar campos relacionados a discapacidad y correo de apoderado -->
+
+   <!-- JPB JUL 2014
+		4 ultimos campos: manzana, lote, indicador de certificados, sede -->
+		
+		<td class=xl38  >
+                    
+          No
+        </td>
+        
+        <td class=xl38  >
+          LIMA
+        </td>
+        
+
+   <!-- JPB FEB 2015
+		2 ultimos campos: aula -->
+        <td class=xl38  >
+          -
+        </td>
+        <td class=xl38  >
+          0
+        </td>
+
+	
+	
+	<!-- DATOS ADICIONALES -->
+	
+		
+    		
+
+	<!-- JPB MAR 2015
+		2 ultimos campos: Se agrega el país de la institución / beca -->
+		
+   <!-- JPB JUN 2015
+		2 ultimos campos: correos -->
+
+	
+        <td class=xl38  >
+          dcanales@bbva.com
+        </td>
+        <td class=xl38  >
+          dcanales@bbva.com
+        </td>
+	
+   
+   <!--AVR 15-12-2015-->
+   		
+    <!-- IAFD 25-08-2017 -->
+	   <td class=xl38  >
+	
+          
+       </td>
+	</tr>                                                    
+
+      
+  <tr> 
+        <td class=xl38 align="center" >2</td>
+		<td class=xl38 >F1033000</td>   	
+		<td class=xl38 >-</td>  	
+		<td class=xl38 >21/05/2019</td> 
+		<td class=xl38  >27/05/2019</td> 
+		<td class=xl38  >ESCUELA DE POSGRADO 2019-2</td>    
+		<td class=xl38  >CORONEL</td> 
+		<td class=xl38  >VASQUEZ</td> 
+		<td class=xl38  >NORMAN NELSON</td> 
+		<td class=xl38  >POSTULANTE</td> 	
+		
+			<td class=xl38  >-</td> 
+		  
+		
+		<td class=xl38  >CIENCIA POLÍTICA Y GOBIERNO</td>
+		<!-- 07-04-2014 se agrega campo de modalidad de especialidad solo si plantilla es institucion educativa -->
+	    
+			<td class=xl38  >-</td> 
+		 
+		<td class=xl38  >-</td>   
+		<td class=xl38  >DOCTORADO                                    </td> 
+		<td class=xl38  >ESCUELA DE POSGRADO</td>  
+		<td class=xl38  >-</td>		
+		<td class=xl38  >-</td>
+		<td class=xl38  >-</td>
+		<td class=xl38  >CIENCIA POLÍTICA Y GOBIERNO</td>
+		<td class=xl38  >DOCTORADO                                    </td>
+		<td class=xl38  >ESCUELA DE POSGRADO</td>		
+		<td class=xl38  >-</td> 
+		<td class=xl38  >M</td>  
+		<td class=xl38  >12/11/1983</td>   
+		<td class=xl38  >35</td>
+		<td class=xl38  >42785436</td> 
+		<!--td class=xl38  >-</td-->  
+		<!--td class=xl38  >-</td-->     
+		<td class=xl38  >-</td>
+		<td class=xl38  >-</td>   
+		<td class=xl38  >SOLTERO(A)</td>
+		<td class=xl38  >PERU</td> 
+		<td class=xl38  >PERU</td>  
+		<td class=xl38  >-</td> 
+		<td class=xl38  >-</td>  
+		<td class=xl38  >-</td>   
+		<td class=xl38  >PERU</td>
+		<td class=xl38  >LIMA</td> 
+		<td class=xl38  >LIMA                                         </td>    
+        <td class=xl38  >MIRAFLORES</td>       
+        <td class=xl38  >-</td>  
+        <td class=xl38  >-</td>    
+        <td class=xl38  >-</td>  <!-- interior	 --> 
+        <td class=xl38  >-</td><!-- número de residencia	 --> 
+        <!--<td class=xl38  >PRESENCIAL</td> --> 
+     	<!-- <td class=xl38  >-</td>-->
+     	<!-- Diego Campos 24/11/2017 -->
+     	<td class=xl38  >-</td><!-- manzana	 --> 
+     	<td class=xl38  >-</td> <!-- lote	 -->
+     	<!-- Fin  24/11/2017 -->  
+		<td class=xl38  >-</td>  <!-- tipo de residencia	 --> 
+		
+        <td class=xl38  >-</td> <!-- zona de residencia	 --> 
+        
+        <td class=xl38  > <!-- dirección de provincia	 --> 
+          -
+        </td>
+		
+		
+		<td class=xl38  >-</td> 	<!-- referencia	 -->
+		<td class=xl38  >966515366</td> 	<!-- teléfono    -->
+		<td class=xl38  >SI</td>	<!-- pago   	 -->
+		<td class=xl38  >normancoronel@gmail.com</td><!-- email   	 -->
+			
+		<td class=xl38  >966515366</td>    <!-- celular   	 -->	
+		
+         <!-- datos particulares de colegio o institución   	 -->
+        
+        <td class=xl38  >IE008924</td>
+        <td class=xl38  >Queen Mary University of London</td>
+         
+	        <td class=xl38  >
+	        
+	        </td>
+        
+        <td class=xl38  >-</td>
+        <td class=xl38  >-</td>
+        <td class=xl38  >-</td>
+        <td class=xl38  >MAGISTER</td>
+        <td class=xl38  >«OTROS»                                                                                                                 </td>
+        <!-- MCM 09/2016 Se agrega campo ¿es colegio ITS? -->
+        
+        <!-- Fin MCM 09/2016  -->
+              
+        
+        
+        
+		
+      <!-- JPB JUL 2014 - Campo del codigo IB para Bachillerato -->
+        
+        
+         
+      <!-- Campos relacionados a discapacidad y correo de apoderado 
+           Por: Israel Aguirre
+           Fecha: 23-04-2013 -->
+        
+        <td class=xl38  >
+          No
+        </td>
+        <td class=xl38  ></td>
+       
+        <!-- MCM 09/2016 Se agrega campo ¿es deportista destacado? -->
+        
+        </td>
+        <!-- Fin MCM 09/2016 -->
+       
+        <td class=xl38  >
+        
+          
+        </td>
+        
+        <td class=xl38  >
+          
+        </td>
+      <!-- Fin de agregar campos relacionados a discapacidad y correo de apoderado -->
+
+   <!-- JPB JUL 2014
+		4 ultimos campos: manzana, lote, indicador de certificados, sede -->
+		
+		<td class=xl38  >
+                    
+          No
+        </td>
+        
+        <td class=xl38  >
+          LIMA
+        </td>
+        
+
+   <!-- JPB FEB 2015
+		2 ultimos campos: aula -->
+        <td class=xl38  >
+          -
+        </td>
+        <td class=xl38  >
+          0
+        </td>
+
+	
+	
+	<!-- DATOS ADICIONALES -->
+	
+		
+    		
+
+	<!-- JPB MAR 2015
+		2 ultimos campos: Se agrega el país de la institución / beca -->
+		
+   <!-- JPB JUN 2015
+		2 ultimos campos: correos -->
+
+	
+        <td class=xl38  >
+          -
+        </td>
+        <td class=xl38  >
+          normancoronel@gmail.com
+        </td>
+	
+   
+   <!--AVR 15-12-2015-->
+   		
+    <!-- IAFD 25-08-2017 -->
+	   <td class=xl38  >
+	
+          
+       </td>
+	</tr>                                                    
+
+      
+  <tr> 
+        <td class=xl38 align="center" >3</td>
+		<td class=xl38 >F0975645</td>   	
+		<td class=xl38 >-</td>  	
+		<td class=xl38 >17/05/2019</td> 
+		<td class=xl38  >27/05/2019</td> 
+		<td class=xl38  >ESCUELA DE POSGRADO 2019-2</td>    
+		<td class=xl38  >DE LA CRUZ</td> 
+		<td class=xl38  >ORIUNDO</td> 
+		<td class=xl38  >JOSE EDUARDO</td> 
+		<td class=xl38  >POSTULANTE</td> 	
+		
+			<td class=xl38  >-</td> 
+		  
+		
+		<td class=xl38  >HISTORIA CON MENCIÓN EN ESTUDIOS ANDINOS</td>
+		<!-- 07-04-2014 se agrega campo de modalidad de especialidad solo si plantilla es institucion educativa -->
+	    
+			<td class=xl38  >-</td> 
+		 
+		<td class=xl38  >-</td>   
+		<td class=xl38  >MAESTRÍA                                     </td> 
+		<td class=xl38  >ESCUELA DE POSGRADO</td>  
+		<td class=xl38  >-</td>		
+		<td class=xl38  >-</td>
+		<td class=xl38  >-</td>
+		<td class=xl38  >HISTORIA CON MENCIÓN EN ESTUDIOS ANDINOS</td>
+		<td class=xl38  >MAESTRÍA                                     </td>
+		<td class=xl38  >ESCUELA DE POSGRADO</td>		
+		<td class=xl38  >-</td> 
+		<td class=xl38  >M</td>  
+		<td class=xl38  >14/07/1986</td>   
+		<td class=xl38  >32</td>
+		<td class=xl38  >44084663</td> 
+		<!--td class=xl38  >-</td-->  
+		<!--td class=xl38  >-</td-->     
+		<td class=xl38  >-</td>
+		<td class=xl38  >-</td>   
+		<td class=xl38  >SOLTERO(A)</td>
+		<td class=xl38  >PERU</td> 
+		<td class=xl38  >PERU</td>  
+		<td class=xl38  >AYACUCHO</td> 
+		<td class=xl38  >HUAMANGA                                     </td>  
+		<td class=xl38  >AYACUCHO</td>   
+		<td class=xl38  >PERU</td>
+		<td class=xl38  >LIMA</td> 
+		<td class=xl38  >LIMA                                         </td>    
+        <td class=xl38  >ATE</td>       
+        <td class=xl38  >-</td>  
+        <td class=xl38  >-</td>    
+        <td class=xl38  >-</td>  <!-- interior	 --> 
+        <td class=xl38  >-</td><!-- número de residencia	 --> 
+        <!--<td class=xl38  >PRESENCIAL</td> --> 
+     	<!-- <td class=xl38  >-</td>-->
+     	<!-- Diego Campos 24/11/2017 -->
+     	<td class=xl38  >-</td><!-- manzana	 --> 
+     	<td class=xl38  >-</td> <!-- lote	 -->
+     	<!-- Fin  24/11/2017 -->  
+		<td class=xl38  >-</td>  <!-- tipo de residencia	 --> 
+		
+        <td class=xl38  >-</td> <!-- zona de residencia	 --> 
+        
+        <td class=xl38  > <!-- dirección de provincia	 --> 
+          -
+        </td>
+		
+		
+		<td class=xl38  >-</td> 	<!-- referencia	 -->
+		<td class=xl38  >3264576</td> 	<!-- teléfono    -->
+		<td class=xl38  >SI</td>	<!-- pago   	 -->
+		<td class=xl38  >jdlc20@gmail.com</td><!-- email   	 -->
+			
+		<td class=xl38  >960703381</td>    <!-- celular   	 -->	
+		
+         <!-- datos particulares de colegio o institución   	 -->
+        
+        <td class=xl38  >W0000439</td>
+        <td class=xl38  >UNIVERSIDAD NACIONAL MAYOR DE SAN MARCOS</td>
+         
+	        <td class=xl38  >
+	        
+	        </td>
+        
+        <td class=xl38  >LIMA</td>
+        <td class=xl38  >LIMA                                         </td>
+        <td class=xl38  >LIMA</td>
+        <td class=xl38  >BACHILLER</td>
+        <td class=xl38  >SOCIOLOGÍA                                                                                                              </td>
+        <!-- MCM 09/2016 Se agrega campo ¿es colegio ITS? -->
+        
+        <!-- Fin MCM 09/2016  -->
+              
+        
+        
+        
+		
+      <!-- JPB JUL 2014 - Campo del codigo IB para Bachillerato -->
+        
+        
+         
+      <!-- Campos relacionados a discapacidad y correo de apoderado 
+           Por: Israel Aguirre
+           Fecha: 23-04-2013 -->
+        
+        <td class=xl38  >
+          No
+        </td>
+        <td class=xl38  ></td>
+       
+        <!-- MCM 09/2016 Se agrega campo ¿es deportista destacado? -->
+        
+        </td>
+        <!-- Fin MCM 09/2016 -->
+       
+        <td class=xl38  >
+        
+          
+        </td>
+        
+        <td class=xl38  >
+          
+        </td>
+      <!-- Fin de agregar campos relacionados a discapacidad y correo de apoderado -->
+
+   <!-- JPB JUL 2014
+		4 ultimos campos: manzana, lote, indicador de certificados, sede -->
+		
+		<td class=xl38  >
+                    
+          No
+        </td>
+        
+        <td class=xl38  >
+          LIMA
+        </td>
+        
+
+   <!-- JPB FEB 2015
+		2 ultimos campos: aula -->
+        <td class=xl38  >
+          -
+        </td>
+        <td class=xl38  >
+          0
+        </td>
+
+	
+	
+	<!-- DATOS ADICIONALES -->
+	
+		
+    		
+
+	<!-- JPB MAR 2015
+		2 ultimos campos: Se agrega el país de la institución / beca -->
+		
+   <!-- JPB JUN 2015
+		2 ultimos campos: correos -->
+
+	
+        <td class=xl38  >
+          -
+        </td>
+        <td class=xl38  >
+          jdlc20@gmail.com
+        </td>
+	
+   
+   <!--AVR 15-12-2015-->
+   		
+    <!-- IAFD 25-08-2017 -->
+	   <td class=xl38  >
+	
+          
+       </td>
+	</tr>                                                    
+
+      
+  <tr> 
+        <td class=xl38 align="center" >4</td>
+		<td class=xl38 >F0803068</td>   	
+		<td class=xl38 >-</td>  	
+		<td class=xl38 >30/05/2019</td> 
+		<td class=xl38  >03/06/2019</td> 
+		<td class=xl38  >ESCUELA DE POSGRADO 2019-2</td>    
+		<td class=xl38  >DEL PINO</td> 
+		<td class=xl38  >LOPEZ</td> 
+		<td class=xl38  >FREDY ELOÍ</td> 
+		<td class=xl38  >POSTULANTE</td> 	
+		
+			<td class=xl38  >-</td> 
+		  
+		
+		<td class=xl38  >DERECHO DE LA EMPRESA</td>
+		<!-- 07-04-2014 se agrega campo de modalidad de especialidad solo si plantilla es institucion educativa -->
+	    
+			<td class=xl38  >-</td> 
+		 
+		<td class=xl38  >-</td>   
+		<td class=xl38  >MAESTRÍA                                     </td> 
+		<td class=xl38  >ESCUELA DE POSGRADO</td>  
+		<td class=xl38  >-</td>		
+		<td class=xl38  >-</td>
+		<td class=xl38  >-</td>
+		<td class=xl38  >DERECHO DE LA EMPRESA</td>
+		<td class=xl38  >MAESTRÍA                                     </td>
+		<td class=xl38  >ESCUELA DE POSGRADO</td>		
+		<td class=xl38  >-</td> 
+		<td class=xl38  >M</td>  
+		<td class=xl38  >07/08/1990</td>   
+		<td class=xl38  >28</td>
+		<td class=xl38  >46442532</td> 
+		<!--td class=xl38  >-</td-->  
+		<!--td class=xl38  >-</td-->     
+		<td class=xl38  >-</td>
+		<td class=xl38  >-</td>   
+		<td class=xl38  >SOLTERO(A)</td>
+		<td class=xl38  >PERU</td> 
+		<td class=xl38  >PERU</td>  
+		<td class=xl38  >AYACUCHO</td> 
+		<td class=xl38  >HUAMANGA                                     </td>  
+		<td class=xl38  >AYACUCHO</td>   
+		<td class=xl38  >PERU</td>
+		<td class=xl38  >LIMA</td> 
+		<td class=xl38  >LIMA                                         </td>    
+        <td class=xl38  >JESUS MARIA</td>       
+        <td class=xl38  >Avenida</td>  
+        <td class=xl38  >Francisco Javier Mariátegui</td>    
+        <td class=xl38  >-</td>  <!-- interior	 --> 
+        <td class=xl38  >1368      </td><!-- número de residencia	 --> 
+        <!--<td class=xl38  >SEMIPRESENCIAL</td> --> 
+     	<!-- <td class=xl38  >-</td>-->
+     	<!-- Diego Campos 24/11/2017 -->
+     	<td class=xl38  >-</td><!-- manzana	 --> 
+     	<td class=xl38  >-</td> <!-- lote	 -->
+     	<!-- Fin  24/11/2017 -->  
+		<td class=xl38  >-</td>  <!-- tipo de residencia	 --> 
+		
+        <td class=xl38  >-</td> <!-- zona de residencia	 --> 
+        
+        <td class=xl38  > <!-- dirección de provincia	 --> 
+          -
+        </td>
+		
+		
+		<td class=xl38  >-</td> 	<!-- referencia	 -->
+		<td class=xl38  >2400311</td> 	<!-- teléfono    -->
+		<td class=xl38  >SI</td>	<!-- pago   	 -->
+		<td class=xl38  >eloi7890@gmail.com</td><!-- email   	 -->
+			
+		<td class=xl38  >924044903</td>    <!-- celular   	 -->	
+		
+         <!-- datos particulares de colegio o institución   	 -->
+        
+        <td class=xl38  >IE009214</td>
+        <td class=xl38  >Inca Garcilaso de la Vega</td>
+         
+	        <td class=xl38  >
+	        
+	        </td>
+        
+        <td class=xl38  >LIMA</td>
+        <td class=xl38  >LIMA                                         </td>
+        <td class=xl38  >LIMA</td>
+        <td class=xl38  >LICENCIADO O TITULADO</td>
+        <td class=xl38  >DERECHO                                                                                                                 </td>
+        <!-- MCM 09/2016 Se agrega campo ¿es colegio ITS? -->
+        
+        <!-- Fin MCM 09/2016  -->
+              
+        
+        
+        
+		
+      <!-- JPB JUL 2014 - Campo del codigo IB para Bachillerato -->
+        
+        
+         
+      <!-- Campos relacionados a discapacidad y correo de apoderado 
+           Por: Israel Aguirre
+           Fecha: 23-04-2013 -->
+        
+        <td class=xl38  >
+          No
+        </td>
+        <td class=xl38  ></td>
+       
+        <!-- MCM 09/2016 Se agrega campo ¿es deportista destacado? -->
+        
+        </td>
+        <!-- Fin MCM 09/2016 -->
+       
+        <td class=xl38  >
+        
+          
+        </td>
+        
+        <td class=xl38  >
+          
+        </td>
+      <!-- Fin de agregar campos relacionados a discapacidad y correo de apoderado -->
+
+   <!-- JPB JUL 2014
+		4 ultimos campos: manzana, lote, indicador de certificados, sede -->
+		
+		<td class=xl38  >
+                    
+          No
+        </td>
+        
+        <td class=xl38  >
+          LIMA
+        </td>
+        
+
+   <!-- JPB FEB 2015
+		2 ultimos campos: aula -->
+        <td class=xl38  >
+          -
+        </td>
+        <td class=xl38  >
+          0
+        </td>
+
+	
+	
+	<!-- DATOS ADICIONALES -->
+	
+		
+    		
+
+	<!-- JPB MAR 2015
+		2 ultimos campos: Se agrega el país de la institución / beca -->
+		
+   <!-- JPB JUN 2015
+		2 ultimos campos: correos -->
+
+	
+        <td class=xl38  >
+          -
+        </td>
+        <td class=xl38  >
+          -
+        </td>
+	
+   
+   <!--AVR 15-12-2015-->
+   		
+    <!-- IAFD 25-08-2017 -->
+	   <td class=xl38  >
+	
+          
+       </td>
+	</tr>                                                    
+
+      
+  <tr> 
+        <td class=xl38 align="center" >5</td>
+		<td class=xl38 >20194754</td>   	
+		<td class=xl38 >-</td>  	
+		<td class=xl38 >13/05/2019</td> 
+		<td class=xl38  >20/05/2019</td> 
+		<td class=xl38  >ESCUELA DE POSGRADO 2019-2</td>    
+		<td class=xl38  >HUAYNA</td> 
+		<td class=xl38  >AVILA</td> 
+		<td class=xl38  >FERNANDO RENATO</td> 
+		<td class=xl38  >POSTULANTE</td> 	
+		
+			<td class=xl38  >-</td> 
+		  
+		
+		<td class=xl38  >INGENIERÍA INDUSTRIAL</td>
+		<!-- 07-04-2014 se agrega campo de modalidad de especialidad solo si plantilla es institucion educativa -->
+	    
+			<td class=xl38  >-</td> 
+		 
+		<td class=xl38  >-</td>   
+		<td class=xl38  >MAESTRÍA                                     </td> 
+		<td class=xl38  >ESCUELA DE POSGRADO</td>  
+		<td class=xl38  >-</td>		
+		<td class=xl38  >-</td>
+		<td class=xl38  >-</td>
+		<td class=xl38  >INGENIERÍA INDUSTRIAL</td>
+		<td class=xl38  >MAESTRÍA                                     </td>
+		<td class=xl38  >ESCUELA DE POSGRADO</td>		
+		<td class=xl38  >-</td> 
+		<td class=xl38  >M</td>  
+		<td class=xl38  >17/06/1977</td>   
+		<td class=xl38  >41</td>
+		<td class=xl38  >10610756</td> 
+		<!--td class=xl38  >-</td-->  
+		<!--td class=xl38  >-</td-->     
+		<td class=xl38  >-</td>
+		<td class=xl38  >-</td>   
+		<td class=xl38  >CASADO(A)</td>
+		<td class=xl38  >PERU</td> 
+		<td class=xl38  >PERU</td>  
+		<td class=xl38  >SAN MARTIN</td> 
+		<td class=xl38  >SAN MARTIN                                   </td>  
+		<td class=xl38  >TARAPOTO</td>   
+		<td class=xl38  >PERU</td>
+		<td class=xl38  >LIMA</td> 
+		<td class=xl38  >LIMA                                         </td>    
+        <td class=xl38  >SAN MIGUEL</td>       
+        <td class=xl38  >Avenida</td>  
+        <td class=xl38  >UNIVERSITARIA</td>    
+        <td class=xl38  >-</td>  <!-- interior	 --> 
+        <td class=xl38  >773       </td><!-- número de residencia	 --> 
+        <!--<td class=xl38  >PRESENCIAL</td> --> 
+     	<!-- <td class=xl38  >-</td>-->
+     	<!-- Diego Campos 24/11/2017 -->
+     	<td class=xl38  >-</td><!-- manzana	 --> 
+     	<td class=xl38  >-</td> <!-- lote	 -->
+     	<!-- Fin  24/11/2017 -->  
+		<td class=xl38  >Urbanización</td>  <!-- tipo de residencia	 --> 
+		
+        <td class=xl38  >PANDO</td> <!-- zona de residencia	 --> 
+        
+        <td class=xl38  > <!-- dirección de provincia	 --> 
+          -
+        </td>
+		
+		
+		<td class=xl38  >-</td> 	<!-- referencia	 -->
+		<td class=xl38  >-</td> 	<!-- teléfono    -->
+		<td class=xl38  >SI</td>	<!-- pago   	 -->
+		<td class=xl38  >fhuayna@pucp.edu.pe</td><!-- email   	 -->
+			
+		<td class=xl38  >997232762</td>    <!-- celular   	 -->	
+		
+         <!-- datos particulares de colegio o institución   	 -->
+        
+        <td class=xl38  >W0004168</td>
+        <td class=xl38  >UNIVERSIDAD PERUANA DE CIENCIAS APLICADAS</td>
+         
+	        <td class=xl38  >
+	        
+	        </td>
+        
+        <td class=xl38  >LIMA</td>
+        <td class=xl38  >LIMA                                         </td>
+        <td class=xl38  >LA MOLINA</td>
+        <td class=xl38  >LICENCIADO O TITULADO</td>
+        <td class=xl38  >INGENIERÍA INDUSTRIAL                                                                                                   </td>
+        <!-- MCM 09/2016 Se agrega campo ¿es colegio ITS? -->
+        
+        <!-- Fin MCM 09/2016  -->
+              
+        
+        
+        
+		
+      <!-- JPB JUL 2014 - Campo del codigo IB para Bachillerato -->
+        
+        
+         
+      <!-- Campos relacionados a discapacidad y correo de apoderado 
+           Por: Israel Aguirre
+           Fecha: 23-04-2013 -->
+        
+        <td class=xl38  >
+          No
+        </td>
+        <td class=xl38  ></td>
+       
+        <!-- MCM 09/2016 Se agrega campo ¿es deportista destacado? -->
+        
+        </td>
+        <!-- Fin MCM 09/2016 -->
+       
+        <td class=xl38  >
+        
+          
+        </td>
+        
+        <td class=xl38  >
+          
+        </td>
+      <!-- Fin de agregar campos relacionados a discapacidad y correo de apoderado -->
+
+   <!-- JPB JUL 2014
+		4 ultimos campos: manzana, lote, indicador de certificados, sede -->
+		
+		<td class=xl38  >
+                    
+          No
+        </td>
+        
+        <td class=xl38  >
+          LIMA
+        </td>
+        
+
+   <!-- JPB FEB 2015
+		2 ultimos campos: aula -->
+        <td class=xl38  >
+          -
+        </td>
+        <td class=xl38  >
+          0
+        </td>
+
+	
+	
+	<!-- DATOS ADICIONALES -->
+	
+		
+    		
+
+	<!-- JPB MAR 2015
+		2 ultimos campos: Se agrega el país de la institución / beca -->
+		
+   <!-- JPB JUN 2015
+		2 ultimos campos: correos -->
+
+	
+        <td class=xl38  >
+          frhuayna@gmail.com
+        </td>
+        <td class=xl38  >
+          frhuayna@gmail.com
+        </td>
+	
+   
+   <!--AVR 15-12-2015-->
+   		
+    <!-- IAFD 25-08-2017 -->
+	   <td class=xl38  >
+	
+          
+       </td>
+	</tr>                                                    
+
+      
+  <tr> 
+        <td class=xl38 align="center" >6</td>
+		<td class=xl38 >F0749897</td>   	
+		<td class=xl38 >-</td>  	
+		<td class=xl38 >04/06/2019</td> 
+		<td class=xl38  >05/06/2019</td> 
+		<td class=xl38  >ESCUELA DE POSGRADO 2019-2</td>    
+		<td class=xl38  >TASAYCO</td> 
+		<td class=xl38  >AVALOS</td> 
+		<td class=xl38  >STEFFI GIULLIANA</td> 
+		<td class=xl38  >POSTULANTE</td> 	
+		
+			<td class=xl38  >-</td> 
+		  
+		
+		<td class=xl38  >GOBIERNO Y POLÍTICAS PÚBLICAS</td>
+		<!-- 07-04-2014 se agrega campo de modalidad de especialidad solo si plantilla es institucion educativa -->
+	    
+			<td class=xl38  >-</td> 
+		 
+		<td class=xl38  >-</td>   
+		<td class=xl38  >MAESTRÍA                                     </td> 
+		<td class=xl38  >ESCUELA DE POSGRADO</td>  
+		<td class=xl38  >-</td>		
+		<td class=xl38  >-</td>
+		<td class=xl38  >-</td>
+		<td class=xl38  >GOBIERNO Y POLÍTICAS PÚBLICAS</td>
+		<td class=xl38  >MAESTRÍA                                     </td>
+		<td class=xl38  >ESCUELA DE POSGRADO</td>		
+		<td class=xl38  >-</td> 
+		<td class=xl38  >F</td>  
+		<td class=xl38  >28/12/1988</td>   
+		<td class=xl38  >30</td>
+		<td class=xl38  >45469059</td> 
+		<!--td class=xl38  >-</td-->  
+		<!--td class=xl38  >-</td-->     
+		<td class=xl38  >-</td>
+		<td class=xl38  >-</td>   
+		<td class=xl38  >SOLTERO(A)</td>
+		<td class=xl38  >PERU</td> 
+		<td class=xl38  >PERU</td>  
+		<td class=xl38  >ICA</td> 
+		<td class=xl38  >CHINCHA                                      </td>  
+		<td class=xl38  >CHINCHA ALTA</td>   
+		<td class=xl38  >PERU</td>
+		<td class=xl38  >LIMA</td> 
+		<td class=xl38  >LIMA                                         </td>    
+        <td class=xl38  >SAN MARTIN DE PORRES</td>       
+        <td class=xl38  >-</td>  
+        <td class=xl38  >-</td>    
+        <td class=xl38  >-</td>  <!-- interior	 --> 
+        <td class=xl38  >-</td><!-- número de residencia	 --> 
+        <!--<td class=xl38  >PRESENCIAL</td> --> 
+     	<!-- <td class=xl38  >-</td>-->
+     	<!-- Diego Campos 24/11/2017 -->
+     	<td class=xl38  >-</td><!-- manzana	 --> 
+     	<td class=xl38  >-</td> <!-- lote	 -->
+     	<!-- Fin  24/11/2017 -->  
+		<td class=xl38  >-</td>  <!-- tipo de residencia	 --> 
+		
+        <td class=xl38  >-</td> <!-- zona de residencia	 --> 
+        
+        <td class=xl38  > <!-- dirección de provincia	 --> 
+          -
+        </td>
+		
+		
+		<td class=xl38  >-</td> 	<!-- referencia	 -->
+		<td class=xl38  >5671466</td> 	<!-- teléfono    -->
+		<td class=xl38  >SI</td>	<!-- pago   	 -->
+		<td class=xl38  >steffi.giulliana@gmail.com</td><!-- email   	 -->
+			
+		<td class=xl38  >987922053</td>    <!-- celular   	 -->	
+		
+         <!-- datos particulares de colegio o institución   	 -->
+        
+        <td class=xl38  >W0005042</td>
+        <td class=xl38  >UNIVERSIDAD INCA GARCILASO DE LA VEGA</td>
+         
+	        <td class=xl38  >
+	        
+	        </td>
+        
+        <td class=xl38  >LIMA</td>
+        <td class=xl38  >LIMA                                         </td>
+        <td class=xl38  >LIMA</td>
+        <td class=xl38  >LICENCIADO O TITULADO</td>
+        <td class=xl38  >DERECHO                                                                                                                 </td>
+        <!-- MCM 09/2016 Se agrega campo ¿es colegio ITS? -->
+        
+        <!-- Fin MCM 09/2016  -->
+              
+        
+        
+        
+		
+      <!-- JPB JUL 2014 - Campo del codigo IB para Bachillerato -->
+        
+        
+         
+      <!-- Campos relacionados a discapacidad y correo de apoderado 
+           Por: Israel Aguirre
+           Fecha: 23-04-2013 -->
+        
+        <td class=xl38  >
+          No
+        </td>
+        <td class=xl38  ></td>
+       
+        <!-- MCM 09/2016 Se agrega campo ¿es deportista destacado? -->
+        
+        </td>
+        <!-- Fin MCM 09/2016 -->
+       
+        <td class=xl38  >
+        
+          
+        </td>
+        
+        <td class=xl38  >
+          
+        </td>
+      <!-- Fin de agregar campos relacionados a discapacidad y correo de apoderado -->
+
+   <!-- JPB JUL 2014
+		4 ultimos campos: manzana, lote, indicador de certificados, sede -->
+		
+		<td class=xl38  >
+                    
+          No
+        </td>
+        
+        <td class=xl38  >
+          LIMA
+        </td>
+        
+
+   <!-- JPB FEB 2015
+		2 ultimos campos: aula -->
+        <td class=xl38  >
+          -
+        </td>
+        <td class=xl38  >
+          0
+        </td>
+
+	
+	
+	<!-- DATOS ADICIONALES -->
+	
+		
+    		
+
+	<!-- JPB MAR 2015
+		2 ultimos campos: Se agrega el país de la institución / beca -->
+		
+   <!-- JPB JUN 2015
+		2 ultimos campos: correos -->
+
+	
+        <td class=xl38  >
+          -
+        </td>
+        <td class=xl38  >
+          -
+        </td>
+	
+   
+   <!--AVR 15-12-2015-->
+   		
+    <!-- IAFD 25-08-2017 -->
+	   <td class=xl38  >
+	
+          
+       </td>
+	</tr>                                                    
+
+      
+  <tr> 
+        <td class=xl38 align="center" >7</td>
+		<td class=xl38 >F0472528</td>   	
+		<td class=xl38 >-</td>  	
+		<td class=xl38 >07/05/2019</td> 
+		<td class=xl38  >18/05/2019</td> 
+		<td class=xl38  >ESCUELA DE POSGRADO 2019-2</td>    
+		<td class=xl38  >TERAN</td> 
+		<td class=xl38  >SAMANAMUD</td> 
+		<td class=xl38  >GERMAN ALEXANDER</td> 
+		<td class=xl38  >POSTULANTE</td> 	
+		
+			<td class=xl38  >-</td> 
+		  
+		
+		<td class=xl38  >CIENCIA POLÍTICA Y GOBIERNO</td>
+		<!-- 07-04-2014 se agrega campo de modalidad de especialidad solo si plantilla es institucion educativa -->
+	    
+			<td class=xl38  >-</td> 
+		 
+		<td class=xl38  >-</td>   
+		<td class=xl38  >DOCTORADO                                    </td> 
+		<td class=xl38  >ESCUELA DE POSGRADO</td>  
+		<td class=xl38  >-</td>		
+		<td class=xl38  >-</td>
+		<td class=xl38  >-</td>
+		<td class=xl38  >CIENCIA POLÍTICA Y GOBIERNO</td>
+		<td class=xl38  >DOCTORADO                                    </td>
+		<td class=xl38  >ESCUELA DE POSGRADO</td>		
+		<td class=xl38  >-</td> 
+		<td class=xl38  >M</td>  
+		<td class=xl38  >10/09/1986</td>   
+		<td class=xl38  >32</td>
+		<td class=xl38  >43797285</td> 
+		<!--td class=xl38  >-</td-->  
+		<!--td class=xl38  >-</td-->     
+		<td class=xl38  >-</td>
+		<td class=xl38  >-</td>   
+		<td class=xl38  >SOLTERO(A)</td>
+		<td class=xl38  >PERU</td> 
+		<td class=xl38  >PERU</td>  
+		<td class=xl38  >-</td> 
+		<td class=xl38  >-</td>  
+		<td class=xl38  >-</td>   
+		<td class=xl38  >PERU</td>
+		<td class=xl38  >LIMA</td> 
+		<td class=xl38  >LIMA                                         </td>    
+        <td class=xl38  >SANTIAGO DE SURCO</td>       
+        <td class=xl38  >-</td>  
+        <td class=xl38  >-</td>    
+        <td class=xl38  >-</td>  <!-- interior	 --> 
+        <td class=xl38  >-</td><!-- número de residencia	 --> 
+        <!--<td class=xl38  >-</td> --> 
+     	<!-- <td class=xl38  >-</td>-->
+     	<!-- Diego Campos 24/11/2017 -->
+     	<td class=xl38  >-</td><!-- manzana	 --> 
+     	<td class=xl38  >-</td> <!-- lote	 -->
+     	<!-- Fin  24/11/2017 -->  
+		<td class=xl38  >-</td>  <!-- tipo de residencia	 --> 
+		
+        <td class=xl38  >-</td> <!-- zona de residencia	 --> 
+        
+        <td class=xl38  > <!-- dirección de provincia	 --> 
+          -
+        </td>
+		
+		
+		<td class=xl38  >-</td> 	<!-- referencia	 -->
+		<td class=xl38  >945719882</td> 	<!-- teléfono    -->
+		<td class=xl38  >SI</td>	<!-- pago   	 -->
+		<td class=xl38  >tersamge@gmail.com</td><!-- email   	 -->
+			
+		<td class=xl38  >945719882</td>    <!-- celular   	 -->	
+		
+         <!-- datos particulares de colegio o institución   	 -->
+        
+        <td class=xl38  >IE007468</td>
+        <td class=xl38  >UNIVERSIDAD ANDINA SIMON BOLIVAR</td>
+         
+	        <td class=xl38  >
+	        
+	        </td>
+        
+        <td class=xl38  >-</td>
+        <td class=xl38  >-</td>
+        <td class=xl38  >-</td>
+        <td class=xl38  >MAGISTER</td>
+        <td class=xl38  >RELACIONES INTERNACIONALES                                                                                              </td>
+        <!-- MCM 09/2016 Se agrega campo ¿es colegio ITS? -->
+        
+        <!-- Fin MCM 09/2016  -->
+              
+        
+        
+        
+		
+      <!-- JPB JUL 2014 - Campo del codigo IB para Bachillerato -->
+        
+        
+         
+      <!-- Campos relacionados a discapacidad y correo de apoderado 
+           Por: Israel Aguirre
+           Fecha: 23-04-2013 -->
+        
+        <td class=xl38  >
+          No
+        </td>
+        <td class=xl38  ></td>
+       
+        <!-- MCM 09/2016 Se agrega campo ¿es deportista destacado? -->
+        
+        </td>
+        <!-- Fin MCM 09/2016 -->
+       
+        <td class=xl38  >
+        
+          
+        </td>
+        
+        <td class=xl38  >
+          
+        </td>
+      <!-- Fin de agregar campos relacionados a discapacidad y correo de apoderado -->
+
+   <!-- JPB JUL 2014
+		4 ultimos campos: manzana, lote, indicador de certificados, sede -->
+		
+		<td class=xl38  >
+                    
+          No
+        </td>
+        
+        <td class=xl38  >
+          LIMA
+        </td>
+        
+
+   <!-- JPB FEB 2015
+		2 ultimos campos: aula -->
+        <td class=xl38  >
+          -
+        </td>
+        <td class=xl38  >
+          0
+        </td>
+
+	
+	
+	<!-- DATOS ADICIONALES -->
+	
+		
+    		
+
+	<!-- JPB MAR 2015
+		2 ultimos campos: Se agrega el país de la institución / beca -->
+		
+   <!-- JPB JUN 2015
+		2 ultimos campos: correos -->
+
+	
+        <td class=xl38  >
+          -
+        </td>
+        <td class=xl38  >
+          -
+        </td>
+	
+   
+   <!--AVR 15-12-2015-->
+   		
+    <!-- IAFD 25-08-2017 -->
+	   <td class=xl38  >
+	
+          
+       </td>
+	</tr>                                                    
+
+      
+  <tr> 
+        <td class=xl38 align="center" >8</td>
+		<td class=xl38 >F1032519</td>   	
+		<td class=xl38 >-</td>  	
+		<td class=xl38 >20/05/2019</td> 
+		<td class=xl38  >04/06/2019</td> 
+		<td class=xl38  >ESCUELA DE POSGRADO 2019-2</td>    
+		<td class=xl38  >YOBERA</td> 
+		<td class=xl38  >MARCHENA</td> 
+		<td class=xl38  >CHRISTIAN BERARDO</td> 
+		<td class=xl38  >POSTULANTE</td> 	
+		
+			<td class=xl38  >-</td> 
+		  
+		
+		<td class=xl38  >GOBIERNO Y POLÍTICAS PÚBLICAS</td>
+		<!-- 07-04-2014 se agrega campo de modalidad de especialidad solo si plantilla es institucion educativa -->
+	    
+			<td class=xl38  >-</td> 
+		 
+		<td class=xl38  >-</td>   
+		<td class=xl38  >MAESTRÍA                                     </td> 
+		<td class=xl38  >ESCUELA DE POSGRADO</td>  
+		<td class=xl38  >-</td>		
+		<td class=xl38  >-</td>
+		<td class=xl38  >-</td>
+		<td class=xl38  >GOBIERNO Y POLÍTICAS PÚBLICAS</td>
+		<td class=xl38  >MAESTRÍA                                     </td>
+		<td class=xl38  >ESCUELA DE POSGRADO</td>		
+		<td class=xl38  >-</td> 
+		<td class=xl38  >M</td>  
+		<td class=xl38  >02/03/1992</td>   
+		<td class=xl38  >27</td>
+		<td class=xl38  >70097831</td> 
+		<!--td class=xl38  >-</td-->  
+		<!--td class=xl38  >-</td-->     
+		<td class=xl38  >-</td>
+		<td class=xl38  >-</td>   
+		<td class=xl38  >SOLTERO(A)</td>
+		<td class=xl38  >PERU</td> 
+		<td class=xl38  >PERU</td>  
+		<td class=xl38  >-</td> 
+		<td class=xl38  >-</td>  
+		<td class=xl38  >-</td>   
+		<td class=xl38  >PERU</td>
+		<td class=xl38  >LIMA</td> 
+		<td class=xl38  >LIMA                                         </td>    
+        <td class=xl38  >LOS OLIVOS</td>       
+        <td class=xl38  >-</td>  
+        <td class=xl38  >-</td>    
+        <td class=xl38  >-</td>  <!-- interior	 --> 
+        <td class=xl38  >-</td><!-- número de residencia	 --> 
+        <!--<td class=xl38  >PRESENCIAL</td> --> 
+     	<!-- <td class=xl38  >-</td>-->
+     	<!-- Diego Campos 24/11/2017 -->
+     	<td class=xl38  >-</td><!-- manzana	 --> 
+     	<td class=xl38  >-</td> <!-- lote	 -->
+     	<!-- Fin  24/11/2017 -->  
+		<td class=xl38  >-</td>  <!-- tipo de residencia	 --> 
+		
+        <td class=xl38  >-</td> <!-- zona de residencia	 --> 
+        
+        <td class=xl38  > <!-- dirección de provincia	 --> 
+          -
+        </td>
+		
+		
+		<td class=xl38  >-</td> 	<!-- referencia	 -->
+		<td class=xl38  >5221285</td> 	<!-- teléfono    -->
+		<td class=xl38  >SI</td>	<!-- pago   	 -->
+		<td class=xl38  >cyobera_lima@sunarp.gob.pe</td><!-- email   	 -->
+			
+		<td class=xl38  >956771691</td>    <!-- celular   	 -->	
+		
+         <!-- datos particulares de colegio o institución   	 -->
+        
+        <td class=xl38  >IE008825</td>
+        <td class=xl38  >Universidad Nacional Federico Villareal</td>
+         
+	        <td class=xl38  >
+	        
+	        </td>
+        
+        <td class=xl38  >LIMA</td>
+        <td class=xl38  >LIMA                                         </td>
+        <td class=xl38  >SAN MIGUEL</td>
+        <td class=xl38  >LICENCIADO O TITULADO</td>
+        <td class=xl38  >«OTROS»                                                                                                                 </td>
+        <!-- MCM 09/2016 Se agrega campo ¿es colegio ITS? -->
+        
+        <!-- Fin MCM 09/2016  -->
+              
+        
+        
+        
+		
+      <!-- JPB JUL 2014 - Campo del codigo IB para Bachillerato -->
+        
+        
+         
+      <!-- Campos relacionados a discapacidad y correo de apoderado 
+           Por: Israel Aguirre
+           Fecha: 23-04-2013 -->
+        
+        <td class=xl38  >
+          No
+        </td>
+        <td class=xl38  ></td>
+       
+        <!-- MCM 09/2016 Se agrega campo ¿es deportista destacado? -->
+        
+        </td>
+        <!-- Fin MCM 09/2016 -->
+       
+        <td class=xl38  >
+        
+          
+        </td>
+        
+        <td class=xl38  >
+          
+        </td>
+      <!-- Fin de agregar campos relacionados a discapacidad y correo de apoderado -->
+
+   <!-- JPB JUL 2014
+		4 ultimos campos: manzana, lote, indicador de certificados, sede -->
+		
+		<td class=xl38  >
+                    
+          No
+        </td>
+        
+        <td class=xl38  >
+          LIMA
+        </td>
+        
+
+   <!-- JPB FEB 2015
+		2 ultimos campos: aula -->
+        <td class=xl38  >
+          -
+        </td>
+        <td class=xl38  >
+          0
+        </td>
+
+	
+	
+	<!-- DATOS ADICIONALES -->
+	
+		
+    		
+
+	<!-- JPB MAR 2015
+		2 ultimos campos: Se agrega el país de la institución / beca -->
+		
+   <!-- JPB JUN 2015
+		2 ultimos campos: correos -->
+
+	
+        <td class=xl38  >
+          -
+        </td>
+        <td class=xl38  >
+          -
+        </td>
+	
+   
+   <!--AVR 15-12-2015-->
+   		
+    <!-- IAFD 25-08-2017 -->
+	   <td class=xl38  >
+	
+          
+       </td>
+	</tr>                                                    
+
+
+ 
+</table>
+
+</body>
+</html>
