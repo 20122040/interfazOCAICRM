@@ -80,7 +80,6 @@
               <label>
                 <input type="radio" name="actividad" onclick="selectEvento()" value="admision"> Examen de Admisión
               </label>
-
             </p>
           </div>
 
@@ -101,7 +100,7 @@
                 <select class="select2_single form-control" name="select_colegio_lima2" id="select_colegio_lima2">
                   <option value="0">-Seleccione-</option>
                   {% for colegioL in colegios_lima %}
-                  <option value="{{ colegioL.custom_8 }}"> {{ colegioL.organization_name }} </option>
+                  <option value="{{ colegioL.custom_111 }}"> {{ colegioL.organization_name }} </option>
                   {% endfor %}
                 </select>
               </div>
@@ -109,7 +108,7 @@
                 <select class="select2_single form-control" name="select_colegio_provincia2" id="select_colegio_provincia2">
                   <option value="0">-Seleccione-</option>
                   {% for colegioP in colegios_provincia %}
-                  <option value="{{ colegioP.custom_8 }}"> {{ colegioP.organization_name }} </option>
+                  <option value="{{ colegioP.custom_111 }}"> {{ colegioP.organization_name }} </option>
                   {% endfor %}
                 </select>
               </div>

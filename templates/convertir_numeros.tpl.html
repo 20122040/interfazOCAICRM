@@ -1,0 +1,217 @@
+{% extends "base.tpl.html" %}
+
+{% block title %}Revisiones{% endblock %}
+
+{% block styles %}
+{% endblock %}
+
+{% block overlay%}
+<div class="processing-files">
+  <div class="container">
+    <p><i class="fa fa-exchange"></i></p>
+    <p>Se están procesando los archivos. Por favor espere, esta operación puede durar varios minutos...</p>
+  </div>
+</div>
+{% endblock %}
+
+{% block logmenu %}
+{% endblock %}
+
+{% block content %}
+<div class="">
+
+  <div class="page-title">
+    <div class="title_left">
+      <h3>Obtener números en texto</h3>
+    </div>
+  </div>
+
+  <div class="clearfix"></div>
+
+  <div class="row">
+  	<div class="col-md-12 col-sm-12 col-xs-12">
+		  <div class="x_panel">
+        <div class="x_title">
+          <h2>Sube tu archivo Excel donde la primera columna sean los números a convertir</h2>
+           <div class="clearfix"></div>
+        </div>
+
+			  <div id="filedrag">
+				  <div class="drop invisible">
+				    <table cellpadding="4" cellspacing="0">
+				      <thead>
+				        <tr><th>Nombre del archivo</th><th>Tamaño</th></tr>
+				      </thead>
+				      <tbody>
+				      </tbody>
+				    </table>
+				  </div>
+				  <div class="dragIdle">
+				    <p><img src="static/img/attachment.jpg" height=150px, width=150px></p>
+				    <p>Arrastar aquí o <a href="#">seleccionar archivos</a></p>
+				  </div>
+
+          <!--div class="dragOver invisible">
+            <p style="margin-bottom:-3.75em;"><i class="material-icons">down</i></p>
+            <p><i class="material-icons">folder</i></p>
+            <p>Soltar aquí los archivos</p>
+          </div-->
+
+				  <div class="dragOver invisible">
+            <!--p style="margin-bottom:-3.75em;"></p-->
+				    <p><img src="static/img/icon.svg" height="50px" width="50px"></p>
+				    <p>Soltar aquí los archivos</p>
+				  </div>
+				</div>
+
+        <form id="file-form" method="post" enctype="multipart/form-data">
+          <input type="file" name="archivos" multiple="multiple" accept=".xlsx">
+          <button class="btn btn-success" type="submit"><i class="material-icons"></i><span> ENVIAR</span></button>
+        </form>
+			</div>
+		</div>
+	</div>
+<div>
+{% endblock %}
+
+{% block scripts %}
+
+<script type="text/javascript">
+
+document.querySelector('#filedrag a').addEventListener('click',e =>{
+  e.preventDefault();
+  document.querySelector('#file-form input[type="file"]').click();
+});
+
+let dragOver = document.querySelector('#filedrag .dragOver');
+let dragIdle = document.querySelector('#filedrag .dragIdle');
+let drop = document.querySelector('#filedrag .drop');
+
+dragIdle.addEventListener('dragover',e => {
+  e.preventDefault();
+  e.stopPropagation();
+  dragIdle.classList.add('invisible');
+  dragOver.classList.remove('invisible');
+});
+
+dragIdle.addEventListener('dragleave',e => {
+  e.preventDefault();
+  e.stopPropagation();
+  dragIdle.classList.remove('invisible');
+  dragOver.classList.add('invisible');
+});
+
+dragIdle.addEventListener('drop',e => {
+  e.preventDefault();
+  e.stopPropagation();
+  const files = e.dataTransfer.files;
+  if(files.length == 0){
+    dragIdle.classList.remove('invisible');
+  }
+  dragOver.classList.add('invisible');
+  drop.classList.remove('invisible');
+  let input = document.querySelector('#file-form input[type="file"]');
+  input.files = files;
+  let table = document.querySelector('#filedrag .drop tbody');
+  if(files.length != 0){
+    table.innerHTML = "";
+  }
+  Array.from(files).forEach(f => {
+    table.innerHTML += `<tr><td>${f.name}</td><td>${f.size}</td></tr>`;
+  });
+});
+
+document.querySelector('#file-form input[type="file"]').addEventListener('change',e =>{
+  e.preventDefault();
+  e.stopPropagation();
+  const files = e.target.files;
+  if(files.length == 0){
+    dragIdle.classList.remove('invisible');
+  }
+  dragOver.classList.add('invisible');
+  dragIdle.classList.add('invisible');
+  drop.classList.remove('invisible');
+  let table = document.querySelector('#filedrag .drop tbody');
+  if(files.length != 0){
+    table.innerHTML = "";
+  }
+  Array.from(files).forEach(f => {
+    table.innerHTML += `<tr><td>${f.name}</td><td>${f.size}</td></tr>`;
+  });
+});
+
+document.querySelector('#file-form').addEventListener('submit',e=>{
+  document.querySelector('.processing-files').classList.add('active');
+});
+
+
+
+/*
+document.querySelector('#filedrag a').addEventListener('click',function(event) {
+  event.preventDefault();
+  document.querySelector('#file-form input[type="file"]').click();
+});
+
+let dragOver = document.querySelector('#filedrag .dragOver');
+let dragIdle = document.querySelector('#filedrag .dragIdle');
+let drop = document.querySelector('#filedrag .drop');
+
+dragIdle.addEventListener('dragover',function(event) {
+  event.preventDefault();
+  event.stopPropagation();
+  dragIdle.classList.add('invisible');
+  dragOver.classList.remove('invisible');
+},false);
+
+dragIdle.addEventListener('dragleave',function(event) {
+  event.preventDefault();
+  event.stopPropagation();
+  dragIdle.classList.remove('invisible');
+  dragOver.classList.add('invisible');
+},false);
+
+dragIdle.addEventListener('drop',function(event) {
+  event.preventDefault();
+  event.stopPropagation();
+  const files = event.dataTransfer.files;
+  if(files.length == 0){
+    dragIdle.classList.remove('invisible');
+  }
+  dragOver.classList.add('invisible');
+  drop.classList.remove('invisible');
+  let input = document.querySelector('#file-form input[type="file"]');
+  input.files = files;
+  let table = document.querySelector('#filedrag .drop tbody');
+  if(files.length != 0){
+    table.innerHTML = "";
+  }
+  Array.from(files).forEach(f => {
+    table.innerHTML += `<tr><td>${f.name}</td><td>${f.size}</td></tr>`;
+  });
+},false);
+
+document.querySelector('#file-form input[type="file"]').addEventListener('change',function(event) {
+  event.preventDefault();
+  event.stopPropagation();
+  const files = event.target.files;
+  if(files.length == 0){
+    dragIdle.classList.remove('invisible');
+  }
+  dragOver.classList.add('invisible');
+  dragIdle.classList.add('invisible');
+  drop.classList.remove('invisible');
+  let table = document.querySelector('#filedrag .drop tbody');
+  if(files.length != 0){
+    table.innerHTML = "";
+  }
+  Array.from(files).forEach(f => {
+    table.innerHTML += `<tr><td>${f.name}</td><td>${f.size}</td></tr>`;
+  });
+},false);
+
+document.querySelector('#file-form').addEventListener('submit',function(event) {
+  document.querySelector('.processing-files').classList.add('active');
+},false);
+*/
+</script> 
+{% endblock %}

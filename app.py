@@ -7,10 +7,12 @@ from urllib.parse import quote_plus
 UPLOAD_FOLDER = 'uploaded_files'
 UPLOAD_FOLDER_LIMA = 'uploaded_files_lima'
 UPLOAD_FOLDER_PROVINCIA = 'uploaded_files_provincia'
+UPLOAD_FOLDER_CONVERTIR = 'uploaded_files_convertir'
 
 #UPLOAD_FOLDER = '/var/www/herramientas-ocai/interfazOCAICRM/uploaded_files'
 #UPLOAD_FOLDER_LIMA = '/var/www/herramientas-ocai/interfazOCAICRM/uploaded_files_lima'
 #UPLOAD_FOLDER_PROVINCIA = '/var/www/herramientas-ocai/interfazOCAICRM/uploaded_files_provincia'
+#UPLOAD_FOLDER_CONVERTIR = '/var/www/herramientas-ocai/interfazOCAICRM/uploaded_files_convertir'
 
 ALLOWED_EXTENSIONS = set(['xls','xlsx','csv'])
 
@@ -25,6 +27,7 @@ app.config['SECRET_KEY'] = 'W31zXmCNBX3LGonY'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['UPLOAD_FOLDER_LIMA'] = UPLOAD_FOLDER_LIMA
 app.config['UPLOAD_FOLDER_PROVINCIA'] = UPLOAD_FOLDER_PROVINCIA
+app.config['UPLOAD_FOLDER_CONVERTIR'] = UPLOAD_FOLDER_CONVERTIR
 app.jinja_env.filters['quote_plus'] = lambda u: quote_plus(u)
 #db = SQLAlchemy(app)
 

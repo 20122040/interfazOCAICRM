@@ -1,0 +1,81 @@
+{% extends "base.tpl.html" %}
+
+{% block title %}Exportar{% endblock %}
+
+{% block styles %}
+{% endblock %}
+
+{% block logmenu %}
+{% endblock %}
+
+{% block content %}
+	<div class="">
+    <div class="page-title">
+      <div class="title_left">
+        <h3> Menú <small> Exportar</small> </h3>
+      </div>
+
+      <div class="clearfix"></div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="x_panel">
+            <div class="x_title">
+              <h2>Exportar <small> Interesados </small></h2>
+              <ul class="nav navbar-right panel_toolbox" style="min-width: auto;">
+                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+            	</ul>
+            	<div class="clearfix"></div>
+          	</div>
+          	<div class="x_content">
+          		<div class="row">
+                <p>Por favor, elegir una de las dos opciones</p>
+
+                <div class="col-md-55">
+	                <div class="thumbnail">
+	                	<div class="image view view-first">
+	                    <img class="icon-view" src="static/img/social.svg" alt="image" />
+	                    <div class="mask">
+	                      <p>Actividades</p>
+	                      <div class="tools tools-bottom">
+	                        <a href="/exportar"><i class="fa fa-link"></i></a>
+	                      </div>
+	                    </div>
+	                  </div>
+	                  <div class="caption">
+	                    <p>Exportar participantes de actividades PUCP</p>
+	                  </div>
+	                </div>
+	              </div>
+
+	              <div class="col-md-55">
+	                <div class="thumbnail">
+	                	<div class="image view view-first">
+	                    <img class="icon-view" src="static/img/group.svg" alt="image" />
+	                    <div class="mask">
+	                      <p>General</p>
+	                      <div class="tools tools-bottom">
+	                        <a href="/exportar_general"><i class="fa fa-link"></i></a>
+	                      </div>
+	                    </div>
+	                  </div>
+	                  <div class="caption">
+	                    <p>Exportar a todos los Interesados PUCP</p>
+	                  </div>
+	                </div>
+	              </div>
+
+              </div>
+          	</div>
+        	</div>
+      	</div>
+    	</div>
+  	</div>
+  </div>
+
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript">
+</script> 
+{% endblock %}

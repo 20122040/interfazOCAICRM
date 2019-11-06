@@ -12,7 +12,7 @@
 	<div class="">
     <div class="page-title">
       <div class="title_left">
-        <h3> Exportar <small> Actividades</small> </h3>
+        <h3>Exportar<small>General</small> </h3>
       </div>
 
       <div class="clearfix"></div>
@@ -21,7 +21,7 @@
         <div class="col-md-12">
           <div class="x_panel">
             <div class="x_title">
-              <h2>V<small>2</small></h2>
+              <h2>V<small>1</small></h2>
               <ul class="nav navbar-right panel_toolbox" style="min-width: auto;">
                 <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
             	</ul>
@@ -42,9 +42,10 @@
                     </p>
                   </div>
 
+
                   <div class="form-group" id="group_colegioPorNombre" style="display: none;">
                     <label class="control-label col-md-2 col-sm-2 col-xs-12">Por nombre de colegio:</label>
-                    <div class="col-md-9 col-sm-9 col-xs-12">
+                    <div class="col-md-10 col-sm-10 col-xs-12">
                       <select class="form-control" id="select_colegios" name="select_colegios" multiple="multiple">
                         {% for colegio in colegios %}
                             {% if "Colegio_Lima" in colegio.contact_sub_type %}
@@ -109,36 +110,11 @@
                   </div>
 
                   <div class="form-group">
-                      <label class="control-label col-md-2 col-sm-2 col-xs-12">Por fecha de actividad:</label>
-                        <fieldset style="min-width: 100%;">
-                          <div class="control-group">
-                            <div class="controls">
-                              <div class="input-prepend input-group">
-                                <span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
-                                <input type="text" style="width: 200px" name="reservation" id="reservation" class="form-control" value="04/01/2019 - 09/08/2019" />
-                              </div>
-                            </div>
-                          </div>
-                        </fieldset>
-                  </div>
-                  
-                  <div class="form-group">
                     <label class="control-label col-md-2 col-sm-2 col-xs-12">Por especialidad:</label>
                     <div class="col-md-10 col-sm-10 col-xs-12">
                       <select class="form-control" id="select_carreras" name="select_carreras" multiple="multiple">
                         {% for carrera in carreras %}
                           <option value="{{ carrera.value }}"> {{ carrera.label }} </option>
-                        {% endfor %}
-                      </select>
-                    </div>
-                  </div>
-
-                  <div class="form-group">
-                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Por actividad:</label>
-                    <div class="col-md-10 col-sm-10 col-xs-12">
-                      <select class="form-control" id="select_actividades" name="select_actividades" multiple="multiple">
-                        {% for actividad in tipo_actividades %}
-                          <option value="{{ actividad.value }}"> {{ actividad.label }} </option>
                         {% endfor %}
                       </select>
                     </div>
@@ -158,11 +134,10 @@
 
 {% block scripts %}
 <script type="text/javascript">
+
   $("#select_colegios").select2({language:"es",allowClear: true});
 
   $("#select_carreras").select2({language:"es",allowClear: true});
-
-  $("#select_actividades").select2({language:"es",allowClear: true});
 
   $("#select_segmentacion").select2({language:"es",allowClear: true});
 
@@ -185,11 +160,6 @@
     f1.style.display = "none";
     f2.style.display = "";
   }
-
-  /*$('#select_all').click(function() {
-      $('#select_colegios option').prop('selected', true);
-  });*/
-
 
 </script> 
 {% endblock %}
