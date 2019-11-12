@@ -50,7 +50,118 @@ def getActivityType():
 
 def allowed_file(filename):
     return '.' in filename and \
-           ilename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
+def get_cursos(nombre_programa,cursos):
+    lst_cursos=[]
+    for i in range(0,cursos['CURSO'].count()):
+        if nombre_programa == cursos['PROGRAMA'][i]:
+            lst_cursos.append(cursos['NOMBRE DEL CURSO'][i])
+    return lst_cursos
+
+def get_cursos_dictionary(nombre_programa,cursos):
+    lst_cursos=[]
+    curso={}
+    for i in range(0,cursos['CURSO'].count()):
+        if nombre_programa == cursos['PROGRAMA'][i]:
+            curso={'codigo':cursos['CURSO'][i],'nombre':cursos['NOMBRE DEL CURSO'][i],'creditos':cursos['CRÉDITOS'][i]}
+            lst_cursos.append(curso)
+    return lst_cursos
+
+@mod_main.route('/diccionario_posgrado',methods=['GET','POST'])
+def diccionario_posgrado():
+  if request.method == 'GET':
+    errores = ['Descarga el formato de programas y cursos, <a href="/static/formato/'+ 'FORMATO_POSGRADO.xlsx' +'">Descargar el formato</a>']
+    return render_template('diccionario_posgrado.tpl.html',messages=errores)
+  else:
+    if 'archivos' in request.files:
+      files = request.files.to_dict(flat=False)['archivos']
+      for f in files:
+        if f and allowed_file(f.filename):
+          filename = secure_filename(f.filename)
+          f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+      errores = []
+      log = []
+      folder = app.config['UPLOAD_FOLDER']
+      files = listdir(folder)
+      print(files)
+
+      for file in files:
+        print(file)
+        nombre = 'DiccionarioPosgrado' + datetime.datetime.now().strftime('%d_%m_%y_%H_%M_%S') + '.txt' 
+        if (file[file.find("."):] == ".xlsx") and (file == filename):
+
+          posgrado = pd.read_excel(folder + '/' + file)
+
+          lst = []
+          for i in range(0,posgrado['DNI'].count()):
+              #print(posgrado['DNI'][i])
+              dictionary = {'DNI':posgrado['DNI'][i],'ApellidoPaterno':posgrado['PRIMER APELLIDO'][i],'ApellidoMaterno':posgrado['SEGUNDO APELLIDO'][i],
+                            'Nombres':posgrado['NOMBRES'][i],'CORREO1':posgrado['EMAIL'][i],'CORREO2':posgrado['CORREO 1'][i] if posgrado['CORREO 1'][i] != '-' else '','CORREO3':posgrado['CORREO 2'][i] if posgrado['CORREO 2'][i] != '-' else '','Programa':posgrado['ETAPA CANDIDATO'][i] + ' EN ' +posgrado['ESPECIALIDAD'][i]};
+              lst.append(dictionary)
+
+          str_posgrado = json.dumps(lst, ensure_ascii=False)
+          writer = 'static/bases/' + nombre
+          #writer = '/var/www/herramientas-ocai/interfazOCAICRM/static/bases/' + nombre 
+          with open(writer, "w", encoding='utf8') as file:
+            file.write(str_posgrado)
+
+          errores.append('Desde aquí puede descargar el archivo con el diccionario, <a href="/static/bases/'+ nombre +'">Descargar archivo en TXT</a>')
+        else:
+          errores.append(file + ": No es un formato válido para la conversión")
+
+    return render_template('diccionario_posgrado.tpl.html',messages=errores)
+
+
+
+@mod_main.route('/diccionario_alumnoslibres',methods=['GET','POST'])
+def diccionario_alumnoslibres():
+  if request.method == 'GET':
+    errores = ['Descarga el formato de programas y cursos, <a href="/static/formato/'+ 'FORMATO_AL.xlsx' +'">Descargar el formato</a>']
+    return render_template('diccionario_alumnoslibres.tpl.html',messages=errores)
+  else:
+    if 'archivos' in request.files:
+      files = request.files.to_dict(flat=False)['archivos']
+      for f in files:
+        if f and allowed_file(f.filename):
+          filename = secure_filename(f.filename)
+          f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+      errores = []
+      log = []
+      folder = app.config['UPLOAD_FOLDER']
+      files = listdir(folder)
+      print(files)
+
+      for file in files:
+        print(file)
+        nombre = 'DiccionarioAL' + datetime.datetime.now().strftime('%d_%m_%y_%H_%M_%S') + '.txt' 
+        if (file[file.find("."):] == ".xlsx") and (file == filename):
+          programas = pd.read_excel(folder + '/' + file,sheet_name='PROGRAMAS')
+          cursos = pd.read_excel(folder + '/' + file,sheet_name='CURSOS')
+
+          #Diccionario de programas
+          lst_programas = []
+          p={}
+          for i in range(0,programas['CODIGO PROGRAMA'].count()):
+              lst_cursos = get_cursos_dictionary(programas['PROGRAMA'][i],cursos)
+              p={'codigo':programas['CODIGO PROGRAMA'][i],'nombre':programas['PROGRAMA'][i],'cursos':lst_cursos}
+              lst_programas.append(p)
+          #lst_programas contiene el diccionario completo
+          str_programas = json.dumps(lst_programas, ensure_ascii=False)
+          writer = 'static/bases/' + nombre
+          #writer = '/var/www/herramientas-ocai/interfazOCAICRM/static/bases/' + nombre 
+          with open(writer, "w") as file:
+            file.write(str_programas)
+
+          errores.append('Desde aquí puede descargar el archivo con el diccionario, <a href="/static/bases/'+ nombre +'">Descargar archivo en TXT</a>')
+        else:
+          errores.append(file + ": No es un formato válido para la conversión")
+
+    return render_template('diccionario_alumnoslibres.tpl.html',messages=errores)
+
 
 @mod_main.route('/numero-texto',methods=['GET','POST'])
 def convertir_numeros():
