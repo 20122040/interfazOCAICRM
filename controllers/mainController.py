@@ -3,6 +3,8 @@ from werkzeug.utils import secure_filename
 from datetime import datetime
 from app import app, ALLOWED_EXTENSIONS
 from urllib.parse import quote_plus
+import db
+from accountController import validate_login
 import os
 import html5lib
 from num2words import num2words
@@ -71,6 +73,8 @@ def get_cursos_dictionary(nombre_programa,cursos):
 
 @mod_main.route('/diccionario_posgrado',methods=['GET','POST'])
 def diccionario_posgrado():
+  if not validate_login(request):
+    return redirect('login?dest=' + quote_plus(request.full_path))
   if request.method == 'GET':
     errores = ['Descarga el formato de programas y cursos, <a href="/static/formato/'+ 'FORMATO_POSGRADO.xlsx' +'">Descargar el formato</a>']
     return render_template('diccionario_posgrado.tpl.html',messages=errores)
@@ -118,6 +122,8 @@ def diccionario_posgrado():
 
 @mod_main.route('/diccionario_alumnoslibres',methods=['GET','POST'])
 def diccionario_alumnoslibres():
+  if not validate_login(request):
+    return redirect('login?dest=' + quote_plus(request.full_path))
   if request.method == 'GET':
     errores = ['Descarga el formato de programas y cursos, <a href="/static/formato/'+ 'FORMATO_AL.xlsx' +'">Descargar el formato</a>']
     return render_template('diccionario_alumnoslibres.tpl.html',messages=errores)
@@ -165,6 +171,9 @@ def diccionario_alumnoslibres():
 
 @mod_main.route('/numero-texto',methods=['GET','POST'])
 def convertir_numeros():
+  if not validate_login(request):
+    return redirect('login?dest=' + quote_plus(request.full_path))
+
   if request.method == 'GET':
     return render_template('convertir_numeros.tpl.html')
   else:
@@ -209,6 +218,9 @@ def convertir_numeros():
 
 @mod_main.route('/importar',methods=['GET','POST'])
 def importar():
+  if not validate_login(request):
+    return redirect('login?dest=' + quote_plus(request.full_path))
+
   colegios_provincia_data,colegios_lima_data = getColegios()
   tipo_actividad = getActivityType()
   if request.method == 'GET':
@@ -398,6 +410,9 @@ def importar():
 
 @mod_main.route('/convertir',methods=['GET','POST'])
 def convertir():
+  if not validate_login(request):
+    return redirect('login?dest=' + quote_plus(request.full_path))
+
   if request.method == 'GET':
     #GET solo muestra la pantalla
     return render_template('convertir.tpl.html')
@@ -468,12 +483,16 @@ def convertir():
 
 @mod_main.route('/tools',methods=['GET','POST'])
 def tools():
+  if not validate_login(request):
+    return redirect('login?dest=' + quote_plus(request.full_path))
 
   return render_template('tools.tpl.html')
 
 @mod_main.route('/',methods=['GET','POST'])
 def index():
-  
+  if not validate_login(request):
+    return redirect('login?dest=' + quote_plus(request.full_path))  
+
   return render_template('index.tpl.html')
 
 def encontrar_colegio(id_colegio,lista_colegios):
@@ -568,10 +587,16 @@ def obtenerAnhoFin(grado):
 
 @mod_main.route('/exportar_menu',methods=['GET'])
 def exportar_menu():
+  if not validate_login(request):
+    return redirect('login?dest=' + quote_plus(request.full_path))
+
   return render_template('exportar_menu.tpl.html')
 
 @mod_main.route('/exportar_general',methods=['GET','POST'])
 def exportar_general():
+  if not validate_login(request):
+    return redirect('login?dest=' + quote_plus(request.full_path))
+
   #Obtener todos los colegios
   r_colegios = requests.get('http://ocaicrm.pucp.net/sites/default/modules/civicrm/extern/rest.php?entity=Contact&action=get&api_key=qq2CCwZjhG7fHHKYeH2aYw7F&key=ea6123e5a509396d49292e4d8d522f85&json={"sequential":1,"return":"id,organization_name,custom_112,custom_111,custom_114,custom_113,custom_117,custom_119","contact_sub_type":["Colegio_Lima","Colegio_Provincias"],"custom_113":["PUCP","No PUCP"],"options":{"limit":0}}')
   lista_colegios = json.loads(r_colegios.text)['values']
@@ -695,6 +720,9 @@ def exportar_general():
 
 @mod_main.route('/exportar',methods=['GET','POST'])
 def exportar():
+  if not validate_login(request):
+    return redirect('login?dest=' + quote_plus(request.full_path))
+
   #Obtener todos los colegios
   r_colegios = requests.get('http://ocaicrm.pucp.net/sites/default/modules/civicrm/extern/rest.php?entity=Contact&action=get&api_key=qq2CCwZjhG7fHHKYeH2aYw7F&key=ea6123e5a509396d49292e4d8d522f85&json={"sequential":1,"return":"id,organization_name,custom_112,custom_111,custom_114,custom_113,custom_117,custom_119","contact_sub_type":["Colegio_Lima","Colegio_Provincias"],"custom_113":["PUCP","No PUCP"],"options":{"limit":0}}')
   #print(r_colegios.text)
@@ -887,11 +915,17 @@ def exportar():
 
 @mod_main.route('/reportes',methods=['GET'])
 def reportes():
+  if not validate_login(request):
+    return redirect('login?dest=' + quote_plus(request.full_path))
+
 
   return render_template('reportes.tpl.html')
 
 @mod_main.route('/reporte1',methods=['GET','POST'])
 def reporte1():
+  if not validate_login(request):
+    return redirect('login?dest=' + quote_plus(request.full_path))
+
   if request.method == 'GET':
     return render_template('reporte1.tpl.html')
   else:
@@ -907,11 +941,15 @@ def reporte1():
 
 @mod_main.route('/reporte2',methods=['GET'])
 def reporte2():
+  if not validate_login(request):
+    return redirect('login?dest=' + quote_plus(request.full_path)) 
 
   return render_template('reporte2.tpl.html')
 
 @mod_main.route('/reporte3',methods=['GET','POST'])
 def reporte3():
+  if not validate_login(request):
+    return redirect('login?dest=' + quote_plus(request.full_path))
 
   if request.method == 'GET':
     return render_template('reporte3.tpl.html')
@@ -938,6 +976,9 @@ def encontrar_area(especialidad,etapa):
 
 @mod_main.route('/procesarPosgrado',methods=['GET','POST'])
 def procesar():
+  if not validate_login(request):
+    return redirect('login?dest=' + quote_plus(request.full_path))
+
   if request.method == 'GET':
     return render_template('procesar.tpl.html')
   else:
@@ -1064,6 +1105,9 @@ def yaFueRevisado(contDni,num,dni,lista):
 
 @mod_main.route('/verificaciones',methods=['GET','POST'])
 def verificaciones():
+  if not validate_login(request):
+    return redirect('login?dest=' + quote_plus(request.full_path))
+  
   lisSedesProv=['LIMA','AREQUIPA','AYACUCHO','CAJAMARCA','CUSCO','LAMBAYEQUE','JUNIN','HUANUCO','ANCASH','ICA','LA LIBERTAD','UCAYALI','SAN MARTIN','LORETO','PUNO']
   if request.method == 'GET':
     return render_template('verificaciones.tpl.html')
@@ -1364,6 +1408,8 @@ def cadena_aulas(arr):
 
 @mod_main.route('/simulacion-aulas',methods=['GET','POST'])
 def simulacion_aulas():
+  if not validate_login(request):
+    return redirect('login?dest=' + quote_plus(request.full_path))
   if request.method == 'GET':
     errores = ['Descarga el formato de postulantes, <a href="/static/formato/'+ 'FORMATO_AULAS.xlsx' +'">Descargar el formato</a>']
 

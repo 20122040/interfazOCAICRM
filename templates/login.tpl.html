@@ -1,0 +1,78 @@
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Evaluación Controladores">
+  <title>OCAI - LOGIN</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/pure-min.css') }}">
+  <!--[if lte IE 8]>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/grids-responsive-old-ie-min.css') }}">
+  <![endif]-->    <!-- Bootstrap -->
+  <link rel="stylesheet" href="{{url_for('static', filename='gentelella/vendors/bootstrap/dist/css/bootstrap.min.css') }}">
+    <!-- Font Awesome -->
+  <link rel="stylesheet" href="{{url_for('static', filename='gentelella/vendors/font-awesome/css/font-awesome.min.css') }}">
+    <!-- NProgress -->
+  <link rel="stylesheet" href="{{url_for('static', filename='gentelella/vendors/nprogress/nprogress.css') }}">
+  <!-- Animate.css -->
+  <link rel="stylesheet" href="{{url_for('static', filename='gentelella//vendors/animate.css/animate.min.css') }}">
+  <!-- iCheck -->
+  <link rel="stylesheet" href="{{url_for('static', filename='gentelella/vendors/iCheck/skins/flat/green.css') }}">
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/grids-responsive-min.css') }}">
+  <!--<![endif]-->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/evaluacion.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome/css/font-awesome.min.css') }}">
+  
+  <link rel="stylesheet" href="{{ url_for('static', filename='gentelella/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='gentelella/vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='gentelella/vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='gentelella/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='gentelella/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css') }}">
+
+  <!-- Dropzone.js -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='gentelella/vendors/dropzone/dist/min/dropzone.min.css') }}">
+
+  <!-- Custom Theme Style -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='gentelella/build/css/custom.min.css') }}">
+  
+  <!-- jQuery custom content scroller -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='gentelella/vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css') }}"/>
+  {% block styles %}
+  {% endblock %}
+</head>
+
+  <body class="login">
+    <div>
+      <a class="hiddenanchor" id="signup"></a>
+      <a class="hiddenanchor" id="signin"></a>
+    </div>
+    <div class="login_wrapper">
+      <div class="animate form login_form">
+        <section class="login_content">
+          <form id="login-form" method="POST">
+            <h1>Login</h1>
+            <div>
+              <input type="text" class="form-control" name="username" placeholder="Username" required="" />
+            </div>
+            <div>
+              <input type="password" class="form-control" name="password" placeholder="Password" required="" />
+            </div>
+            <div>
+              <button id="login" class="btn btn-default submit" type="submit">Iniciar sesión</button>
+            </div>
+            <div class="clearfix"></div>
+            <div class="separator">
+              <img style="width:18em;"src="/static/img/logo-pucp-version2-azul.png">
+              <div class="clearfix"></div>
+              <br />
+              <div>
+                <h1><i class="fa fa-paw"></i> Sistema de Evaluación de Coordinadores y Controladores</h1>
+                <p>©2018</p>
+              </div>
+            </div>
+          </form>
+        </section>
+      </div>
+    </div>  
+  </body>
+</html>
