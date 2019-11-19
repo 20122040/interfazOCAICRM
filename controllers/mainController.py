@@ -493,11 +493,19 @@ def getContactosActividades(actividades):
   for a in actividades:
     id_actividades.append(a['id'])
 
-  cadena = json.dumps(id_actividades,default=str)
-  r = requests.get('http://ocaicrm.pucp.net/sites/default/modules/civicrm/extern/rest.php?entity=ActivityContact&action=get&api_key=qq2CCwZjhG7fHHKYeH2aYw7F&key=ea6123e5a509396d49292e4d8d522f85&json={"sequential":1,"activity_id":{"IN":'+ cadena +'},"options":{"limit":0}}')  
+  start=0
+  contactosF=[]
+  while True:
+    id_actividades_new = id_actividades[start:start + 250]
+    cadena = json.dumps(id_actividades_new,default=str)
+    r = requests.get('http://ocaicrm.pucp.net/sites/default/modules/civicrm/extern/rest.php?entity=ActivityContact&action=get&api_key=qq2CCwZjhG7fHHKYeH2aYw7F&key=ea6123e5a509396d49292e4d8d522f85&json={"sequential":1,"activity_id":{"IN":'+ cadena +'},"options":{"limit":0}}')
+    contactos = json.loads(r.text)['values']
+    contactosF = contactosF + contactos
+    start = start + 250
+    if (len(id_actividades) <= start):
+      break
 
-  contactos = json.loads(r.text)['values']
-  return contactos
+  return contactosF
 
 def getContactosEnActividad(contactos_actividad,id_actividad):
   lst = []
@@ -639,9 +647,8 @@ def exportar_general():
     id_actividades = []
     for a in actividades:
         id_actividades.append(a['id'])
-    cadena = json.dumps(id_actividades,default=str)
-    rc = requests.get('http://ocaicrm.pucp.net/sites/default/modules/civicrm/extern/rest.php?entity=ActivityContact&action=get&api_key=qq2CCwZjhG7fHHKYeH2aYw7F&key=ea6123e5a509396d49292e4d8d522f85&json={"sequential":1,"activity_id":{"IN":'+ cadena +'},"options":{"limit":0}}')  
-    contactos_actividades = json.loads(rc.text)['values']
+    
+    contactos_actividades = getContactosActividades(actividades)
 
     r_colegios = requests.get('http://ocaicrm.pucp.net/sites/default/modules/civicrm/extern/rest.php?entity=Contact&action=get&api_key=qq2CCwZjhG7fHHKYeH2aYw7F&key=ea6123e5a509396d49292e4d8d522f85&json={"sequential":1,"return":"id,organization_name,custom_112,custom_111,custom_114,custom_113,custom_117,custom_119","contact_sub_type":["Colegio_Lima","Colegio_Provincias"],"options":{"limit":0}}')
     lista_colegios = json.loads(r_colegios.text)['values']
